@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+     <item android:id="@+id/live_wapaper"
+       android:icon="@drawable/live_waper_icon"
+         android:title="Live Wallpapers"/>
+    <item android:id="@+id/wallpaper"
+        android:icon="@drawable/wapapers_icon"
+        android:title="Wallpapers"/>
+    <item android:id="@+id/my_waper"
+        android:icon="@drawable/my_waper_icon"
+        android:title="My Wallpapers"/>
+    <item android:id="@+id/settings"
+        android:icon="@drawable/settings"
+        android:title="Settings"/>
+
+</menu>

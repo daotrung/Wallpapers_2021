@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#21211f"
+    android:scrollbars="none"
+    android:fillViewport="true"
+    tools:context=".fragment.WallpaperFragment">
+
+    <LinearLayout
+        android:weightSum="3"
+        android:id="@+id/linear_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <fragment
+            android:layout_weight="1"
+            android:id="@+id/fragmennt_trending"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:name="com.daotrung.wallpapers_2021.fragment.WallpaperTrendingFragment"/>
+        <fragment
+            android:layout_weight="1"
+            android:id="@+id/category_fragment"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:name="com.daotrung.wallpapers_2021.fragment.WallpaperCategoryFragment"/>
+        <fragment
+            android:layout_weight="1"
+            android:id="@+id/fragment_color"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10sp"
+            android:name="com.daotrung.wallpapers_2021.fragment.WallpaperColorFragment"/>
+    </LinearLayout>
+
+
+</ScrollView>

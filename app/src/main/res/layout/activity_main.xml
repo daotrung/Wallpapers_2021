@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#21211f"
+    tools:context=".MainActivity">
+    <FrameLayout
+        android:id="@+id/fragment_main"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toTopOf="@id/nav_view"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+    <com.google.android.material.bottomnavigation.BottomNavigationView
+
+        android:id="@+id/nav_view"
+        android:layout_width="0dp"
+        android:layout_height="60sp"
+        android:layout_marginStart="0dp"
+        android:layout_marginEnd="0dp"
+        android:background="@drawable/round_corner_nvg_bar"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:itemTextColor="@color/item_color"
+        app:itemIconTint="@color/item_color"
+        app:itemRippleColor="#585852"
+        app:layout_constraintRight_toRightOf="parent"
+        app:menu="@menu/menu" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

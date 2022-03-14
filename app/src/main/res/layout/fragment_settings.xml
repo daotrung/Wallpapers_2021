@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#21211F"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".fragment.SettingsFragment">
+
+    <androidx.cardview.widget.CardView
+        android:layout_margin="20sp"
+        android:id="@+id/img_banner_settings"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true"
+        app:cardCornerRadius="20sp">
+
+        <ImageView
+            android:id="@+id/img_settings"
+            android:scaleType="centerCrop"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:src="@drawable/setting_main"/>
+        <TextView
+            android:layout_gravity="end|center_vertical"
+            android:layout_marginEnd="33sp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Settings"
+            android:textSize="24sp"
+            android:textStyle="bold"
+            android:textColor="@color/black"/>
+    </androidx.cardview.widget.CardView>
+
+    <ImageView
+        android:id="@+id/img_privacy"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginStart="38sp"
+        android:layout_marginTop="297sp"
+        android:src="@drawable/privacy_policy" />
+
+    <ImageView
+        android:id="@+id/img_term"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/img_banner_settings"
+        android:layout_alignParentTop="true"
+        android:layout_marginStart="73sp"
+        android:layout_marginTop="297sp"
+        android:layout_toEndOf="@id/img_privacy"
+        android:src="@drawable/term_of_use" />
+
+    <ImageView
+        android:id="@+id/img_contact"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/img_banner_settings"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginStart="196sp"
+        android:layout_marginLeft="57dp"
+        android:layout_marginTop="297sp"
+        android:layout_marginEnd="41sp"
+        android:layout_toRightOf="@id/img_privacy"
+        android:src="@drawable/contact_us" />
+
+    <ImageView
+        android:id="@+id/img_share"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/img_privacy"
+        android:layout_alignParentStart="true"
+        android:layout_marginStart="38sp"
+        android:layout_marginTop="89sp"
+        android:src="@drawable/term_of_use" />
+
+    <ImageView
+        android:id="@+id/img_write"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/img_term"
+        android:layout_marginTop="89sp"
+        android:layout_marginStart="73sp"
+        android:layout_toEndOf="@id/img_share"
+        android:src="@drawable/write_a_review" />
+
+
+
+</RelativeLayout>

@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="DesignSurface">
+    <option name="filePathToZoomLevelMap">
+      <map>
+        <entry key="..\:/Learn_Android/Kotlin_Basic/Android/Project/project_1/app/src/main/res/drawable-v24/ic_launcher_foreground.xml" value="0.19333333333333333" />
+        <entry key="..\:/Learn_Android/Kotlin_Basic/Android/Project/project_1/app/src/main/res/drawable/bottom_navigation_selected.xml" value="0.1" />
+        <entry key="..\:/Learn_Android/Kotlin_Basic/Android/Project/project_1/app/src/main/res/drawable/corner_btn_one.xml" value="0.19635416666666666" />
+        <entry key="..\:/Learn_Android/Kotlin_Basic/Android/Project/project_1/app/src/main/res/drawable/custom_dialog_categories.xml" value="0.19635416666666666" />
+        <entry key="..\:/Learn_Android/Kotlin_Basic/Android/Project/project_1/app/src/main/res/drawable/gradient_shape.xml" value="0.19635416666666666" />
+        <entry key="..\:/Learn_Android/Kotlin_Basic/Android/Project/project_1/app/src/main/res/drawable/ic_baseline_remove_24.xml" value="0.19635416666666666" />
+        <entry key="..\:/Learn_Android/Kotlin_Basic/Android/Project/project_1/app/src/main/res/drawable/icon_color_selected.xml" value="0.1" />
+        <entry key="..\:/Learn_Android/Kotlin_Basic/Android/Project/project_1/app/src/main/res/drawable/live_wapper_icon.xml" value="0.19333333333333333" />
+        <entry key="..\:/Learn_Android/Kotlin_Basic/Android/Project/project_1/app/src/main/res/drawable/round_corner_dialog_categories.xml" value="0.2203125" />
+        <entry key="..\:/Learn_Android/Kotlin_Basic/Android/Project/project_1/app/src/main/res/drawable/round_corner_nvg_bar.xml" value="0.1" />
+        <entry key="..\:/Learn_Android/Kotlin_Basic/Android/Project/project_1/app/src/main/res/layout/activity_list_live_wapaper.xml" value="0.2" />
+        <entry key="..\:/Learn_Android/Kotlin_Basic/Android/Project/project_1/app/src/main/res/layout/activity_list_trending.xml" value="0.16" />
+        <entry key="..\:/Learn_Android/Kotlin_Basic/Android/Project/project_1/app/src/main/res/layout/activity_main.xml" value="0.22" />
+        <entry key="..\:/Learn_Android/Kotlin_Basic/Android/Project/project_1/app/src/main/res/layout/activity_slider_live.xml" value="0.18" />
+        <entry key="..\:/Learn_Android/Kotlin_Basic/Android/Project/project_1/app/src/main/res/layout/activity_slider_wallpaper.xml" value="0.20416666666666666" />
+        <entry key="..\:/Learn_Android/Kotlin_Basic/Android/Project/project_1/app/src/main/res/layout/bottom_sheet.xml" value="0.20416666666666666" />
+        <entry key="..\:/Learn_Android/Kotlin_Basic/Android/Project/project_1/app/src/main/res/layout/bottom_sheet_categories.xml" value="0.18020833333333333" />
+        <entry key="..\:/Learn_Android/Kotlin_Basic/Android/Project/project_1/app/src/main/res/layout/category_fragment.xml" value="0.2" />
+        <entry key="..\:/Learn_Android/Kotlin_Basic/Android/Project/project_1/app/src/main/res/layout/content_image_show_slider_live.xml" value="0.18020833333333333" />
+        <entry key="..\:/Learn_Android/Kotlin_Basic/Android/Project/project_1/app/src/main/res/layout/custom_dialog_categories.xml" value="0.25" />
+        <entry key="..\:/Learn_Android/Kotlin_Basic/Android/Project/project_1/app/src/main/res/layout/dong_categories.xml" value="0.20416666666666666" />
+        <entry key="..\:/Learn_Android/Kotlin_Basic/Android/Project/project_1/app/src/main/res/layout/dong_categories_live_wapaper.xml" value="0.18020833333333333" />
+        <entry key="..\:/Learn_Android/Kotlin_Basic/Android/Project/project_1/app/src/main/res/layout/dong_categories_wallpaper_main.xml" value="0.1015625" />
+        <entry key="..\:/Learn_Android/Kotlin_Basic/Android/Project/project_1/app/src/main/res/layout/dong_fragment_color.xml" value="0.2" />
+        <entry key="..\:/Learn_Android/Kotlin_Basic/Android/Project/project_1/app/src/main/res/layout/dong_imgslider.xml" value="0.18020833333333333" />
+        <entry key="..\:/Learn_Android/Kotlin_Basic/Android/Project/project_1/app/src/main/res/layout/dong_list_live_wapper.xml" value="0.18" />
+        <entry key="..\:/Learn_Android/Kotlin_Basic/Android/Project/project_1/app/src/main/res/layout/dong_list_trending.xml" value="0.18020833333333333" />
+        <entry key="..\:/Learn_Android/Kotlin_Basic/Android/Project/project_1/app/src/main/res/layout/dong_trending.xml" value="0.33" />
+        <entry key="..\:/Learn_Android/Kotlin_Basic/Android/Project/project_1/app/src/main/res/layout/fragment_bottom_sheet.xml" value="0.20416666666666666" />
+        <entry key="..\:/Learn_Android/Kotlin_Basic/Android/Project/project_1/app/src/main/res/layout/fragment_bottom_sheet_categories.xml" value="0.25" />
+        <entry key="..\:/Learn_Android/Kotlin_Basic/Android/Project/project_1/app/src/main/res/layout/fragment_category.xml" value="0.25" />
+        <entry key="..\:/Learn_Android/Kotlin_Basic/Android/Project/project_1/app/src/main/res/layout/fragment_color.xml" value="0.22" />
+        <entry key="..\:/Learn_Android/Kotlin_Basic/Android/Project/project_1/app/src/main/res/layout/fragment_first.xml" value="0.18020833333333333" />
+        <entry key="..\:/Learn_Android/Kotlin_Basic/Android/Project/project_1/app/src/main/res/layout/fragment_live_wapaper.xml" value="0.2" />
+        <entry key="..\:/Learn_Android/Kotlin_Basic/Android/Project/project_1/app/src/main/res/layout/fragment_my_wall_paper.xml" value="0.18" />
+        <entry key="..\:/Learn_Android/Kotlin_Basic/Android/Project/project_1/app/src/main/res/layout/fragment_my_wallpaper_live.xml" value="0.1453125" />
+        <entry key="..\:/Learn_Android/Kotlin_Basic/Android/Project/project_1/app/src/main/res/layout/fragment_my_wallpaper_wallpaper.xml" value="0.1453125" />
+        <entry key="..\:/Learn_Android/Kotlin_Basic/Android/Project/project_1/app/src/main/res/layout/fragment_second.xml" value="0.18020833333333333" />
+        <entry key="..\:/Learn_Android/Kotlin_Basic/Android/Project/project_1/app/src/main/res/layout/fragment_settings.xml" value="0.25" />
+        <entry key="..\:/Learn_Android/Kotlin_Basic/Android/Project/project_1/app/src/main/res/layout/fragment_trending.xml" value="0.25" />
+        <entry key="..\:/Learn_Android/Kotlin_Basic/Android/Project/project_1/app/src/main/res/layout/fragment_wallpaper.xml" value="0.18" />
+        <entry key="..\:/Learn_Android/Kotlin_Basic/Android/Project/project_1/app/src/main/res/layout/item.xml" value="0.18020833333333333" />
+        <entry key="..\:/Learn_Android/Kotlin_Basic/Android/Project/project_1/app/src/main/res/layout/my_toolbar.xml" value="0.22" />
+        <entry key="..\:/Learn_Android/Kotlin_Basic/Android/Project/project_1/app/src/main/res/layout/toolbar_live_list.xml" value="0.18" />
+        <entry key="..\:/Learn_Android/Kotlin_Basic/Android/Project/project_1/app/src/main/res/layout/toolbar_trending_list.xml" value="0.18020833333333333" />
+        <entry key="..\:/Learn_Android/Kotlin_Basic/Android/Project/project_1/app/src/main/res/menu/menu.xml" value="0.18020833333333333" />
+        <entry key="..\:/Learn_Android/Kotlin_Basic/Android/Project/project_1/app/src/main/res/menu/menu_main.xml" value="0.18020833333333333" />
+      </map>
+    </option>
+  </component>
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" default="true" project-jdk-name="1.8" project-jdk-type="JavaSDK">
+    <output url="file://$PROJECT_DIR$/build/classes" />
+  </component>
+  <component name="ProjectType">
+    <option name="id" value="Android" />
+  </component>
+</project>
