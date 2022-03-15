@@ -29,8 +29,7 @@ class MyWallPaperFragment : Fragment() {
         viewPager2 = view.findViewById(R.id.view_pager2)
         val tabLayout = view.findViewById<TabLayout>(R.id.tablayout)
 
-        adapter = ViewPagerAdapter(requireActivity().supportFragmentManager,lifecycle)
-        viewPager2.adapter = ViewPagerAdapter(requireActivity().supportFragmentManager,lifecycle)
+        viewPager2.adapter = ViewPagerAdapter(requireActivity(),lifecycle)
 
         TabLayoutMediator(tabLayout,viewPager2){
             tab,position -> tab.text = tabTitle[position]
