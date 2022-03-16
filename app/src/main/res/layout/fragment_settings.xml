@@ -44,16 +44,41 @@
         android:layout_marginTop="297sp"
         android:src="@drawable/privacy_policy" />
 
+    <TextView
+        android:id="@+id/privacy_txt"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/img_privacy"
+        android:layout_alignParentStart="true"
+        android:layout_marginStart="20sp"
+        android:layout_marginTop="3sp"
+        android:fontFamily="@font/poppins_medium"
+        android:text="Privacy Policy"
+        android:textColor="@color/white" />
+
     <ImageView
         android:id="@+id/img_term"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/img_banner_settings"
         android:layout_alignParentTop="true"
-        android:layout_marginStart="73sp"
+        android:layout_centerInParent="true"
+        android:layout_marginStart="80sp"
         android:layout_marginTop="297sp"
         android:layout_toEndOf="@id/img_privacy"
         android:src="@drawable/term_of_use" />
+
+    <TextView
+        android:id="@+id/term_txt"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/img_term"
+        android:layout_marginStart="22sp"
+        android:layout_marginTop="3sp"
+        android:layout_toEndOf="@id/privacy_txt"
+        android:fontFamily="@font/poppins_medium"
+        android:text="Term of use"
+        android:textColor="@color/white" />
 
     <ImageView
         android:id="@+id/img_contact"
@@ -69,6 +94,18 @@
         android:layout_toRightOf="@id/img_privacy"
         android:src="@drawable/contact_us" />
 
+    <TextView
+        android:id="@+id/contact_txt"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/img_contact"
+        android:layout_alignParentEnd="true"
+        android:layout_marginEnd="40sp"
+        android:layout_marginBottom="22sp"
+        android:fontFamily="@font/poppins_medium"
+        android:text="Contact Us"
+        android:textColor="@color/white" />
+
     <ImageView
         android:id="@+id/img_share"
         android:layout_width="wrap_content"
@@ -77,17 +114,38 @@
         android:layout_alignParentStart="true"
         android:layout_marginStart="38sp"
         android:layout_marginTop="89sp"
-        android:src="@drawable/term_of_use" />
+        android:src="@drawable/share_this_app" />
+    <TextView
+        android:id="@+id/share_this_app_txt"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/img_share"
+        android:layout_alignParentStart="true"
+        android:layout_marginStart="20sp"
+        android:fontFamily="@font/poppins_medium"
+        android:text="Contact Us"
+        android:textColor="@color/white" />
 
     <ImageView
         android:id="@+id/img_write"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/img_term"
+        android:layout_marginStart="80sp"
         android:layout_marginTop="89sp"
-        android:layout_marginStart="73sp"
         android:layout_toEndOf="@id/img_share"
         android:src="@drawable/write_a_review" />
+
+    <TextView
+        android:id="@+id/write_txt"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/img_write"
+        android:layout_toEndOf="@id/share_this_app_txt"
+        android:layout_marginStart="42sp"
+        android:fontFamily="@font/poppins_medium"
+        android:text="Write a Review"
+        android:textColor="@color/white" />
 
 
 
