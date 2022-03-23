@@ -17,8 +17,8 @@ class BottomSheetFragmentColor : BottomSheetDialogFragment() {
 
     private lateinit var recyclerView: RecyclerView
     private lateinit var arrayList: ArrayList<ColorMain>
-    private lateinit var imgId : Array<Int>
-    private lateinit var titleColor : Array<String>
+    private lateinit var imgId: Array<Int>
+    private lateinit var titleColor: Array<String>
 
 
     override fun onCreateView(
@@ -26,19 +26,42 @@ class BottomSheetFragmentColor : BottomSheetDialogFragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        val view =  inflater.inflate(R.layout.bottom_sheet_color_fragment, container, false)
+        val view = inflater.inflate(R.layout.bottom_sheet_color_fragment, container, false)
         recyclerView = view.findViewById(R.id.rv_list_color)
 
         imgId = arrayOf(
-            R.drawable.blue,R.drawable.green,R.drawable.red,R.drawable.aqua,
-            R.drawable.orange,R.drawable.yellow,R.drawable.purple,R.drawable.pink,R.drawable.teal,
-            R.drawable.blond,R.drawable.maroon,R.drawable.gray,R.drawable.white,R.drawable.black
+            R.drawable.blue,
+            R.drawable.green,
+            R.drawable.red,
+            R.drawable.aqua,
+            R.drawable.orange,
+            R.drawable.yellow,
+            R.drawable.purple,
+            R.drawable.pink,
+            R.drawable.teal,
+            R.drawable.blond,
+            R.drawable.maroon,
+            R.drawable.gray,
+            R.drawable.white,
+            R.drawable.black
         )
         titleColor = arrayOf(
-            "Blue","Green","Red","Aqua","Orange","Yellow","Purple","Pink","Teal","Blond","Maroon","Gray",
-            "White","Black"
+            "Blue",
+            "Green",
+            "Red",
+            "Aqua",
+            "Orange",
+            "Yellow",
+            "Purple",
+            "Pink",
+            "Teal",
+            "Blond",
+            "Maroon",
+            "Gray",
+            "White",
+            "Black"
         )
-        recyclerView.layoutManager = GridLayoutManager(context,4)
+        recyclerView.layoutManager = GridLayoutManager(context, 4)
 
         arrayList = arrayListOf<ColorMain>()
 
@@ -48,10 +71,9 @@ class BottomSheetFragmentColor : BottomSheetDialogFragment() {
     }
 
 
-
     private fun getData() {
-        for(i in imgId.indices){
-            val colorMain = ColorMain(titleColor[i],imgId[i])
+        for (i in imgId.indices) {
+            val colorMain = ColorMain(titleColor[i], imgId[i])
             arrayList.add(colorMain)
 
         }

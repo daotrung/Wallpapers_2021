@@ -33,25 +33,32 @@ import java.io.IOException
 import java.lang.Error
 
 
-private var list : ArrayList<SlideLiveWapaper> = ArrayList()
-private var id : Int = 0
-private lateinit var pathVideo : String
+private var list: ArrayList<SlideLiveWapaper> = ArrayList()
+private var id: Int = 0
+private lateinit var pathVideo: String
+
 @SuppressLint("StaticFieldLeak")
 private lateinit var videoView: VideoView
-@SuppressLint("StaticFieldLeak")
-private lateinit var img_close : ImageView
-@SuppressLint("StaticFieldLeak")
-private lateinit var img_left_arrow : ImageView
-@SuppressLint("StaticFieldLeak")
-private lateinit var img_right_arrow : ImageView
-@SuppressLint("StaticFieldLeak")
-private lateinit var img_save_btn : ImageView
-@SuppressLint("StaticFieldLeak")
-private lateinit var img_share_btn : ImageView
-@SuppressLint("StaticFieldLeak")
-private lateinit var img_gif : ImageView
 
-class LiveVideoActivity : AppCompatActivity(){
+@SuppressLint("StaticFieldLeak")
+private lateinit var img_close: ImageView
+
+@SuppressLint("StaticFieldLeak")
+private lateinit var img_left_arrow: ImageView
+
+@SuppressLint("StaticFieldLeak")
+private lateinit var img_right_arrow: ImageView
+
+@SuppressLint("StaticFieldLeak")
+private lateinit var img_save_btn: ImageView
+
+@SuppressLint("StaticFieldLeak")
+private lateinit var img_share_btn: ImageView
+
+@SuppressLint("StaticFieldLeak")
+private lateinit var img_gif: ImageView
+
+class LiveVideoActivity : AppCompatActivity() {
 
     // set Intent by MyWallpaperService
     companion object {
@@ -64,17 +71,24 @@ class LiveVideoActivity : AppCompatActivity(){
                 liveWallpaperIntent.action = WallpaperManager.ACTION_CHANGE_LIVE_WALLPAPER
                 val p = MyWallpaperService::class.java.`package`.name
                 val c = MyWallpaperService::class.java.canonicalName
-                liveWallpaperIntent.putExtra(WallpaperManager.EXTRA_LIVE_WALLPAPER_COMPONENT, ComponentName(p, c))
+                liveWallpaperIntent.putExtra(
+                    WallpaperManager.EXTRA_LIVE_WALLPAPER_COMPONENT,
+                    ComponentName(p, c)
+                )
             }
             return liveWallpaperIntent
         }
     }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         // set fullscreen
         requestWindowFeature(Window.FEATURE_NO_TITLE)
-        this.window.setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN)
+        this.window.setFlags(
+            WindowManager.LayoutParams.FLAG_FULLSCREEN,
+            WindowManager.LayoutParams.FLAG_FULLSCREEN
+        )
         setContentView(R.layout.activity_live_video)
 
         // init
@@ -91,7 +105,7 @@ class LiveVideoActivity : AppCompatActivity(){
         // lấy dữ liệu từ liveListAdapter
         val intent = intent
         list = intent.getSerializableExtra("list_img_live") as ArrayList<SlideLiveWapaper>
-        id = intent.getIntExtra("pos_img_live",0)
+        id = intent.getIntExtra("pos_img_live", 0)
 
         // lấy path url thong qua dl vua truyen ve
         pathVideo = list[id].original
@@ -101,13 +115,11 @@ class LiveVideoActivity : AppCompatActivity(){
             finish()
         }
         img_left_arrow.setOnClickListener {
-            if(id==0)
-            {
-                id = list.size-1
+            if (id == 0) {
+                id = list.size - 1
                 setVideo(list[id].original)
                 pathVideo = list[id].original
-            }else
-            {
+            } else {
                 id--
                 setVideo(list[id].original)
                 pathVideo = list[id].original
@@ -115,13 +127,11 @@ class LiveVideoActivity : AppCompatActivity(){
 
         }
         img_right_arrow.setOnClickListener {
-            if(id== list.size-1)
-            {
-                id=0
+            if (id == list.size - 1) {
+                id = 0
                 setVideo(list[id].original)
                 pathVideo = list[id].original
-            }else
-            {
+            } else {
                 id++
                 setVideo(list[id].original)
                 pathVideo = list[id].original
@@ -129,20 +139,20 @@ class LiveVideoActivity : AppCompatActivity(){
 
         }
         img_save_btn.setOnClickListener {
-//              setDiloagVideo(pathVideo)
-//            Log.e("path", pathVideo)
+            // downloadVideo
+            setDiloagVideo(pathVideo)
 
             // clear cache wallpaper
-            var wallpaperManager:WallpaperManager = WallpaperManager.getInstance(applicationContext)
+            var wallpaperManager: WallpaperManager =
+                WallpaperManager.getInstance(applicationContext)
             try {
                 wallpaperManager.clear()
-            }catch (e : IOException){
+            } catch (e: IOException) {
                 e.printStackTrace()
             }
             //  truyen url from activity to wallpaper_service
-            var serviceIntent : Intent = Intent(applicationContext,MyWallpaperService::class.java)
+            var serviceIntent: Intent = Intent(applicationContext, MyWallpaperService::class.java)
             serviceIntent.putExtra("url_pass", pathVideo)
-            Log.e("url_pass:", pathVideo)
             this.startService(serviceIntent)
 
             // setTo Wallpaper
@@ -151,11 +161,12 @@ class LiveVideoActivity : AppCompatActivity(){
         }
     }
 
+    // xu ly download Video
     private fun setDiloagVideo(pathVideo: String) {
         val builder = AlertDialog.Builder(this)
         builder.setTitle("Save Video")
         builder.setMessage("Do you want save this video ?")
-        builder.setPositiveButton("Yes"){ dialogInterface: DialogInterface, i: Int ->
+        builder.setPositiveButton("Yes") { dialogInterface: DialogInterface, i: Int ->
             Dexter.withContext(this)
                 .withPermissions(
                     android.Manifest.permission.WRITE_EXTERNAL_STORAGE,
@@ -163,10 +174,14 @@ class LiveVideoActivity : AppCompatActivity(){
                     android.Manifest.permission.SET_WALLPAPER
                 ).withListener(object : MultiplePermissionsListener {
                     override fun onPermissionsChecked(report: MultiplePermissionsReport) {
-                        /* ... */ if(report.areAllPermissionsGranted()){
+                        /* ... */ if (report.areAllPermissionsGranted()) {
                             dowloadVideo(pathVideo)
-                        }else {
-                            Toast.makeText(this@LiveVideoActivity,"Please allow all permission",Toast.LENGTH_SHORT).show()
+                        } else {
+                            Toast.makeText(
+                                this@LiveVideoActivity,
+                                "Please allow all permission",
+                                Toast.LENGTH_SHORT
+                            ).show()
                         }
                     }
 
@@ -179,20 +194,21 @@ class LiveVideoActivity : AppCompatActivity(){
 
 
         }
-        builder.setNegativeButton("No"){ dialogInterface: DialogInterface, i: Int ->
+        builder.setNegativeButton("No") { dialogInterface: DialogInterface, i: Int ->
             finish()
 
         }
         builder.show()
     }
 
-    // xu ly download Video
+
     private fun dowloadVideo(pathVideo: String) {
         var pd = ProgressDialog(this)
         pd.setMessage("Dowloading....")
         pd.setCancelable(false)
         pd.show()
-        var file: File = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS)
+        var file: File =
+            Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS)
         PRDownloader.download(pathVideo, file.path, URLUtil.guessFileName(pathVideo, null, null))
             .build()
             .setOnStartOrResumeListener { }
@@ -226,26 +242,15 @@ class LiveVideoActivity : AppCompatActivity(){
 
     }
 
-//    private fun saveVideo(pathVideo:String) {
-//        var manager : DownloadManager = getSystemService(Context.DOWNLOAD_SERVICE) as DownloadManager
-//        val uri = Uri.parse(pathVideo)
-//        val request = DownloadManager.Request(uri)
-//        request.setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE)
-//        request.setAllowedNetworkTypes(DownloadManager.Request.NETWORK_WIFI )
-//        request.setAllowedNetworkTypes(DownloadManager.Request.NETWORK_MOBILE)
-//        request.setAllowedOverRoaming(false)
-//
-//        val reference: Long = manager.enqueue(request)
-//    }
-
-    private fun setVideo(path:String) {
-        val uri : Uri = Uri.parse(path)
+    // display video to background
+    private fun setVideo(path: String) {
+        val uri: Uri = Uri.parse(path)
         val fileName = File(uri.path).name
 
-        Log.e("name",fileName)
-        if(fileName.contains(".bin")) {
-            Toast.makeText(this,"Không hỗ trợ dạng tệp này trong trình phát ",Toast.LENGTH_SHORT).show()
-        }else {
+        Log.e("name", fileName)
+        if (fileName.contains(".bin")) {
+            Toast.makeText(this, R.string.warning_type_file, Toast.LENGTH_SHORT).show()
+        } else {
             if (fileName.contains(".mp4") || (fileName.contains(".3gp")) || (fileName.contains(".m4v"))) {
                 videoView.visibility = View.VISIBLE
                 videoView.setVideoURI(uri)

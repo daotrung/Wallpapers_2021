@@ -50,22 +50,25 @@ import java.lang.Error
 
 
 class SliderLiveActivity : AppCompatActivity() {
-    private var list : ArrayList<SlideLiveWapaper> = ArrayList()
-    private var id : Int = 0
-    private lateinit var img : String
-    private var flag : Boolean = false
-    private lateinit var img_layout : ImageView
-    private lateinit var img_close : ImageView
-    private lateinit var img_left_arrow : ImageView
-    private lateinit var img_right_arrow : ImageView
-    private lateinit var img_save_btn : ImageView
-    private lateinit var img_share_btn : ImageView
+    private var list: ArrayList<SlideLiveWapaper> = ArrayList()
+    private var id: Int = 0
+    private lateinit var img: String
+    private var flag: Boolean = false
+    private lateinit var img_layout: ImageView
+    private lateinit var img_close: ImageView
+    private lateinit var img_left_arrow: ImageView
+    private lateinit var img_right_arrow: ImageView
+    private lateinit var img_save_btn: ImageView
+    private lateinit var img_share_btn: ImageView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         requestWindowFeature(Window.FEATURE_NO_TITLE)
-        this.window.setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,WindowManager.LayoutParams.FLAG_FULLSCREEN)
+        this.window.setFlags(
+            WindowManager.LayoutParams.FLAG_FULLSCREEN,
+            WindowManager.LayoutParams.FLAG_FULLSCREEN
+        )
         setContentView(R.layout.activity_slider_live)
         val intent = intent
         img_layout = findViewById(R.id.img_slider_live_last)
@@ -75,7 +78,7 @@ class SliderLiveActivity : AppCompatActivity() {
         img_save_btn = findViewById(R.id.img_btn_save)
         img_share_btn = findViewById(R.id.img_share)
         list = intent.getSerializableExtra("list_img_live") as ArrayList<SlideLiveWapaper>
-        id = intent.getIntExtra("pos_img_live",0)
+        id = intent.getIntExtra("pos_img_live", 0)
 
         img = list.get(this.id).image
 
@@ -86,32 +89,33 @@ class SliderLiveActivity : AppCompatActivity() {
             finish()
         }
         img_left_arrow.setOnClickListener {
-             id--
-            if(id<=0){
+            id--
+            if (id <= 0) {
                 id = list.size
                 id--
                 setImg(id)
             }
-                setImg(id)
+            setImg(id)
         }
         img_right_arrow.setOnClickListener {
             id++
-            if(id>=list.size){
-                id=0
+            if (id >= list.size) {
+                id = 0
                 id++
                 setImg(id)
             }
             setImg(id)
         }
         img_share_btn.setOnClickListener {
-            var bitmapDrawale : BitmapDrawable = img_layout.drawable as BitmapDrawable
-            var bitmap:Bitmap = bitmapDrawale.bitmap
-            var bitmapPath : String = MediaStore.Images.Media.insertImage(contentResolver,bitmap,"Some title",null)
-            var bitmapUri : Uri = Uri.parse(bitmapPath)
+            var bitmapDrawale: BitmapDrawable = img_layout.drawable as BitmapDrawable
+            var bitmap: Bitmap = bitmapDrawale.bitmap
+            var bitmapPath: String =
+                MediaStore.Images.Media.insertImage(contentResolver, bitmap, "Some title", null)
+            var bitmapUri: Uri = Uri.parse(bitmapPath)
             val intent = Intent(Intent.ACTION_SEND)
             intent.setType("image/*")
-            intent.putExtra(Intent.EXTRA_STREAM,bitmapUri)
-            startActivity(Intent.createChooser(intent,"Share Image"))
+            intent.putExtra(Intent.EXTRA_STREAM, bitmapUri)
+            startActivity(Intent.createChooser(intent, "Share Image"))
         }
         img_save_btn.setOnClickListener {
 //              setDilog()
@@ -209,9 +213,6 @@ class SliderLiveActivity : AppCompatActivity() {
         img = list.get(this.id).image
         Glide.with(this).load(img).into(img_layout)
     }
-
-
-
 
 
 }

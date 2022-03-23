@@ -34,42 +34,43 @@ class WallpaperCategoryFragment : Fragment() {
         // Inflate the layout for this fragment
         val v = inflater.inflate(R.layout.category_fragment, container, false)
         recyclerView = v.findViewById(R.id.rv_categories_main)
-        val txtSeeAll : TextView = v.findViewById(R.id.txt_all_categories)
+        val txtSeeAll: TextView = v.findViewById(R.id.txt_all_categories)
 
         txtSeeAll.setOnClickListener {
-              bottomSheetFragmentCategories = BottomSheetFragmentCategories()
-              bottomSheetFragmentCategories.show(requireActivity().supportFragmentManager,tag)
+            bottomSheetFragmentCategories = BottomSheetFragmentCategories()
+            bottomSheetFragmentCategories.show(requireActivity().supportFragmentManager, tag)
         }
-        manager = GridLayoutManager(context,3)
+        manager = GridLayoutManager(context, 3)
         getAllDataCategoriesMainWallpaper(recyclerView)
         return v
     }
 
     private fun getAllDataCategoriesMainWallpaper(rv: RecyclerView) {
-        ApiInterface.Api2.retrofitService2.getAllDataCategoriesMainWallpaper().enqueue(object :Callback<MaterialWallpaperCateMain>{
-            override fun onResponse(
-                call: Call<MaterialWallpaperCateMain>,
-                response: Response<MaterialWallpaperCateMain>
+        ApiInterface.Api2.retrofitService2.getAllDataCategoriesMainWallpaper()
+            .enqueue(object : Callback<MaterialWallpaperCateMain> {
+                override fun onResponse(
+                    call: Call<MaterialWallpaperCateMain>,
+                    response: Response<MaterialWallpaperCateMain>
 
-            ) {
-                if(response.isSuccessful){
+                ) {
+                    if (response.isSuccessful) {
 
-                    recyclerView = rv.apply {
+                        recyclerView = rv.apply {
 //                        Log.e("list", Gson().toJson(response.body()))
-                        myAdapter = ListCategoriesMainAdapter(response.body()!!)
+                            myAdapter = ListCategoriesMainAdapter(response.body()!!)
 
-                        layoutManager = manager
+                            layoutManager = manager
 
-                        adapter = myAdapter
+                            adapter = myAdapter
+                        }
                     }
                 }
-            }
 
-            override fun onFailure(call: Call<MaterialWallpaperCateMain>, t: Throwable) {
-                t.printStackTrace()
-            }
+                override fun onFailure(call: Call<MaterialWallpaperCateMain>, t: Throwable) {
+                    t.printStackTrace()
+                }
 
-        })
+            })
     }
 
 }

@@ -20,18 +20,18 @@ class ActivityListLive : AppCompatActivity() {
     private lateinit var manager: RecyclerView.LayoutManager
     private lateinit var myAdapter: RecyclerView.Adapter<*>
     private lateinit var myToobar: Toolbar
-    private lateinit var mTitle:TextView
-    private var myId : Int = 0
+    private lateinit var mTitle: TextView
+    private var myId: Int = 0
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_list_live_wapaper)
         recyclerView = findViewById(R.id.rv_list_live_wapper)
-        manager = GridLayoutManager(this,3)
+        manager = GridLayoutManager(this, 3)
         val intent = intent
-        myId = intent.getIntExtra("idGet",0)
+        myId = intent.getIntExtra("idGet", 0)
 
 //        Log.e("id",myId.toString())
-        getSlideDataById(recyclerView,myId)
+        getSlideDataById(recyclerView, myId)
         setToolbar()
     }
 
@@ -50,28 +50,29 @@ class ActivityListLive : AppCompatActivity() {
     }
 
     private fun getSlideDataById(rv: RecyclerView, myId: Int) {
-        ApiInterface.Api.retrofitService.getSlideDataById(myId).enqueue(object :Callback<List<SlideLiveWapaper>>{
-            override fun onResponse(
-                call: Call<List<SlideLiveWapaper>>,
-                response: Response<List<SlideLiveWapaper>>
-            ) {
+        ApiInterface.Api.retrofitService.getSlideDataById(myId)
+            .enqueue(object : Callback<List<SlideLiveWapaper>> {
+                override fun onResponse(
+                    call: Call<List<SlideLiveWapaper>>,
+                    response: Response<List<SlideLiveWapaper>>
+                ) {
 //                Log.e("---->","response= ${response.isSuccessful}")
 
-                if(response.isSuccessful){
-                    recyclerView = rv.apply {
-                        myAdapter = LiveListAdapter(response.body()!!)
-                        layoutManager = manager
-                        adapter =myAdapter
+                    if (response.isSuccessful) {
+                        recyclerView = rv.apply {
+                            myAdapter = LiveListAdapter(response.body()!!)
+                            layoutManager = manager
+                            adapter = myAdapter
+                        }
                     }
                 }
+
+                override fun onFailure(call: Call<List<SlideLiveWapaper>>, t: Throwable) {
+                    t.printStackTrace()
+
+                }
+
             }
-
-            override fun onFailure(call: Call<List<SlideLiveWapaper>>, t: Throwable) {
-                t.printStackTrace()
-
-            }
-
-        }
-        )
+            )
     }
 }

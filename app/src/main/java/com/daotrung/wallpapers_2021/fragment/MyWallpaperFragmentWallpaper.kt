@@ -30,32 +30,33 @@ class MyWallpaperFragmentWallpaper : Fragment() {
         val v = inflater.inflate(R.layout.fragment_my_wallpaper_wallpaper, container, false)
 
         recyclerView = v.findViewById(R.id.rv_list_my_wallpaper_wall)
-        manager = GridLayoutManager(v.context,3)
+        manager = GridLayoutManager(v.context, 3)
 
         getAllListMyWallpaper(recyclerView)
         return v
     }
 
     private fun getAllListMyWallpaper(rv: RecyclerView?) {
-          ApiInterface.Api.retrofitService.getAllListMyWallpaper().enqueue(object : Callback<MyWallpaperWall>{
-              override fun onResponse(
-                  call: Call<MyWallpaperWall>,
-                  response: Response<MyWallpaperWall>
-              ) {
-                  if(response.isSuccessful){
-                      recyclerView = rv?.apply {
-                          myAdapter = MyWallpaperWallAdapter(response.body()!!)
-                          layoutManager = manager
-                          adapter = myAdapter
-                      }!!
-                  }
-              }
+        ApiInterface.Api.retrofitService.getAllListMyWallpaper()
+            .enqueue(object : Callback<MyWallpaperWall> {
+                override fun onResponse(
+                    call: Call<MyWallpaperWall>,
+                    response: Response<MyWallpaperWall>
+                ) {
+                    if (response.isSuccessful) {
+                        recyclerView = rv?.apply {
+                            myAdapter = MyWallpaperWallAdapter(response.body()!!)
+                            layoutManager = manager
+                            adapter = myAdapter
+                        }!!
+                    }
+                }
 
-              override fun onFailure(call: Call<MyWallpaperWall>, t: Throwable) {
-                  t.printStackTrace()
-              }
+                override fun onFailure(call: Call<MyWallpaperWall>, t: Throwable) {
+                    t.printStackTrace()
+                }
 
-          })
+            })
     }
 
 }

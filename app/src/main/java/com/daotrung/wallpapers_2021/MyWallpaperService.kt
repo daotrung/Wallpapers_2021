@@ -10,23 +10,24 @@ import android.service.wallpaper.WallpaperService
 import android.util.Log
 import android.view.SurfaceHolder
 
-class MyWallpaperService :WallpaperService(){
+class MyWallpaperService : WallpaperService() {
 
-    var user : String? = null
+    var user: String? = null
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
-        user  = intent?.getStringExtra("url_pass")
-        Log.e("url_pass ",user.toString())
+        user = intent?.getStringExtra("url_pass")
+
         return super.onStartCommand(intent, flags, startId)
     }
+
     override fun onCreateEngine(): Engine {
-           return WallpaperEngine()
-    }
-    private enum class PlayerState{
-        NONE ,PREPARING ,READY ,PLAYING
+        return WallpaperEngine()
     }
 
+    private enum class PlayerState {
+        NONE, PREPARING, READY, PLAYING
+    }
 
-    inner class WallpaperEngine : WallpaperService.Engine(){
+    inner class WallpaperEngine : WallpaperService.Engine() {
         private var mp: MediaPlayer? = null
         private var playerState: PlayerState = PlayerState.NONE
         private var width: Int = 0
@@ -37,17 +38,16 @@ class MyWallpaperService :WallpaperService(){
         override fun onSurfaceCreated(holder: SurfaceHolder?) {
 
             super.onSurfaceCreated(holder)
-            mp= MediaPlayer()
+            mp = MediaPlayer()
             mySurfaceHolder = holder?.let { MySurfaceHolder(it) }
             mp!!.setDisplay(mySurfaceHolder)
             mp!!.isLooping = true
-            mp!!.setVolume(0.0f,0.0f)
-            mp!!.setOnPreparedListener { mp->
+            mp!!.setVolume(0.0f, 0.0f)
+            mp!!.setOnPreparedListener { mp ->
                 playerState = PlayerState.READY
                 setPlay(true)
             }
             try {
-//                mp!!.setDataSource(this@MovieLiveWallpaperService, Uri.parse("http://techslides.com/demos/sample-videos/small.mp4"))
                 mp!!.setDataSource(this@MyWallpaperService, Uri.parse(user))
             } catch (e: Exception) {
             }
@@ -67,8 +67,8 @@ class MyWallpaperService :WallpaperService(){
 
         override fun onDestroy() {
             super.onDestroy()
-            if(mp == null)
-                 return
+            if (mp == null)
+                return
             mp!!.stop()
             mp!!.release()
             playerState = PlayerState.NONE
@@ -101,13 +101,15 @@ class MyWallpaperService :WallpaperService(){
 
         override fun onVisibilityChanged(visible: Boolean) {
             super.onVisibilityChanged(visible)
-            if(mp == null)
+            if (mp == null)
                 return
             setPlay(visible)
         }
     }
+
     class MySurfaceHolder(private val surfaceHolder: SurfaceHolder) : SurfaceHolder {
-        override fun addCallback(callback: SurfaceHolder.Callback) = surfaceHolder.addCallback(callback)
+        override fun addCallback(callback: SurfaceHolder.Callback) =
+            surfaceHolder.addCallback(callback)
 
         override fun getSurface() = surfaceHolder.surface!!
 
@@ -119,9 +121,11 @@ class MyWallpaperService :WallpaperService(){
 
         override fun lockCanvas(dirty: Rect): Canvas = surfaceHolder.lockCanvas(dirty)
 
-        override fun removeCallback(callback: SurfaceHolder.Callback) = surfaceHolder.removeCallback(callback)
+        override fun removeCallback(callback: SurfaceHolder.Callback) =
+            surfaceHolder.removeCallback(callback)
 
-        override fun setFixedSize(width: Int, height: Int) = surfaceHolder.setFixedSize(width, height)
+        override fun setFixedSize(width: Int, height: Int) =
+            surfaceHolder.setFixedSize(width, height)
 
         override fun setFormat(format: Int) = surfaceHolder.setFormat(format)
 

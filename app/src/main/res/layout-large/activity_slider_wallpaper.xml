@@ -16,52 +16,52 @@
 
     <ImageView
         android:id="@+id/img_arrow_left_wallpaper"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="100sp"
+        android:layout_height="100sp"
         android:layout_gravity="start|center_vertical"
-        android:layout_marginStart="8sp"
+        android:layout_marginStart="50sp"
         android:src="@drawable/left_arrow" />
 
     <ImageView
         android:id="@+id/img_arrow_right_wallpaper"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="100sp"
+        android:layout_height="100sp"
         android:layout_gravity="end|center_vertical"
-        android:layout_marginEnd="8sp"
+        android:layout_marginEnd="50sp"
         android:src="@drawable/right_arrow" />
 
     <ImageView
         android:id="@+id/img_close_live_wallpaper"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="100sp"
+        android:layout_height="100sp"
         android:layout_gravity="start|top"
-        android:layout_marginStart="16sp"
-        android:layout_marginTop="51sp"
+        android:layout_marginStart="50sp"
+        android:layout_marginTop="100sp"
         android:src="@drawable/close_btn" />
 
     <ImageView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="100sp"
+        android:layout_height="100sp"
         android:layout_gravity="end|top"
-        android:layout_marginTop="51sp"
-        android:layout_marginEnd="16sp"
+        android:layout_marginTop="100sp"
+        android:layout_marginEnd="50sp"
         android:src="@drawable/heart_unselect_max" />
 
     <ImageView
         android:id="@+id/img_btn_save_wallpaper"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="400sp"
+        android:layout_height="250sp"
         android:layout_gravity="start|bottom"
-        android:layout_marginStart="45sp"
-        android:layout_marginBottom="45sp"
+        android:layout_marginStart="70sp"
+        android:layout_marginBottom="20sp"
         android:src="@drawable/btn_save" />
 
     <ImageView
         android:id="@+id/img_share_wallpaper"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="100sp"
+        android:layout_height="100sp"
         android:layout_gravity="bottom|end"
         android:layout_marginEnd="56sp"
-        android:layout_marginBottom="45sp"
+        android:layout_marginBottom="100sp"
         android:src="@drawable/share" />
 </FrameLayout>

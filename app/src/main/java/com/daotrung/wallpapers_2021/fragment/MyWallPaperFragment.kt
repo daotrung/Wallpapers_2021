@@ -15,24 +15,24 @@ import kotlinx.coroutines.newFixedThreadPoolContext
 
 class MyWallPaperFragment : Fragment() {
 
-    lateinit var viewPager2 : ViewPager2
-    var tabTitle = arrayOf("Live","Wallpaper")
-    lateinit var adapter : ViewPagerAdapter
+    lateinit var viewPager2: ViewPager2
+    var tabTitle = arrayOf("Live", "Wallpaper")
+    lateinit var adapter: ViewPagerAdapter
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        val  view = inflater.inflate(R.layout.fragment_my_wall_paper, container, false)
+        val view = inflater.inflate(R.layout.fragment_my_wall_paper, container, false)
 
         viewPager2 = view.findViewById(R.id.view_pager2)
         val tabLayout = view.findViewById<TabLayout>(R.id.tablayout)
 
-        viewPager2.adapter = ViewPagerAdapter(requireActivity(),lifecycle)
+        viewPager2.adapter = ViewPagerAdapter(requireActivity(), lifecycle)
 
-        TabLayoutMediator(tabLayout,viewPager2){
-            tab,position -> tab.text = tabTitle[position]
+        TabLayoutMediator(tabLayout, viewPager2) { tab, position ->
+            tab.text = tabTitle[position]
         }.attach()
 
         return view

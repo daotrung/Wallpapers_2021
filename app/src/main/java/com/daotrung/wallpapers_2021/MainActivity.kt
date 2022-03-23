@@ -10,10 +10,9 @@ import com.daotrung.wallpapers_2021.fragment.WallpaperFragment
 class MainActivity : BaseActivity<ActivityMainBinding>() {
 
     private val livewallpaperFragment = LiveWapaperFragment()
-    private val mywallpaperFragment= MyWallPaperFragment()
+    private val mywallpaperFragment = MyWallPaperFragment()
     private val settingsFragment = SettingsFragment()
     private val wallpaperFragment = WallpaperFragment()
-
 
 
     override fun binding(): ActivityMainBinding {
@@ -24,7 +23,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
         replaceFragment(livewallpaperFragment)
 
         binding.navView.setOnNavigationItemSelectedListener {
-            when(it.itemId) {
+            when (it.itemId) {
                 R.id.live_wapaper -> replaceFragment(livewallpaperFragment)
                 R.id.my_waper -> replaceFragment(mywallpaperFragment)
                 R.id.settings -> replaceFragment(settingsFragment)
@@ -35,9 +34,9 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
 
     }
 
-    private fun replaceFragment(fragment:Fragment){
+    private fun replaceFragment(fragment: Fragment) {
         supportFragmentManager.beginTransaction().apply {
-            replace(R.id.fragment_main,fragment)
+            replace(R.id.fragment_main, fragment)
             commit()
         }
     }

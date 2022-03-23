@@ -30,27 +30,32 @@ import java.io.File
 import java.io.Serializable
 import java.lang.Error
 
-const val urlGetImage ="https://hdwalls.wallzapps.com/upload/"
+const val urlGetImage = "https://hdwalls.wallzapps.com/upload/"
+
 class SliderWallpaperActivity : AppCompatActivity() {
 
-    private  var list: MaterialWapaper = MaterialWapaper(ArrayList<Trending>())
-    private var listCate : MaterialWallpaperCatList = MaterialWallpaperCatList(ArrayList<CatList>())
-    private  var listMyWallpaperWall : MyWallpaperWall = MyWallpaperWall(ArrayList<SlideLiveWapaper>())
-    private var id : Int = 1
+    private var list: MaterialWapaper = MaterialWapaper(ArrayList<Trending>())
+    private var listCate: MaterialWallpaperCatList = MaterialWallpaperCatList(ArrayList<CatList>())
+    private var listMyWallpaperWall: MyWallpaperWall =
+        MyWallpaperWall(ArrayList<SlideLiveWapaper>())
+    private var id: Int = 1
     private var getIntent = 0
-    private  var img : String? = ""
-    private var flag : Boolean = false
-    private lateinit var img_layout : ImageView
-    private lateinit var img_close : ImageView
-    private lateinit var img_left_arrow : ImageView
-    private lateinit var img_right_arrow : ImageView
-    private lateinit var img_save_btn : ImageView
-    private lateinit var img_share_btn : ImageView
+    private var img: String? = ""
+    private var flag: Boolean = false
+    private lateinit var img_layout: ImageView
+    private lateinit var img_close: ImageView
+    private lateinit var img_left_arrow: ImageView
+    private lateinit var img_right_arrow: ImageView
+    private lateinit var img_save_btn: ImageView
+    private lateinit var img_share_btn: ImageView
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         requestWindowFeature(Window.FEATURE_NO_TITLE)
-        this.window.setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN)
+        this.window.setFlags(
+            WindowManager.LayoutParams.FLAG_FULLSCREEN,
+            WindowManager.LayoutParams.FLAG_FULLSCREEN
+        )
         setContentView(R.layout.activity_slider_wallpaper)
 
         val intent = intent
@@ -63,65 +68,66 @@ class SliderWallpaperActivity : AppCompatActivity() {
 
         PRDownloader.initialize(applicationContext)
 
-        if(intent.getIntExtra("pos_img_trend", 0)>=1) {
+        if (intent.getIntExtra("pos_img_trend", 0) >= 1) {
 
-                list = intent.getSerializableExtra("list_img_trend") as MaterialWapaper
-                id = intent.getIntExtra("pos_img_trend", 0)-1
-                img = urlGetImage + list.MaterialWallpaper[id].image
+            list = intent.getSerializableExtra("list_img_trend") as MaterialWapaper
+            id = intent.getIntExtra("pos_img_trend", 0) - 1
+            img = urlGetImage + list.MaterialWallpaper[id].image
 
-                Glide.with(this).load(img).into(img_layout)
+            Glide.with(this).load(img).into(img_layout)
 
-                img_close.setOnClickListener {
-                    finish()
-                }
-                img_left_arrow.setOnClickListener {
-                    if (id == 0) {
-                        id=list.MaterialWallpaper.size-1
-                        img = urlGetImage + list.MaterialWallpaper[id].image
-                        Glide.with(this).load(img).into(img_layout)
-                    }else{
-                        id--
-                        img = urlGetImage + list.MaterialWallpaper[id].image
-                        Glide.with(this).load(img).into(img_layout)
-                    }
-                }
-                img_right_arrow.setOnClickListener {
-
-                    if (id == list.MaterialWallpaper.size-1) {
-                        id = 0
-                        img = urlGetImage + list.MaterialWallpaper[id].image
-                        Glide.with(this).load(img).into(img_layout)
-                    }else{
-                        id++
-                        img = urlGetImage + list.MaterialWallpaper[id].image
-                        Glide.with(this).load(img).into(img_layout)
-                    }
-                }
-                img_save_btn.setOnClickListener {
-                    setDowloadDilog(img!!)
-                }
-                img_share_btn.setOnClickListener {
-                    val bitmapDrawale: BitmapDrawable = img_layout.drawable as BitmapDrawable
-                    val bitmap: Bitmap = bitmapDrawale.bitmap
-                    val bitmapPath: String = MediaStore.Images.Media.insertImage(
-                        contentResolver,
-                        bitmap,
-                        "Some title",
-                        null
-                    )
-                    val bitmapUri: Uri = Uri.parse(bitmapPath)
-                    val intent = Intent(Intent.ACTION_SEND)
-                    intent.setType("image/*")
-                    intent.putExtra(Intent.EXTRA_STREAM, bitmapUri)
-                    startActivity(Intent.createChooser(intent, "Share Image to Anothe App"))
-                }
-
+            img_close.setOnClickListener {
+                finish()
             }
-        if(intent.getIntExtra("pos_img_categories",0)>=1){
-            listCate = intent.getSerializableExtra("list_img_categories") as MaterialWallpaperCatList
-            id = intent.getIntExtra("pos_img_categories",0)-1
+            img_left_arrow.setOnClickListener {
+                if (id == 0) {
+                    id = list.MaterialWallpaper.size - 1
+                    img = urlGetImage + list.MaterialWallpaper[id].image
+                    Glide.with(this).load(img).into(img_layout)
+                } else {
+                    id--
+                    img = urlGetImage + list.MaterialWallpaper[id].image
+                    Glide.with(this).load(img).into(img_layout)
+                }
+            }
+            img_right_arrow.setOnClickListener {
 
-            img =  urlGetImage+ listCate.MaterialWallpaper[id].images
+                if (id == list.MaterialWallpaper.size - 1) {
+                    id = 0
+                    img = urlGetImage + list.MaterialWallpaper[id].image
+                    Glide.with(this).load(img).into(img_layout)
+                } else {
+                    id++
+                    img = urlGetImage + list.MaterialWallpaper[id].image
+                    Glide.with(this).load(img).into(img_layout)
+                }
+            }
+            img_save_btn.setOnClickListener {
+                setDowloadDilog(img!!)
+            }
+            img_share_btn.setOnClickListener {
+                val bitmapDrawale: BitmapDrawable = img_layout.drawable as BitmapDrawable
+                val bitmap: Bitmap = bitmapDrawale.bitmap
+                val bitmapPath: String = MediaStore.Images.Media.insertImage(
+                    contentResolver,
+                    bitmap,
+                    "Some title",
+                    null
+                )
+                val bitmapUri: Uri = Uri.parse(bitmapPath)
+                val intent = Intent(Intent.ACTION_SEND)
+                intent.setType("image/*")
+                intent.putExtra(Intent.EXTRA_STREAM, bitmapUri)
+                startActivity(Intent.createChooser(intent, "Share Image to Anothe App"))
+            }
+
+        }
+        if (intent.getIntExtra("pos_img_categories", 0) >= 1) {
+            listCate =
+                intent.getSerializableExtra("list_img_categories") as MaterialWallpaperCatList
+            id = intent.getIntExtra("pos_img_categories", 0) - 1
+
+            img = urlGetImage + listCate.MaterialWallpaper[id].images
             Glide.with(this).load(img).into(img_layout)
 
             img_close.setOnClickListener {
@@ -129,132 +135,136 @@ class SliderWallpaperActivity : AppCompatActivity() {
             }
             img_left_arrow.setOnClickListener {
 
-                if(id==0){
-                    id = listCate.MaterialWallpaper.size-1
-                    img =  urlGetImage+ listCate.MaterialWallpaper[id].images
+                if (id == 0) {
+                    id = listCate.MaterialWallpaper.size - 1
+                    img = urlGetImage + listCate.MaterialWallpaper[id].images
                     Glide.with(this).load(img).into(img_layout)
-                }else{
+                } else {
                     id--
-                    img =  urlGetImage+ listCate.MaterialWallpaper[id].images
+                    img = urlGetImage + listCate.MaterialWallpaper[id].images
                     Glide.with(this).load(img).into(img_layout)
                 }
 
             }
             img_right_arrow.setOnClickListener {
-                if(id == listCate.MaterialWallpaper.size-1){
-                    id= 0
-                    img =  urlGetImage+ listCate.MaterialWallpaper[id].images
+                if (id == listCate.MaterialWallpaper.size - 1) {
+                    id = 0
+                    img = urlGetImage + listCate.MaterialWallpaper[id].images
                     Glide.with(this).load(img).into(img_layout)
-                }else{
+                } else {
                     id++
-                    img =  urlGetImage+ listCate.MaterialWallpaper[id].images
+                    img = urlGetImage + listCate.MaterialWallpaper[id].images
                     Glide.with(this).load(img).into(img_layout)
                 }
 
             }
             img_share_btn.setOnClickListener {
-                val bitmapDrawale : BitmapDrawable = img_layout.drawable as BitmapDrawable
-                val bitmap:Bitmap = bitmapDrawale.bitmap
-                val bitmapPath : String = MediaStore.Images.Media.insertImage(contentResolver,bitmap,"Some title",null)
-                val bitmapUri : Uri = Uri.parse(bitmapPath)
+                val bitmapDrawale: BitmapDrawable = img_layout.drawable as BitmapDrawable
+                val bitmap: Bitmap = bitmapDrawale.bitmap
+                val bitmapPath: String =
+                    MediaStore.Images.Media.insertImage(contentResolver, bitmap, "Some title", null)
+                val bitmapUri: Uri = Uri.parse(bitmapPath)
                 val intent = Intent(Intent.ACTION_SEND)
                 intent.setType("image/*")
-                intent.putExtra(Intent.EXTRA_STREAM,bitmapUri)
-                startActivity(Intent.createChooser(intent,"Share Image to Another App"))
+                intent.putExtra(Intent.EXTRA_STREAM, bitmapUri)
+                startActivity(Intent.createChooser(intent, "Share Image to Another App"))
             }
             img_save_btn.setOnClickListener {
                 setDowloadDilog(img!!)
             }
         }
-        if(intent.getIntExtra("pos_img_color",0)>=1){
+        if (intent.getIntExtra("pos_img_color", 0) >= 1) {
             listCate = intent.getSerializableExtra("list_img_color") as MaterialWallpaperCatList
-            id = intent.getIntExtra("pos_img_color",0)-1
-            img = urlGetImage+ listCate.MaterialWallpaper.get(id).images
+            id = intent.getIntExtra("pos_img_color", 0) - 1
+            img = urlGetImage + listCate.MaterialWallpaper.get(id).images
             Glide.with(this).load(img).into(img_layout)
             img_close.setOnClickListener {
                 finish()
             }
             img_left_arrow.setOnClickListener {
-                if(id==0){
-                    id = listCate.MaterialWallpaper.size-1
-                    img = urlGetImage+ listCate.MaterialWallpaper[id].images
+                if (id == 0) {
+                    id = listCate.MaterialWallpaper.size - 1
+                    img = urlGetImage + listCate.MaterialWallpaper[id].images
                     Glide.with(this).load(img).into(img_layout)
-                }else{
+                } else {
                     id--
-                    img = urlGetImage+ listCate.MaterialWallpaper[id].images
+                    img = urlGetImage + listCate.MaterialWallpaper[id].images
                     Glide.with(this).load(img).into(img_layout)
                 }
 
             }
             img_right_arrow.setOnClickListener {
-                if(id== listCate.MaterialWallpaper.size-1){
-                    id=0
-                    img = urlGetImage+ listCate.MaterialWallpaper[id].images
+                if (id == listCate.MaterialWallpaper.size - 1) {
+                    id = 0
+                    img = urlGetImage + listCate.MaterialWallpaper[id].images
                     Glide.with(this).load(img).into(img_layout)
-                }else{
+                } else {
                     id++
-                    img = urlGetImage+ listCate.MaterialWallpaper[id].images
+                    img = urlGetImage + listCate.MaterialWallpaper[id].images
                     Glide.with(this).load(img).into(img_layout)
                 }
 
             }
             img_share_btn.setOnClickListener {
-                val bitmapDrawale : BitmapDrawable = img_layout.drawable as BitmapDrawable
-                val bitmap:Bitmap = bitmapDrawale.bitmap
-                val bitmapPath : String = MediaStore.Images.Media.insertImage(contentResolver,bitmap,"Some title",null)
-                val bitmapUri : Uri = Uri.parse(bitmapPath)
+                val bitmapDrawale: BitmapDrawable = img_layout.drawable as BitmapDrawable
+                val bitmap: Bitmap = bitmapDrawale.bitmap
+                val bitmapPath: String =
+                    MediaStore.Images.Media.insertImage(contentResolver, bitmap, "Some title", null)
+                val bitmapUri: Uri = Uri.parse(bitmapPath)
                 val intent = Intent(Intent.ACTION_SEND)
                 intent.setType("image/*")
-                intent.putExtra(Intent.EXTRA_STREAM,bitmapUri)
-                startActivity(Intent.createChooser(intent,"Share Image to Anothe App"))
+                intent.putExtra(Intent.EXTRA_STREAM, bitmapUri)
+                startActivity(Intent.createChooser(intent, "Share Image to Anothe App"))
             }
             img_save_btn.setOnClickListener {
                 setDowloadDilog(img!!)
             }
         }
-        if(intent.getIntExtra("pos_my_wallpaper",0)>=1){
-            listMyWallpaperWall = intent.getSerializableExtra("list_img_my_wallpaper") as MyWallpaperWall
-            id = intent.getIntExtra("pos_my_wallpaper",0)-1
+        if (intent.getIntExtra("pos_my_wallpaper", 0) >= 1) {
+            listMyWallpaperWall =
+                intent.getSerializableExtra("list_img_my_wallpaper") as MyWallpaperWall
+            id = intent.getIntExtra("pos_my_wallpaper", 0) - 1
 
-            img = urlGetImage+ listMyWallpaperWall.wallpapers[id].image
+            img = urlGetImage + listMyWallpaperWall.wallpapers[id].image
             Glide.with(this).load(img).into(img_layout)
             img_close.setOnClickListener {
                 finish()
             }
             img_left_arrow.setOnClickListener {
-                if(id==0){
-                    id = listMyWallpaperWall.wallpapers.size-1
-                    img = urlGetImage+ listMyWallpaperWall.wallpapers[id].image
+                if (id == 0) {
+                    id = listMyWallpaperWall.wallpapers.size - 1
+                    img = urlGetImage + listMyWallpaperWall.wallpapers[id].image
                     Glide.with(this).load(img).into(img_layout)
-                }else{
+                } else {
                     id--
-                    img = urlGetImage+ listMyWallpaperWall.wallpapers[id].image
+                    img = urlGetImage + listMyWallpaperWall.wallpapers[id].image
                     Glide.with(this).load(img).into(img_layout)
                 }
 
             }
             img_right_arrow.setOnClickListener {
 
-                if(id== listMyWallpaperWall.wallpapers.size-1){
-                    id=0
-                    img = urlGetImage+ listMyWallpaperWall.wallpapers[id].image
+                if (id == listMyWallpaperWall.wallpapers.size - 1) {
+                    id = 0
+                    img = urlGetImage + listMyWallpaperWall.wallpapers[id].image
                     Glide.with(this).load(img).into(img_layout)
-                }else{
+                } else {
                     id++
-                    img = urlGetImage+ listMyWallpaperWall.wallpapers[id].image
+                    img = urlGetImage + listMyWallpaperWall.wallpapers[id].image
                     Glide.with(this).load(img).into(img_layout)
                 }
 
             }
             img_share_btn.setOnClickListener {
-                val bitmapDrawale : BitmapDrawable = img_layout.drawable as BitmapDrawable
-                val bitmap:Bitmap = bitmapDrawale.bitmap
-                val bitmapPath : String = MediaStore.Images.Media.insertImage(contentResolver,bitmap,"Some title",null)
-                val bitmapUri : Uri = Uri.parse(bitmapPath)
+                val bitmapDrawale: BitmapDrawable = img_layout.drawable as BitmapDrawable
+                val bitmap: Bitmap = bitmapDrawale.bitmap
+                val bitmapPath: String =
+                    MediaStore.Images.Media.insertImage(contentResolver, bitmap, "Some title", null)
+                val bitmapUri: Uri = Uri.parse(bitmapPath)
                 val intent = Intent(Intent.ACTION_SEND)
                 intent.setType("image/*")
-                intent.putExtra(Intent.EXTRA_STREAM,bitmapUri)
-                startActivity(Intent.createChooser(intent,"Share Image to Another App"))
+                intent.putExtra(Intent.EXTRA_STREAM, bitmapUri)
+                startActivity(Intent.createChooser(intent, R.string.share_title.toString()))
             }
             img_save_btn.setOnClickListener {
                 setDowloadDilog(img!!)
@@ -262,27 +272,28 @@ class SliderWallpaperActivity : AppCompatActivity() {
         }
 
     }
-     // show dialog with wallpaper
+
+    // show dialog with wallpaper
     private fun setWalpaperDialog() {
         val builderWallpaer = AlertDialog.Builder(this)
         builderWallpaer.setTitle("Set Wallpaper")
         builderWallpaer.setMessage("DO you want set up wallpaper ?")
-        builderWallpaer.setPositiveButton("No"){ dialogInterface: DialogInterface, i: Int ->
+        builderWallpaer.setPositiveButton("No") { dialogInterface: DialogInterface, i: Int ->
             finish()
 
         }
-        builderWallpaer.setNegativeButton("Yes"){ dialogInterface: DialogInterface, i: Int ->
+        builderWallpaer.setNegativeButton("Yes") { dialogInterface: DialogInterface, i: Int ->
             setBackgroundWallpaper()
         }
         builderWallpaer.show()
     }
 
     // dowload img
-    private fun setDowloadDilog(img : String) {
+    private fun setDowloadDilog(img: String) {
         val builder = AlertDialog.Builder(this)
-        builder.setTitle("Dowload Image")
-        builder.setMessage("Do you want dowload ?")
-        builder.setPositiveButton("Yes"){ dialogInterface: DialogInterface, i: Int ->
+        builder.setTitle("Download Image")
+        builder.setMessage("Do you want download ?")
+        builder.setPositiveButton("Yes") { dialogInterface: DialogInterface, i: Int ->
             Dexter.withContext(this)
                 .withPermissions(
                     android.Manifest.permission.WRITE_EXTERNAL_STORAGE,
@@ -290,10 +301,14 @@ class SliderWallpaperActivity : AppCompatActivity() {
                     android.Manifest.permission.SET_WALLPAPER
                 ).withListener(object : MultiplePermissionsListener {
                     override fun onPermissionsChecked(report: MultiplePermissionsReport) {
-                        /* ... */ if(report.areAllPermissionsGranted()){
+                        /* ... */ if (report.areAllPermissionsGranted()) {
                             dowloadImage(img)
-                        }else {
-                            Toast.makeText(this@SliderWallpaperActivity,"Please allow all permission",Toast.LENGTH_SHORT).show()
+                        } else {
+                            Toast.makeText(
+                                this@SliderWallpaperActivity,
+                                "Please allow all permission",
+                                Toast.LENGTH_SHORT
+                            ).show()
                         }
                     }
 
@@ -306,7 +321,7 @@ class SliderWallpaperActivity : AppCompatActivity() {
 
 
         }
-        builder.setNegativeButton("No"){ dialogInterface: DialogInterface, i: Int ->
+        builder.setNegativeButton("No") { dialogInterface: DialogInterface, i: Int ->
             finish()
 
         }
@@ -315,56 +330,56 @@ class SliderWallpaperActivity : AppCompatActivity() {
 
     // set background wallpaper
     private fun setBackgroundWallpaper() {
-        var bitmapDrawale : BitmapDrawable = img_layout.drawable as BitmapDrawable
-        var bitmap:Bitmap = bitmapDrawale.bitmap
+        var bitmapDrawale: BitmapDrawable = img_layout.drawable as BitmapDrawable
+        var bitmap: Bitmap = bitmapDrawale.bitmap
         val wallpaperManager = WallpaperManager.getInstance(applicationContext)
         wallpaperManager.setBitmap(bitmap)
         Toast.makeText(this, "Wallpaper set!", Toast.LENGTH_SHORT).show()
     }
 
 
-    private fun dowloadImage(img:String) {
+    private fun dowloadImage(img: String) {
         var pd = ProgressDialog(this)
-        pd.setMessage("Dowloading....")
+        pd.setMessage("Downloading....")
         pd.setCancelable(false)
         pd.show()
-        var file: File = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS)
-            PRDownloader.download(img, file.path, URLUtil.guessFileName(img, null, null))
-                .build()
-                .setOnStartOrResumeListener { }
-                .setOnPauseListener { }
-                .setOnCancelListener(object : OnCancelListener {
-                    override fun onCancel() {}
-                })
-                .setOnProgressListener(object : OnProgressListener {
-                    override fun onProgress(progress: Progress?) {
-                        var per = progress!!.currentBytes * 100 / progress.totalBytes
-                        pd.setMessage("Dowloading : $per %")
-                    }
+        var file: File =
+            Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS)
+        PRDownloader.download(img, file.path, URLUtil.guessFileName(img, null, null))
+            .build()
+            .setOnStartOrResumeListener { }
+            .setOnPauseListener { }
+            .setOnCancelListener(object : OnCancelListener {
+                override fun onCancel() {}
+            })
+            .setOnProgressListener(object : OnProgressListener {
+                override fun onProgress(progress: Progress?) {
+                    var per = progress!!.currentBytes * 100 / progress.totalBytes
+                    pd.setMessage("Dowloading : $per %")
+                }
 
-                })
-                .start(object : OnDownloadListener {
-                    override fun onDownloadComplete() {
-                        pd.dismiss()
-                        Toast.makeText(
-                            this@SliderWallpaperActivity,
-                            "Dowloading Completed",
-                            Toast.LENGTH_SHORT
-                        )
-                        setWalpaperDialog()
-                    }
+            })
+            .start(object : OnDownloadListener {
+                override fun onDownloadComplete() {
+                    pd.dismiss()
+                    Toast.makeText(
+                        this@SliderWallpaperActivity,
+                        "Dowloading Completed",
+                        Toast.LENGTH_SHORT
+                    )
+                    setWalpaperDialog()
+                }
 
-                    override fun onError(error: com.downloader.Error?) {
-                        pd.dismiss()
-                        Toast.makeText(this@SliderWallpaperActivity, "Error", Toast.LENGTH_SHORT)
-                    }
+                override fun onError(error: com.downloader.Error?) {
+                    pd.dismiss()
+                    Toast.makeText(this@SliderWallpaperActivity, "Error", Toast.LENGTH_SHORT)
+                }
 
-                    fun onError(error: Error?) {}
-                })
+                fun onError(error: Error?) {}
+            })
 
 
     }
-
 
 
 }

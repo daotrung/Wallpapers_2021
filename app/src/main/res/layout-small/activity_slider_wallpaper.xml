@@ -7,7 +7,7 @@
     tools:context=".SliderLiveActivity">
 
     <ImageView
-        android:id="@+id/img_slider_live_last"
+        android:id="@+id/img_slider_wallpaper_last"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:fitsSystemWindows="true"
@@ -15,7 +15,7 @@
         android:src="@drawable/ic_launcher_background" />
 
     <ImageView
-        android:id="@+id/img_arrow_left"
+        android:id="@+id/img_arrow_left_wallpaper"
         android:layout_width="24sp"
         android:layout_height="24sp"
         android:layout_gravity="start|center_vertical"
@@ -23,7 +23,7 @@
         android:src="@drawable/left_arrow" />
 
     <ImageView
-        android:id="@+id/img_arrow_right"
+        android:id="@+id/img_arrow_right_wallpaper"
         android:layout_width="24sp"
         android:layout_height="24sp"
         android:layout_gravity="end|center_vertical"
@@ -31,7 +31,7 @@
         android:src="@drawable/right_arrow" />
 
     <ImageView
-        android:id="@+id/img_close_live"
+        android:id="@+id/img_close_live_wallpaper"
         android:layout_width="24sp"
         android:layout_height="24sp"
         android:layout_gravity="start|top"
@@ -40,16 +40,24 @@
         android:src="@drawable/close_btn" />
 
     <ImageView
-        android:id="@+id/img_btn_save"
+        android:layout_width="24sp"
+        android:layout_height="24sp"
+        android:layout_gravity="end|top"
+        android:layout_marginTop="40sp"
+        android:layout_marginEnd="40sp"
+        android:src="@drawable/heart_unselect_max" />
+
+    <ImageView
+        android:id="@+id/img_btn_save_wallpaper"
         android:layout_width="100sp"
-        android:layout_height="35sp"
+        android:layout_height="30sp"
         android:layout_gravity="start|bottom"
-        android:layout_marginStart="30sp"
+        android:layout_marginStart="35sp"
         android:layout_marginBottom="5sp"
         android:src="@drawable/btn_save" />
 
     <ImageView
-        android:id="@+id/img_share"
+        android:id="@+id/img_share_wallpaper"
         android:layout_width="24sp"
         android:layout_height="24sp"
         android:layout_gravity="bottom|end"

@@ -13,19 +13,21 @@ import com.daotrung.wallpapers_2021.model.CatList
 import com.daotrung.wallpapers_2021.model.MaterialWallpaperCatList
 import java.io.Serializable
 
-const val urlIm ="https://hdwalls.wallzapps.com/upload/"
-class ListWallpaperColorAdapter (private val data:MaterialWallpaperCatList):
-      RecyclerView.Adapter<ListWallpaperColorAdapter.MyViewHolder>() {
-    inner class MyViewHolder(val view: View):RecyclerView.ViewHolder(view) {
-        fun bind(materialWallpaperCatList: CatList){
+const val urlIm = "https://hdwalls.wallzapps.com/upload/"
+
+class ListWallpaperColorAdapter(private val data: MaterialWallpaperCatList) :
+    RecyclerView.Adapter<ListWallpaperColorAdapter.MyViewHolder>() {
+    inner class MyViewHolder(val view: View) : RecyclerView.ViewHolder(view) {
+        fun bind(materialWallpaperCatList: CatList) {
             val imgView = view.findViewById<ImageView>(R.id.img_list_trending)
             val imgIcon = view.findViewById<ImageView>(R.id.icon_heart)
-            Glide.with(view.context).load(urlIm+materialWallpaperCatList.images).centerCrop().into(imgView)
+            Glide.with(view.context).load(urlIm + materialWallpaperCatList.images).centerCrop()
+                .into(imgView)
 
             imgView.setOnClickListener {
-                val intent = Intent(view.context,SliderWallpaperActivity::class.java)
-                intent.putExtra("list_img_color",data as Serializable)
-                intent.putExtra("pos_img_color",layoutPosition+1)
+                val intent = Intent(view.context, SliderWallpaperActivity::class.java)
+                intent.putExtra("list_img_color", data as Serializable)
+                intent.putExtra("pos_img_color", layoutPosition + 1)
                 view.context.startActivity(intent)
             }
         }
@@ -33,7 +35,8 @@ class ListWallpaperColorAdapter (private val data:MaterialWallpaperCatList):
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
-        val v = LayoutInflater.from(parent.context).inflate(R.layout.dong_list_trending,parent,false)
+        val v =
+            LayoutInflater.from(parent.context).inflate(R.layout.dong_list_trending, parent, false)
         return MyViewHolder(v)
     }
 

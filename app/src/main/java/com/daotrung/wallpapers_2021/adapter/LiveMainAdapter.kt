@@ -12,11 +12,11 @@ import com.daotrung.wallpapers_2021.ActivityListLive
 import com.daotrung.wallpapers_2021.R
 import com.daotrung.wallpapers_2021.model.WallPaper
 
-class LiveMainAdapter(private val data:List<WallPaper>) :
+class LiveMainAdapter(private val data: List<WallPaper>) :
     RecyclerView.Adapter<LiveMainAdapter.MyViewHolder>() {
 
-    inner class MyViewHolder(val view: View):RecyclerView.ViewHolder(view){
-        fun bind(wallpaper:WallPaper){
+    inner class MyViewHolder(val view: View) : RecyclerView.ViewHolder(view) {
+        fun bind(wallpaper: WallPaper) {
             val title = view.findViewById<TextView>(R.id.txt_title_wapaper)
             val imageView = view.findViewById<ImageView>(R.id.img_live_wapaper)
 
@@ -24,9 +24,9 @@ class LiveMainAdapter(private val data:List<WallPaper>) :
             Glide.with(view.context).load(wallpaper.image).centerCrop().into(imageView)
 
             imageView.setOnClickListener {
-                val intent = Intent(view.context,ActivityListLive::class.java)
-                intent.putExtra("idGet",wallpaper.id)
-                intent.putExtra("title",wallpaper.title)
+                val intent = Intent(view.context, ActivityListLive::class.java)
+                intent.putExtra("idGet", wallpaper.id)
+                intent.putExtra("title", wallpaper.title)
                 view.context.startActivity(intent)
             }
 
@@ -44,7 +44,8 @@ class LiveMainAdapter(private val data:List<WallPaper>) :
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
-        val v =LayoutInflater.from(parent.context).inflate(R.layout.dong_categories_live_wapaper,parent,false)
+        val v = LayoutInflater.from(parent.context)
+            .inflate(R.layout.dong_categories_live_wapaper, parent, false)
         return MyViewHolder(v)
     }
 

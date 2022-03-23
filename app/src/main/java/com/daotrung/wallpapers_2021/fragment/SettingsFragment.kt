@@ -15,14 +15,14 @@ class SettingsFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        val view =  inflater.inflate(R.layout.fragment_settings, container, false)
-        val imgSetting : ImageView = view.findViewById(R.id.img_settings)
-        val imgPrivacy : ImageView = view.findViewById(R.id.img_privacy)
-        val imgTerm : ImageView = view.findViewById(R.id.img_term)
-        val imgContact : ImageView = view.findViewById(R.id.img_contact)
-        val imgShare : ImageView = view.findViewById(R.id.img_share)
-        val imgWrite : ImageView = view.findViewById(R.id.img_write)
-        return  view
+        val view = inflater.inflate(R.layout.fragment_settings, container, false)
+        val imgSetting: ImageView = view.findViewById(R.id.img_settings)
+        val imgPrivacy: ImageView = view.findViewById(R.id.img_privacy)
+        val imgTerm: ImageView = view.findViewById(R.id.img_term)
+        val imgContact: ImageView = view.findViewById(R.id.img_contact)
+        val imgShare: ImageView = view.findViewById(R.id.img_share)
+        val imgWrite: ImageView = view.findViewById(R.id.img_write)
+        return view
     }
 
 }

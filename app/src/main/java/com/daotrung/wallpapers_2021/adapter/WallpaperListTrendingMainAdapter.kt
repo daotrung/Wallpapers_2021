@@ -11,42 +11,43 @@ import com.daotrung.wallpapers_2021.ActivityListWallpaper
 import com.daotrung.wallpapers_2021.R
 import com.daotrung.wallpapers_2021.model.TrenMain
 
-class WallpaperListTrendingMainAdapter (private val data:List<TrenMain>):
-     RecyclerView.Adapter<WallpaperListTrendingMainAdapter.MyViewHolder>(){
+class WallpaperListTrendingMainAdapter(private val data: List<TrenMain>) :
+    RecyclerView.Adapter<WallpaperListTrendingMainAdapter.MyViewHolder>() {
 
-     private lateinit var textView: String
-     inner class MyViewHolder(val view: View):RecyclerView.ViewHolder(view){
-          fun bind(trenMain: TrenMain){
-                    var imgView = view.findViewById<ImageView>(R.id.img_trending)
-                    var txt = view.findViewById<TextView>(R.id.txt_trending)
-                    txt.text = trenMain.name
+    private lateinit var textView: String
 
-                    imgView.setImageResource(trenMain.img)
+    inner class MyViewHolder(val view: View) : RecyclerView.ViewHolder(view) {
+        fun bind(trenMain: TrenMain) {
+            var imgView = view.findViewById<ImageView>(R.id.img_trending)
+            var txt = view.findViewById<TextView>(R.id.txt_trending)
+            txt.text = trenMain.name
 
-              imgView.setOnClickListener {
-                  val intent = Intent(view.context,ActivityListWallpaper::class.java)
+            imgView.setImageResource(trenMain.img)
+
+            imgView.setOnClickListener {
+                val intent = Intent(view.context, ActivityListWallpaper::class.java)
 //                  Log.e("ggg",trenMain.name)
-                  intent.putExtra("title_trend",trenMain.name)
-                  intent.putExtra("id_trend",layoutPosition)
+                intent.putExtra("title_trend", trenMain.name)
+                intent.putExtra("id_trend", layoutPosition)
 //                  Log.e("id = ",layoutPosition.toString())
-                  view.context.startActivity(intent)
-              }
+                view.context.startActivity(intent)
+            }
 
-               }
+        }
 
-          }
+    }
 
-     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
-          val v = LayoutInflater.from(parent.context).inflate(R.layout.dong_trending,parent,false)
-          return MyViewHolder(v)
-     }
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
+        val v = LayoutInflater.from(parent.context).inflate(R.layout.dong_trending, parent, false)
+        return MyViewHolder(v)
+    }
 
-     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
-          holder.bind(data[position])
-     }
+    override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
+        holder.bind(data[position])
+    }
 
-     override fun getItemCount(): Int {
-          return data.size
-     }
+    override fun getItemCount(): Int {
+        return data.size
+    }
 }
 

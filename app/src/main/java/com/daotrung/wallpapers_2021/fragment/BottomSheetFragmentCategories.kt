@@ -31,7 +31,7 @@ class BottomSheetFragmentCategories : BottomSheetDialogFragment() {
         val v = inflater.inflate(R.layout.bottom_sheet_categories_fragment, container, false)
         recyclerView = v.findViewById(R.id.rv_list_categories)
 
-        manager = GridLayoutManager(context,3)
+        manager = GridLayoutManager(context, 3)
         getAllDataCategoriesMainWallpaper(recyclerView)
         return v
     }
@@ -44,7 +44,7 @@ class BottomSheetFragmentCategories : BottomSheetDialogFragment() {
                 response: Response<MaterialWallpaperCateMain>
 
             ) {
-                if(response.isSuccessful){
+                if (response.isSuccessful) {
 
                     recyclerView = rv.apply {
 //                        Log.e("list", Gson().toJson(response.body()))

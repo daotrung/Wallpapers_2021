@@ -13,10 +13,11 @@ class ViewPagerAdapter(fragmentActivity: FragmentActivity, lifecycle: Lifecycle)
     override fun getItemCount(): Int {
         return 2
     }
+
     override fun createFragment(position: Int): Fragment {
-        var number= when(position){
-            0-> return MyWallpaperFragmentLive()
-            1-> return MyWallpaperFragmentWallpaper()
+        var number = when (position) {
+            0 -> return MyWallpaperFragmentLive()
+            1 -> return MyWallpaperFragmentWallpaper()
             else -> return MyWallpaperFragmentLive()
         }
     }

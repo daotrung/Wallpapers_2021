@@ -40,45 +40,45 @@
 
         <ImageView
             android:id="@+id/img_arrow_left_video"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="24sp"
+            android:layout_height="24sp"
             android:layout_gravity="start|center_vertical"
             android:layout_marginStart="8sp"
             android:src="@drawable/left_arrow" />
 
         <ImageView
             android:id="@+id/img_arrow_right_video"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="24sp"
+            android:layout_height="24sp"
             android:layout_gravity="end|center_vertical"
             android:layout_marginEnd="8sp"
             android:src="@drawable/right_arrow" />
 
         <ImageView
             android:id="@+id/img_close_live_video"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="24sp"
+            android:layout_height="24sp"
             android:layout_gravity="start|top"
-            android:layout_marginStart="16sp"
-            android:layout_marginTop="51sp"
+            android:layout_marginStart="40sp"
+            android:layout_marginTop="40sp"
             android:src="@drawable/close_btn" />
 
         <ImageView
             android:id="@+id/img_btn_save_video"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="100sp"
+            android:layout_height="35sp"
             android:layout_gravity="start|bottom"
-            android:layout_marginStart="45sp"
-            android:layout_marginBottom="45sp"
+            android:layout_marginStart="30sp"
+            android:layout_marginBottom="5sp"
             android:src="@drawable/btn_save" />
 
         <ImageView
             android:id="@+id/img_share_video"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="24sp"
+            android:layout_height="24sp"
             android:layout_gravity="bottom|end"
-            android:layout_marginEnd="56sp"
-            android:layout_marginBottom="45sp"
+            android:layout_marginEnd="30sp"
+            android:layout_marginBottom="10sp"
             android:src="@drawable/share" />
     </FrameLayout>
 </RelativeLayout>

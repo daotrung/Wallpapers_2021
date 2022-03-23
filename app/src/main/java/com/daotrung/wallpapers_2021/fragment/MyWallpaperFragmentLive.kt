@@ -26,35 +26,36 @@ class MyWallpaperFragmentLive : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        val view =  inflater.inflate(R.layout.fragment_my_wallpaper_live, container, false)
+        val view = inflater.inflate(R.layout.fragment_my_wallpaper_live, container, false)
 
         recyclerView = view.findViewById(R.id.rv_list_my_wallpaper_live)
-        manager = GridLayoutManager(view.context,3)
+        manager = GridLayoutManager(view.context, 3)
         getAllListMyLive(recyclerView)
 
         return view
     }
 
-    private fun getAllListMyLive(rv:RecyclerView) {
-         ApiInterface.Api.retrofitService.getAllListMyLive().enqueue(object : Callback<List<SlideLiveWapaper>>{
-             override fun onResponse(
-                 call: Call<List<SlideLiveWapaper>>,
-                 response: Response<List<SlideLiveWapaper>>
-             ) {
-                  if(response.isSuccessful){
-                      recyclerView = rv.apply {
-                          myAdapter = LiveListAdapter(response.body()!!)
-                          layoutManager = manager
-                          adapter = myAdapter
-                      }
-                  }
-             }
+    private fun getAllListMyLive(rv: RecyclerView) {
+        ApiInterface.Api.retrofitService.getAllListMyLive()
+            .enqueue(object : Callback<List<SlideLiveWapaper>> {
+                override fun onResponse(
+                    call: Call<List<SlideLiveWapaper>>,
+                    response: Response<List<SlideLiveWapaper>>
+                ) {
+                    if (response.isSuccessful) {
+                        recyclerView = rv.apply {
+                            myAdapter = LiveListAdapter(response.body()!!)
+                            layoutManager = manager
+                            adapter = myAdapter
+                        }
+                    }
+                }
 
-             override fun onFailure(call: Call<List<SlideLiveWapaper>>, t: Throwable) {
-                 t.printStackTrace()
-             }
+                override fun onFailure(call: Call<List<SlideLiveWapaper>>, t: Throwable) {
+                    t.printStackTrace()
+                }
 
-         })
+            })
     }
 
 

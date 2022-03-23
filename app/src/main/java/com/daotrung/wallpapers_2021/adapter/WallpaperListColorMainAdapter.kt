@@ -17,19 +17,19 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
-class WallpaperListColorMainAdapter (private val data: List<ColorMain>):
-    RecyclerView.Adapter<WallpaperListColorMainAdapter.MyViewHolder>(){
-    private  var size : Int= 0
-     var arrayList:ArrayList<ColorGet> = ArrayList()
+class WallpaperListColorMainAdapter(private val data: List<ColorMain>) :
+    RecyclerView.Adapter<WallpaperListColorMainAdapter.MyViewHolder>() {
+    private var size: Int = 0
+    var arrayList: ArrayList<ColorGet> = ArrayList()
 
-    inner class MyViewHolder(val view:View):RecyclerView.ViewHolder(view) {
-        fun bind(materialWallpaperColorMain: ColorMain){
+    inner class MyViewHolder(val view: View) : RecyclerView.ViewHolder(view) {
+        fun bind(materialWallpaperColorMain: ColorMain) {
             var imgView = view.findViewById<ImageView>(R.id.color_main)
             var txtColor = view.findViewById<TextView>(R.id.txt_name_color)
             imgView.setImageResource(materialWallpaperColorMain.category_image)
             txtColor.text = materialWallpaperColorMain.category_name
 
-                // goi api de lay dl list color
+            // goi api de lay dl list color
             ApiInterface.Api2.retrofitService2.getColorModel().enqueue(object :
                 Callback<MaterialWallpaperColorMain> {
                 override fun onResponse(
@@ -37,20 +37,22 @@ class WallpaperListColorMainAdapter (private val data: List<ColorMain>):
                     response: Response<MaterialWallpaperColorMain>
                 ) {
 
-                    if(response.isSuccessful){
+                    if (response.isSuccessful) {
                         size = response.body()?.MaterialWallpaper?.size!!
-                        for( index in 0 until size){
+                        for (index in 0 until size) {
                             arrayList.add(
-                                ColorGet(response.body()!!.MaterialWallpaper[index].cid.toInt(),
-                                    response.body()!!.MaterialWallpaper[index].category_name)
+                                ColorGet(
+                                    response.body()!!.MaterialWallpaper[index].cid.toInt(),
+                                    response.body()!!.MaterialWallpaper[index].category_name
+                                )
                             )
                         }
                     }
                     // truyen id qua click moi imgview den man hinh hien thi
                     imgView.setOnClickListener {
-                        val intent = Intent(view.context,ActivityListWallpaper::class.java)
-                        intent.putExtra("name_color",arrayList[layoutPosition].name)
-                        intent.putExtra("id_color",arrayList[layoutPosition].id)
+                        val intent = Intent(view.context, ActivityListWallpaper::class.java)
+                        intent.putExtra("name_color", arrayList[layoutPosition].name)
+                        intent.putExtra("id_color", arrayList[layoutPosition].id)
                         view.context.startActivity(intent)
                     }
 
@@ -61,13 +63,14 @@ class WallpaperListColorMainAdapter (private val data: List<ColorMain>):
                 }
 
             })
-            }
+        }
 
     }
 
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
-        val view = LayoutInflater.from(parent.context).inflate(R.layout.dong_fragment_color,parent,false)
+        val view =
+            LayoutInflater.from(parent.context).inflate(R.layout.dong_fragment_color, parent, false)
         return MyViewHolder(view)
     }
 

@@ -14,14 +14,19 @@
         <entry key="..\:/Learn_Android/Kotlin_Basic/Android/Project/project_1/app/src/main/res/drawable/live_wapper_icon.xml" value="0.19333333333333333" />
         <entry key="..\:/Learn_Android/Kotlin_Basic/Android/Project/project_1/app/src/main/res/drawable/round_corner_dialog_categories.xml" value="0.2203125" />
         <entry key="..\:/Learn_Android/Kotlin_Basic/Android/Project/project_1/app/src/main/res/drawable/round_corner_nvg_bar.xml" value="0.1" />
+        <entry key="..\:/Learn_Android/Kotlin_Basic/Android/Project/project_1/app/src/main/res/layout-large/activity_live_video.xml" value="0.1359375" />
+        <entry key="..\:/Learn_Android/Kotlin_Basic/Android/Project/project_1/app/src/main/res/layout-large/activity_slider_live.xml" value="0.14" />
+        <entry key="..\:/Learn_Android/Kotlin_Basic/Android/Project/project_1/app/src/main/res/layout-large/activity_slider_wallpaper.xml" value="0.1359375" />
+        <entry key="..\:/Learn_Android/Kotlin_Basic/Android/Project/project_1/app/src/main/res/layout-small/activity_live_video.xml" value="0.5" />
         <entry key="..\:/Learn_Android/Kotlin_Basic/Android/Project/project_1/app/src/main/res/layout-small/activity_slider_live.xml" value="0.67" />
-        <entry key="..\:/Learn_Android/Kotlin_Basic/Android/Project/project_1/app/src/main/res/layout/activity_list_live_wapaper.xml" value="0.5" />
+        <entry key="..\:/Learn_Android/Kotlin_Basic/Android/Project/project_1/app/src/main/res/layout-small/activity_slider_wallpaper.xml" value="0.67" />
+        <entry key="..\:/Learn_Android/Kotlin_Basic/Android/Project/project_1/app/src/main/res/layout/activity_list_live_wapaper.xml" value="0.45" />
         <entry key="..\:/Learn_Android/Kotlin_Basic/Android/Project/project_1/app/src/main/res/layout/activity_list_trending.xml" value="0.16" />
         <entry key="..\:/Learn_Android/Kotlin_Basic/Android/Project/project_1/app/src/main/res/layout/activity_live_video.xml" value="0.17239583333333333" />
-        <entry key="..\:/Learn_Android/Kotlin_Basic/Android/Project/project_1/app/src/main/res/layout/activity_main.xml" value="0.22" />
+        <entry key="..\:/Learn_Android/Kotlin_Basic/Android/Project/project_1/app/src/main/res/layout/activity_main.xml" value="0.16" />
         <entry key="..\:/Learn_Android/Kotlin_Basic/Android/Project/project_1/app/src/main/res/layout/activity_slider_live.xml" value="0.12" />
-        <entry key="..\:/Learn_Android/Kotlin_Basic/Android/Project/project_1/app/src/main/res/layout/activity_slider_wallpaper.xml" value="0.20416666666666666" />
-        <entry key="..\:/Learn_Android/Kotlin_Basic/Android/Project/project_1/app/src/main/res/layout/bottom_layout_sheet_categories.xml" value="0.14114583333333333" />
+        <entry key="..\:/Learn_Android/Kotlin_Basic/Android/Project/project_1/app/src/main/res/layout/activity_slider_wallpaper.xml" value="0.15" />
+        <entry key="..\:/Learn_Android/Kotlin_Basic/Android/Project/project_1/app/src/main/res/layout/bottom_layout_sheet_categories.xml" value="0.25" />
         <entry key="..\:/Learn_Android/Kotlin_Basic/Android/Project/project_1/app/src/main/res/layout/bottom_layout_sheet_color.xml" value="0.18854166666666666" />
         <entry key="..\:/Learn_Android/Kotlin_Basic/Android/Project/project_1/app/src/main/res/layout/bottom_sheet.xml" value="0.25" />
         <entry key="..\:/Learn_Android/Kotlin_Basic/Android/Project/project_1/app/src/main/res/layout/bottom_sheet_categories.xml" value="0.18020833333333333" />
