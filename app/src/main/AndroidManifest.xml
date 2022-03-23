@@ -1,20 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     package="com.daotrung.wallpapers_2021">
 
     <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" tools:node="replace"/>
     <uses-permission android:name="android.permission.SET_WALLPAPER" />
+    <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
 
     <application
+        tools:ignore="GoogleAppIndexingWarning"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label=""
+        android:requestLegacyExternalStorage="true"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:requestLegacyExternalStorage="true"
         android:theme="@style/Theme.Wallpapers_2021">
+        <activity
+            android:name=".LiveVideoActivity"
+            android:exported="false">
+
+        </activity>
         <activity
             android:name=".SliderWallpaperActivity"
             android:exported="false" />
@@ -50,6 +58,19 @@
                 android:name="android.support.FILE_PROVIDER_PATHS"
                 android:resource="@xml/provider_path" />
         </provider>
+
+
+        <service
+            android:name=".MyWallpaperService" android:label="movie live wallpaper"
+            android:permission="android.permission.BIND_WALLPAPER"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.service.wallpaper.WallpaperService"/>
+            </intent-filter>
+            <meta-data
+                android:name="android.service.wallpaper" android:resource="@xml/wallpaper"/>
+        </service>
     </application>
+
 
 </manifest>

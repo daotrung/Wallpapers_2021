@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="#0A0A09">
+
+    <include layout="@layout/bottom_layout_sheet_categories"/>
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

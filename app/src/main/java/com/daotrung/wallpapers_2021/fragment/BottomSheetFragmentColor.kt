@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.daotrung.wallpapers_2021.R
+import com.daotrung.wallpapers_2021.adapter.WallpaperListCategoriesMainSheetAdapter
 import com.daotrung.wallpapers_2021.adapter.WallpaperListColorMainAdapter
 import com.daotrung.wallpapers_2021.model.ColorMain
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
@@ -25,7 +26,7 @@ class BottomSheetFragmentColor : BottomSheetDialogFragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        val view =  inflater.inflate(R.layout.bottom_sheet, container, false)
+        val view =  inflater.inflate(R.layout.bottom_sheet_color_fragment, container, false)
         recyclerView = view.findViewById(R.id.rv_list_color)
 
         imgId = arrayOf(
@@ -45,6 +46,7 @@ class BottomSheetFragmentColor : BottomSheetDialogFragment() {
 
         return view
     }
+
 
 
     private fun getData() {

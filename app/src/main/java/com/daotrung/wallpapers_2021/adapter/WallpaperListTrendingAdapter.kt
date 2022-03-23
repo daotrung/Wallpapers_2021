@@ -13,8 +13,9 @@ import com.daotrung.wallpapers_2021.SliderWallpaperActivity
 import com.daotrung.wallpapers_2021.model.MaterialWapaper
 import com.daotrung.wallpapers_2021.model.Trending
 import java.io.Serializable
+import kotlin.math.log
 
-const val urlImage ="https://hdwalls.wallzapps.com/upload/"
+const val urlImage ="http://hdwalls.wallzapps.com/upload/category/"
 
 class ListTrendingAdapter (private val data:MaterialWapaper):
     RecyclerView.Adapter<ListTrendingAdapter.MyViewHolder>(){
@@ -23,12 +24,14 @@ class ListTrendingAdapter (private val data:MaterialWapaper):
             val imgView = view.findViewById<ImageView>(R.id.img_list_trending)
             val imgIcon = view.findViewById<ImageView>(R.id.icon_heart)
 
-            Glide.with(view.context).load(urlImage+materialWapaper.image).centerCrop().into(imgView)
+            Glide.with(view.context).load(urlImage+materialWapaper.category_image).centerCrop().into(imgView)
 
             imgView.setOnClickListener {
                 val intent = Intent(view.context,SliderWallpaperActivity::class.java)
-                intent.putExtra("list_img_wallpaper",data as Serializable)
-                intent.putExtra("pos_img_wallpaper",layoutPosition)
+
+                intent.putExtra("list_img_trend",data as Serializable)
+                intent.putExtra("pos_img_trend",layoutPosition+1)
+                Log.e("id=",layoutPosition.toString())
                 view.context.startActivity(intent)
             }
 

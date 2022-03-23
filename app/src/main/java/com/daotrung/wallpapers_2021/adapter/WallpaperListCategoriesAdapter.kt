@@ -25,7 +25,7 @@ class ListWallpaperCategoriesAdapter(private val data:MaterialWallpaperCatList) 
               imageView.setOnClickListener {
                   val intent = Intent(view.context,SliderWallpaperActivity::class.java)
                   intent.putExtra("list_img_categories",data as Serializable)
-                  intent.putExtra("pos_img_categories",layoutPosition)
+                  intent.putExtra("pos_img_categories",layoutPosition+1)
                   view.context.startActivity(intent)
               }
           }

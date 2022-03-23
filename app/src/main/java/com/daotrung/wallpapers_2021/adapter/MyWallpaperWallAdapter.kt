@@ -22,7 +22,7 @@ class MyWallpaperWallAdapter(private val data:MyWallpaperWall):
 
             imgView.setOnClickListener {
                 val intent = Intent(view.context,SliderWallpaperActivity::class.java)
-                intent.putExtra("pos_my_wallpaper",layoutPosition)
+                intent.putExtra("pos_my_wallpaper",layoutPosition+1)
                 intent.putExtra("list_img_my_wallpaper",data as MyWallpaperWall)
                 view.context.startActivity(intent)
             }

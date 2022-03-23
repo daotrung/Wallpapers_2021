@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#0A0A09"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <androidx.cardview.widget.CardView
+        app:cardCornerRadius="30sp"
+        app:cardBackgroundColor="#21211f"
+        android:layout_marginBottom="-20sp"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <ImageView
+            android:id="@+id/img_dialog_categories"
+            android:layout_width="70sp"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_baseline_remove_24"
+            android:scaleType="centerCrop"
+            android:layout_gravity="center|top"/>
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rv_list_categories"
+            android:layout_marginTop="20sp"
+            android:layout_marginBottom="10sp"
+            android:layout_marginStart="10sp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+
+    </androidx.cardview.widget.CardView>
+</FrameLayout>

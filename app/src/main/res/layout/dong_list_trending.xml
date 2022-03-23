@@ -2,7 +2,7 @@
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:background="@drawable/gradient_shape"
+    android:background="#21211f"
     app:cardCornerRadius="15sp"
     android:layout_margin="5sp"
     android:layout_height="wrap_content">

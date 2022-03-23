@@ -5,4 +5,6 @@ import kotlin.reflect.jvm.internal.impl.load.kotlin.JvmType
 
 data class MaterialWapaper(
     val MaterialWallpaper: List<Trending>
-):Serializable
+):Serializable {
+
+}

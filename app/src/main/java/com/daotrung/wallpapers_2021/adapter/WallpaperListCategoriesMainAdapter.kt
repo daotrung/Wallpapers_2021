@@ -23,8 +23,8 @@ class ListCategoriesMainAdapter(private val data:MaterialWallpaperCateMain) :
         fun bind(materialWallpaperCateMain: CatMain){
 //            Log.e("eee",materialWallpaperCateMain.category_name.toString())
 //            Log.e("eee",materialWallpaperCateMain.category_image.toString())
-            var img_main = view.findViewById<ImageView>(R.id.img_categories_main_wallpaper)
-            var txt_main = view.findViewById<TextView>(R.id.txt_title_categories_main_wallpaper)
+            val img_main = view.findViewById<ImageView>(R.id.img_categories_main_wallpaper)
+            val txt_main = view.findViewById<TextView>(R.id.txt_title_categories_main_wallpaper)
 
             Glide.with(view.context).load(urlImg+materialWallpaperCateMain.category_image).centerCrop().into(img_main)
             txt_main.text = materialWallpaperCateMain.category_name
@@ -38,6 +38,8 @@ class ListCategoriesMainAdapter(private val data:MaterialWallpaperCateMain) :
             }
         }
     }
+
+
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
         val v = LayoutInflater.from(parent.context).inflate(R.layout.dong_categories_wallpaper_main,parent,false)
@@ -57,5 +59,6 @@ class ListCategoriesMainAdapter(private val data:MaterialWallpaperCateMain) :
         }
 
     }
+
 
 }

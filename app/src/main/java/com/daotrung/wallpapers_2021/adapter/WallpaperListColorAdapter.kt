@@ -25,7 +25,7 @@ class ListWallpaperColorAdapter (private val data:MaterialWallpaperCatList):
             imgView.setOnClickListener {
                 val intent = Intent(view.context,SliderWallpaperActivity::class.java)
                 intent.putExtra("list_img_color",data as Serializable)
-                intent.putExtra("pos_img_color",layoutPosition)
+                intent.putExtra("pos_img_color",layoutPosition+1)
                 view.context.startActivity(intent)
             }
         }

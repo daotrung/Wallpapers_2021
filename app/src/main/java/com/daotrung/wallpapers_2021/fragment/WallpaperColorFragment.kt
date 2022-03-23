@@ -30,11 +30,8 @@ class WallpaperColorFragment : Fragment() {
         val txtSeeAll = view.findViewById<TextView>(R.id.txt_all_color)
 
         txtSeeAll.setOnClickListener {
-//              BottomSheetFragment().apply {
-//                  show(requireActivity().supportFragmentManager.beginTransaction(),tag)
-//              }
-            bottomSheetFragment = BottomSheetFragmentColor()
-            bottomSheetFragment.show(requireActivity().supportFragmentManager,tag)
+              bottomSheetFragment = BottomSheetFragmentColor()
+              bottomSheetFragment.show(requireActivity().supportFragmentManager,tag)
         }
         imgId = arrayOf(
             R.drawable.blue,R.drawable.green,R.drawable.red,R.drawable.aqua,
