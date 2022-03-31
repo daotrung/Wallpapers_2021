@@ -49,7 +49,7 @@ import com.karumi.dexter.listener.PermissionRequest
 import java.lang.Error
 
 
-class SliderLiveActivity : AppCompatActivity() {
+class LiveSliderActivity : AppCompatActivity() {
     private var list: ArrayList<SlideLiveWapaper> = ArrayList()
     private var id: Int = 0
     private lateinit var img: String

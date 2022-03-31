@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".SliderLiveActivity">
+    tools:context=".LiveSliderActivity">
 
     <ImageView
         android:id="@+id/img_slider_wallpaper_last"
@@ -40,6 +40,7 @@
         android:src="@drawable/close_btn" />
 
     <ImageView
+        android:id="@+id/img_icon_heart_big"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="end|top"

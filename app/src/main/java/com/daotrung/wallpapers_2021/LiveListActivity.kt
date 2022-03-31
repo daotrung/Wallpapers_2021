@@ -3,6 +3,7 @@ package com.daotrung.wallpapers_2021
 import android.annotation.SuppressLint
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.widget.TextView
 import androidx.appcompat.widget.Toolbar
 import androidx.recyclerview.widget.GridLayoutManager
@@ -10,11 +11,13 @@ import androidx.recyclerview.widget.RecyclerView
 import com.daotrung.wallpapers_2021.adapter.LiveListAdapter
 import com.daotrung.wallpapers_2021.model.SlideLiveWapaper
 import com.daotrung.wallpapers_2021.service.ApiInterface
+import com.google.gson.Gson
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import java.io.Serializable
 
-class ActivityListLive : AppCompatActivity() {
+class LiveListActivity : AppCompatActivity() {
 
     private lateinit var recyclerView: RecyclerView
     private lateinit var manager: RecyclerView.LayoutManager
@@ -30,7 +33,7 @@ class ActivityListLive : AppCompatActivity() {
         val intent = intent
         myId = intent.getIntExtra("idGet", 0)
 
-//        Log.e("id",myId.toString())
+        Log.e("id",myId.toString())
         getSlideDataById(recyclerView, myId)
         setToolbar()
     }
@@ -63,6 +66,7 @@ class ActivityListLive : AppCompatActivity() {
                             myAdapter = LiveListAdapter(response.body()!!)
                             layoutManager = manager
                             adapter = myAdapter
+                            Log.e("data",response.body().toString())
                         }
                     }
                 }

@@ -9,28 +9,39 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.daotrung.wallpapers_2021.LiveVideoActivity
 import com.daotrung.wallpapers_2021.R
-import com.daotrung.wallpapers_2021.SliderLiveActivity
 import com.daotrung.wallpapers_2021.model.SlideLiveWapaper
 import java.io.Serializable
 
 class LiveListAdapter(private val data: List<SlideLiveWapaper>) :
     RecyclerView.Adapter<LiveListAdapter.MyViewHolder>() {
 
-    private lateinit var intent: Intent
     private var img: String? = null
 
     inner class MyViewHolder(val view: View) : RecyclerView.ViewHolder(view) {
         fun bind(slideLiveWapaper: SlideLiveWapaper) {
             var imgView = view.findViewById<ImageView>(R.id.img_list_live_wapper)
             var imgIcon = view.findViewById<ImageView>(R.id.icon_wifi)
-            Glide.with(view.context).load(slideLiveWapaper.thumbnail).centerCrop().into(imgView)
+            if (slideLiveWapaper.original.contains(".mp4") || slideLiveWapaper.original.contains(".m4v")) {
+                Glide.with(view.context).load(slideLiveWapaper.thumbnail).centerCrop().into(imgView)
+                img = slideLiveWapaper.thumbnail
+                imgView.setOnClickListener {
 
-            img = slideLiveWapaper.image
-            imgView.setOnClickListener {
-                val intent = Intent(view.context, LiveVideoActivity::class.java)
-                intent.putExtra("list_img_live", data as Serializable)
-                intent.putExtra("pos_img_live", layoutPosition)
-                view.context.startActivity(intent)
+                    val intent = Intent(view.context, LiveVideoActivity::class.java)
+                    intent.putExtra("list_img_live", data as Serializable)
+                    intent.putExtra("pos_img_live", layoutPosition)
+                    view.context.startActivity(intent)
+
+                }
+            }else{
+                Glide.with(view.context).load(slideLiveWapaper.thumbnail).centerCrop().into(imgView)
+                img = slideLiveWapaper.thumbnail
+                imgView.setOnClickListener {
+
+                    val intent = Intent(view.context, LiveVideoActivity::class.java)
+                    intent.putExtra("list_img_live", data as Serializable)
+                    intent.putExtra("pos_img_live", 0)
+                    view.context.startActivity(intent)
+                }
             }
         }
     }
@@ -46,6 +57,7 @@ class LiveListAdapter(private val data: List<SlideLiveWapaper>) :
     }
 
     override fun getItemCount(): Int {
-        return data.size
+            return data.size
     }
+
 }

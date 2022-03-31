@@ -22,7 +22,11 @@ import android.app.ProgressDialog
 import android.content.Context
 import android.content.DialogInterface
 import android.os.Environment
+import android.text.TextUtils
 import android.webkit.URLUtil
+import androidx.lifecycle.ViewModelProvider
+import com.daotrung.wallpapers_2021.room.MyWallPaper
+import com.daotrung.wallpapers_2021.room.MyWallpaperViewModel
 import com.downloader.*
 import com.karumi.dexter.Dexter
 import com.karumi.dexter.MultiplePermissionsReport
@@ -59,13 +63,15 @@ private lateinit var img_share_btn: ImageView
 private lateinit var img_gif: ImageView
 
 class LiveVideoActivity : AppCompatActivity() {
+    private lateinit var mMyWallpaperViewModel : MyWallpaperViewModel
 
     // set Intent by MyWallpaperService
     companion object {
         @JvmStatic
         fun prepareLiveWallpaperIntent(showAllLiveWallpapers: Boolean): Intent {
             val liveWallpaperIntent = Intent()
-            if (showAllLiveWallpapers || Build.VERSION.SDK_INT <= Build.VERSION_CODES.ICE_CREAM_SANDWICH_MR1) {
+            if (showAllLiveWallpapers ||
+                Build.VERSION.SDK_INT <= Build.VERSION_CODES.ICE_CREAM_SANDWICH_MR1) {
                 liveWallpaperIntent.action = WallpaperManager.ACTION_LIVE_WALLPAPER_CHOOSER
             } else {
                 liveWallpaperIntent.action = WallpaperManager.ACTION_CHANGE_LIVE_WALLPAPER
@@ -83,7 +89,12 @@ class LiveVideoActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
+
+
         // set fullscreen
+        mMyWallpaperViewModel = ViewModelProvider(this)[MyWallpaperViewModel::class.java]
+
+
         requestWindowFeature(Window.FEATURE_NO_TITLE)
         this.window.setFlags(
             WindowManager.LayoutParams.FLAG_FULLSCREEN,
@@ -104,61 +115,77 @@ class LiveVideoActivity : AppCompatActivity() {
 
         // lấy dữ liệu từ liveListAdapter
         val intent = intent
-        list = intent.getSerializableExtra("list_img_live") as ArrayList<SlideLiveWapaper>
-        id = intent.getIntExtra("pos_img_live", 0)
 
-        // lấy path url thong qua dl vua truyen ve
-        pathVideo = list[id].original
+            list = intent.getSerializableExtra("list_img_live") as ArrayList<SlideLiveWapaper>
+            id = intent.getIntExtra("pos_img_live", 0)
 
-        setVideo(pathVideo)
-        img_close.setOnClickListener {
-            finish()
-        }
-        img_left_arrow.setOnClickListener {
-            if (id == 0) {
-                id = list.size - 1
-                setVideo(list[id].original)
-                pathVideo = list[id].original
-            } else {
-                id--
-                setVideo(list[id].original)
-                pathVideo = list[id].original
+            // lấy path url thong qua dl vua truyen ve
+            pathVideo = list[id].original
+
+            // insert data to mywallpaper
+            insertDataToDatabase(pathVideo)
+
+            setVideo(pathVideo)
+            img_close.setOnClickListener {
+                finish()
+            }
+            img_left_arrow.setOnClickListener {
+                if (id == 0) {
+                    id = list.size - 1
+                    setVideo(list[id].original)
+                    pathVideo = list[id].original
+                } else {
+                    id--
+                    setVideo(list[id].original)
+                    pathVideo = list[id].original
+                }
+
+            }
+            img_right_arrow.setOnClickListener {
+                if (id == list.size - 1) {
+                    id = 0
+                    setVideo(list[id].original)
+                    pathVideo = list[id].original
+                } else {
+                    id++
+                    setVideo(list[id].original)
+                    pathVideo = list[id].original
+                }
+
+            }
+            img_save_btn.setOnClickListener {
+                // downloadVideo
+                setDiloagVideo(pathVideo)
+
+                // clear cache wallpaper
+                var wallpaperManager: WallpaperManager =
+                    WallpaperManager.getInstance(applicationContext)
+                try {
+                    wallpaperManager.clear()
+                } catch (e: IOException) {
+                    e.printStackTrace()
+                }
+                //  truyen url from activity to wallpaper_service
+                var serviceIntent: Intent =
+                    Intent(applicationContext, MyWallpaperService::class.java)
+                serviceIntent.putExtra("url_pass", pathVideo)
+                this.startService(serviceIntent)
+                // setTo Wallpaper
+                startActivity(prepareLiveWallpaperIntent(false))
+                finish()
+
             }
 
-        }
-        img_right_arrow.setOnClickListener {
-            if (id == list.size - 1) {
-                id = 0
-                setVideo(list[id].original)
-                pathVideo = list[id].original
-            } else {
-                id++
-                setVideo(list[id].original)
-                pathVideo = list[id].original
-            }
+    }
 
-        }
-        img_save_btn.setOnClickListener {
-            // downloadVideo
-            setDiloagVideo(pathVideo)
-
-            // clear cache wallpaper
-            var wallpaperManager: WallpaperManager =
-                WallpaperManager.getInstance(applicationContext)
-            try {
-                wallpaperManager.clear()
-            } catch (e: IOException) {
-                e.printStackTrace()
-            }
-            //  truyen url from activity to wallpaper_service
-            var serviceIntent: Intent = Intent(applicationContext, MyWallpaperService::class.java)
-            serviceIntent.putExtra("url_pass", pathVideo)
-            this.startService(serviceIntent)
-
-            // setTo Wallpaper
-            startActivity(prepareLiveWallpaperIntent(false))
-            finish()
-        }
+    private fun insertDataToDatabase(pathVideo: String) {
+          if(inputCheck(pathVideo)){
+              val myWallpaper = MyWallPaper(pathVideo)
+              mMyWallpaperViewModel.addMyWallPaper(myWallpaper)
+          }
+    }
+    private fun inputCheck(url:String):Boolean{
+        return !(TextUtils.isEmpty(url))
     }
 
     // xu ly download Video

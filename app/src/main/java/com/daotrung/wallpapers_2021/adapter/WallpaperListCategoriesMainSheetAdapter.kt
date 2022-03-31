@@ -8,7 +8,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import com.daotrung.wallpapers_2021.ActivityListWallpaper
+import com.daotrung.wallpapers_2021.WallpaperListActivity
 import com.daotrung.wallpapers_2021.R
 import com.daotrung.wallpapers_2021.model.CatMain
 import com.daotrung.wallpapers_2021.model.MaterialWallpaperCateMain
@@ -26,7 +26,7 @@ class WallpaperListCategoriesMainSheetAdapter(private val data: MaterialWallpape
             txt_main.text = materialWallpaperCateMain.category_name
 
             img_main.setOnClickListener {
-                val intent = Intent(view.context, ActivityListWallpaper::class.java)
+                val intent = Intent(view.context, WallpaperListActivity::class.java)
                 intent.putExtra("name_title_categories", materialWallpaperCateMain.category_name)
                 intent.putExtra("id_categories", materialWallpaperCateMain.cid.toInt())
 //                Log.e("id",materialWallpaperCateMain.cid)

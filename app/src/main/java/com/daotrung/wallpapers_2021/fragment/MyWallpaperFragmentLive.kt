@@ -5,22 +5,23 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.daotrung.wallpapers_2021.R
-import com.daotrung.wallpapers_2021.adapter.LiveListAdapter
-import com.daotrung.wallpapers_2021.model.SlideLiveWapaper
-import com.daotrung.wallpapers_2021.service.ApiInterface
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
+import com.daotrung.wallpapers_2021.adapter.MyWallpaperLiveAdapter
+import com.daotrung.wallpapers_2021.room.MyWallPaper
+import com.daotrung.wallpapers_2021.room.MyWallpaperViewModel
 
 
-class MyWallpaperFragmentLive : Fragment() {
+private lateinit var recyclerView: RecyclerView
+private lateinit var manager: RecyclerView.LayoutManager
 
-    private lateinit var recyclerView: RecyclerView
-    private lateinit var manager: RecyclerView.LayoutManager
-    private lateinit var myAdapter: RecyclerView.Adapter<*>
+
+class MyWallpaperFragmentLive : Fragment(){
+    private lateinit var myWallpaperViewModel: MyWallpaperViewModel
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -28,34 +29,19 @@ class MyWallpaperFragmentLive : Fragment() {
         // Inflate the layout for this fragment
         val view = inflater.inflate(R.layout.fragment_my_wallpaper_live, container, false)
 
+        val myWallpaperLiveAdapter = MyWallpaperLiveAdapter()
         recyclerView = view.findViewById(R.id.rv_list_my_wallpaper_live)
         manager = GridLayoutManager(view.context, 3)
-        getAllListMyLive(recyclerView)
+        recyclerView.adapter = myWallpaperLiveAdapter
+        recyclerView.layoutManager = manager
+
+        myWallpaperViewModel = ViewModelProvider(this).get(MyWallpaperViewModel::class.java)
+        myWallpaperViewModel.allWallPaper.observe(viewLifecycleOwner, Observer {mywall->
+            myWallpaperLiveAdapter.setData(mywall)
+
+        })
 
         return view
-    }
-
-    private fun getAllListMyLive(rv: RecyclerView) {
-        ApiInterface.Api.retrofitService.getAllListMyLive()
-            .enqueue(object : Callback<List<SlideLiveWapaper>> {
-                override fun onResponse(
-                    call: Call<List<SlideLiveWapaper>>,
-                    response: Response<List<SlideLiveWapaper>>
-                ) {
-                    if (response.isSuccessful) {
-                        recyclerView = rv.apply {
-                            myAdapter = LiveListAdapter(response.body()!!)
-                            layoutManager = manager
-                            adapter = myAdapter
-                        }
-                    }
-                }
-
-                override fun onFailure(call: Call<List<SlideLiveWapaper>>, t: Throwable) {
-                    t.printStackTrace()
-                }
-
-            })
     }
 
 

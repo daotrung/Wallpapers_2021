@@ -8,7 +8,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import com.daotrung.wallpapers_2021.ActivityListLive
+import com.daotrung.wallpapers_2021.LiveListActivity
 import com.daotrung.wallpapers_2021.R
 import com.daotrung.wallpapers_2021.model.WallPaper
 
@@ -24,7 +24,7 @@ class LiveMainAdapter(private val data: List<WallPaper>) :
             Glide.with(view.context).load(wallpaper.image).centerCrop().into(imageView)
 
             imageView.setOnClickListener {
-                val intent = Intent(view.context, ActivityListLive::class.java)
+                val intent = Intent(view.context, LiveListActivity::class.java)
                 intent.putExtra("idGet", wallpaper.id)
                 intent.putExtra("title", wallpaper.title)
                 view.context.startActivity(intent)

@@ -18,7 +18,9 @@ import android.view.WindowManager
 import android.webkit.URLUtil
 import android.widget.ImageView
 import android.widget.Toast
+import androidx.core.content.ContextCompat
 import com.bumptech.glide.Glide
+import com.daotrung.wallpapers_2021.adapter.WallpaperListColorMainAdapter
 import com.daotrung.wallpapers_2021.model.*
 import com.downloader.*
 import com.karumi.dexter.Dexter
@@ -48,6 +50,8 @@ class SliderWallpaperActivity : AppCompatActivity() {
     private lateinit var img_right_arrow: ImageView
     private lateinit var img_save_btn: ImageView
     private lateinit var img_share_btn: ImageView
+    private lateinit var img_icon_heart : ImageView
+    private var check : Boolean = false
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -59,6 +63,7 @@ class SliderWallpaperActivity : AppCompatActivity() {
         setContentView(R.layout.activity_slider_wallpaper)
 
         val intent = intent
+        img_icon_heart = findViewById(R.id.img_icon_heart_big)
         img_layout = findViewById(R.id.img_slider_wallpaper_last)
         img_close = findViewById(R.id.img_close_live_wallpaper)
         img_left_arrow = findViewById(R.id.img_arrow_left_wallpaper)
@@ -67,6 +72,10 @@ class SliderWallpaperActivity : AppCompatActivity() {
         img_share_btn = findViewById(R.id.img_share_wallpaper)
 
         PRDownloader.initialize(applicationContext)
+
+        img_icon_heart.setOnClickListener {
+             img_icon_heart.setImageDrawable(ContextCompat.getDrawable(this,R.drawable.heart_select_max))
+        }
 
         if (intent.getIntExtra("pos_img_trend", 0) >= 1) {
 
@@ -121,6 +130,7 @@ class SliderWallpaperActivity : AppCompatActivity() {
                 startActivity(Intent.createChooser(intent, "Share Image to Anothe App"))
             }
 
+
         }
         if (intent.getIntExtra("pos_img_categories", 0) >= 1) {
             listCate =
@@ -171,6 +181,7 @@ class SliderWallpaperActivity : AppCompatActivity() {
             }
             img_save_btn.setOnClickListener {
                 setDowloadDilog(img!!)
+
             }
         }
         if (intent.getIntExtra("pos_img_color", 0) >= 1) {

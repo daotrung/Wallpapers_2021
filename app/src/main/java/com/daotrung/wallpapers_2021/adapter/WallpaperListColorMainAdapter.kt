@@ -7,7 +7,7 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
-import com.daotrung.wallpapers_2021.ActivityListWallpaper
+import com.daotrung.wallpapers_2021.WallpaperListActivity
 import com.daotrung.wallpapers_2021.R
 import com.daotrung.wallpapers_2021.model.ColorGet
 import com.daotrung.wallpapers_2021.model.ColorMain
@@ -50,7 +50,7 @@ class WallpaperListColorMainAdapter(private val data: List<ColorMain>) :
                     }
                     // truyen id qua click moi imgview den man hinh hien thi
                     imgView.setOnClickListener {
-                        val intent = Intent(view.context, ActivityListWallpaper::class.java)
+                        val intent = Intent(view.context, WallpaperListActivity::class.java)
                         intent.putExtra("name_color", arrayList[layoutPosition].name)
                         intent.putExtra("id_color", arrayList[layoutPosition].id)
                         view.context.startActivity(intent)

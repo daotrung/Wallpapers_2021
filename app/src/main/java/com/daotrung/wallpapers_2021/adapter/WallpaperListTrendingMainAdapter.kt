@@ -7,7 +7,7 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
-import com.daotrung.wallpapers_2021.ActivityListWallpaper
+import com.daotrung.wallpapers_2021.WallpaperListActivity
 import com.daotrung.wallpapers_2021.R
 import com.daotrung.wallpapers_2021.model.TrenMain
 
@@ -25,7 +25,7 @@ class WallpaperListTrendingMainAdapter(private val data: List<TrenMain>) :
             imgView.setImageResource(trenMain.img)
 
             imgView.setOnClickListener {
-                val intent = Intent(view.context, ActivityListWallpaper::class.java)
+                val intent = Intent(view.context, WallpaperListActivity::class.java)
 //                  Log.e("ggg",trenMain.name)
                 intent.putExtra("title_trend", trenMain.name)
                 intent.putExtra("id_trend", layoutPosition)

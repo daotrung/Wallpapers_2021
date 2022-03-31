@@ -56,8 +56,6 @@ interface ApiInterface {
         @Query("page") page: Int = 1
     ): Call<MaterialWallpaperCatList>
 
-    @GET("api/wallpaper/category/0/5/p2pqlsnjHgdxX21GFRAYyLvNBe3zcsSz/16edd7cf-2525-485e-b11a-3dd35f382457/")
-    fun getAllListMyLive(): Call<List<SlideLiveWapaper>>
 
     @GET("api/first/p2pqlsnjHgdxX21GFRAYyLvNBe3zcsSz/16edd7cf-2525-485e-b11a-3dd35f382457/")
     fun getAllListMyWallpaper(): Call<MyWallpaperWall>

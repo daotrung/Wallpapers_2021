@@ -5,9 +5,12 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
+import android.widget.Toast
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.daotrung.wallpapers_2021.R
+import com.daotrung.wallpapers_2021.R.drawable.heart_select
 import com.daotrung.wallpapers_2021.SliderWallpaperActivity
 import com.daotrung.wallpapers_2021.model.CatList
 import com.daotrung.wallpapers_2021.model.MaterialWallpaperCatList
@@ -17,6 +20,8 @@ const val urlIma = "https://hdwalls.wallzapps.com/upload/"
 
 class ListWallpaperCategoriesAdapter(private val data: MaterialWallpaperCatList) :
     RecyclerView.Adapter<ListWallpaperCategoriesAdapter.MyViewHolder>() {
+
+    var check = false
     inner class MyViewHolder(val view: View) : RecyclerView.ViewHolder(view) {
         fun bind(materialWallpaperCatList: CatList) {
             val imageView = view.findViewById<ImageView>(R.id.img_list_trending)
@@ -30,6 +35,13 @@ class ListWallpaperCategoriesAdapter(private val data: MaterialWallpaperCatList)
                 intent.putExtra("pos_img_categories", layoutPosition + 1)
                 view.context.startActivity(intent)
             }
+            imgIcon.setOnClickListener {
+                val drawabl = ContextCompat.getDrawable(view.context,R.drawable.heart_select)
+                imgIcon.setImageDrawable(drawabl)
+                Toast.makeText(view.context,"Đã thích ảnh !!!",Toast.LENGTH_SHORT).show()
+                imgIcon.isEnabled = false
+            }
+
         }
     }
 

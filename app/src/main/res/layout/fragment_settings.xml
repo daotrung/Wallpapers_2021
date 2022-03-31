@@ -63,8 +63,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/img_banner_settings"
         android:layout_alignParentTop="true"
-        android:layout_centerInParent="true"
-        android:layout_marginStart="80sp"
+        android:layout_marginStart="100sp"
         android:layout_marginTop="297sp"
         android:layout_toEndOf="@id/img_privacy"
         android:src="@drawable/term_of_use" />
@@ -74,7 +73,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/img_term"
-        android:layout_marginStart="22sp"
+        android:layout_marginStart="50sp"
         android:layout_marginTop="3sp"
         android:layout_toEndOf="@id/privacy_txt"
         android:fontFamily="@font/poppins_medium"
@@ -91,7 +90,7 @@
         android:layout_marginStart="196sp"
         android:layout_marginLeft="57dp"
         android:layout_marginTop="297sp"
-        android:layout_marginEnd="41sp"
+        android:layout_marginEnd="20sp"
         android:layout_toRightOf="@id/img_privacy"
         android:src="@drawable/contact_us" />
 
@@ -101,7 +100,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/img_contact"
         android:layout_alignParentEnd="true"
-        android:layout_marginEnd="40sp"
+        android:layout_marginEnd="35sp"
         android:layout_marginBottom="22sp"
         android:fontFamily="@font/poppins_medium"
         android:text="Contact Us"
@@ -125,7 +124,7 @@
         android:layout_alignParentStart="true"
         android:layout_marginStart="20sp"
         android:fontFamily="@font/poppins_medium"
-        android:text="Contact Us"
+        android:text="Share this app"
         android:textColor="@color/white" />
 
     <ImageView
@@ -133,7 +132,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/img_term"
-        android:layout_marginStart="80sp"
+        android:layout_marginStart="100sp"
         android:layout_marginTop="89sp"
         android:layout_toEndOf="@id/img_share"
         android:src="@drawable/write_a_review" />
@@ -143,7 +142,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/img_write"
-        android:layout_marginStart="42sp"
+        android:layout_marginStart="45sp"
         android:layout_toEndOf="@id/share_this_app_txt"
         android:fontFamily="@font/poppins_medium"
         android:text="Write a Review"

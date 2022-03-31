@@ -21,21 +21,28 @@
         android:theme="@style/Theme.Wallpapers_2021"
         tools:ignore="GoogleAppIndexingWarning">
         <activity
+            android:name=".MyLiveSliderActivity"
+            android:exported="false" />
+        <activity
+            android:name=".SettingActivity"
+            android:exported="false" />
+        <activity
+            android:name=".PrivacyActivity"
+            android:exported="false" />
+        <activity
             android:name=".LiveVideoActivity"
-            android:exported="false">
-
-        </activity>
+            android:exported="false" />
         <activity
             android:name=".SliderWallpaperActivity"
             android:exported="false" />
         <activity
-            android:name=".ActivityListWallpaper"
+            android:name=".WallpaperListActivity"
             android:exported="false" />
         <activity
-            android:name=".SliderLiveActivity"
+            android:name=".LiveSliderActivity"
             android:exported="false" />
         <activity
-            android:name=".ActivityListLive"
+            android:name=".LiveListActivity"
             android:exported="false" />
         <activity
             android:name=".MainActivity"
@@ -61,7 +68,6 @@
                 android:resource="@xml/provider_path" />
         </provider>
 
-
         <service
             android:name=".MyWallpaperService"
             android:exported="true"
@@ -70,11 +76,11 @@
             <intent-filter>
                 <action android:name="android.service.wallpaper.WallpaperService" />
             </intent-filter>
+
             <meta-data
                 android:name="android.service.wallpaper"
                 android:resource="@xml/wallpaper" />
         </service>
     </application>
-
 
 </manifest>
