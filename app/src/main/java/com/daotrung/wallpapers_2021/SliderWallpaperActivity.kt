@@ -12,6 +12,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Environment
 import android.provider.MediaStore
+import android.text.TextUtils
 import android.util.Log
 import android.view.Window
 import android.view.WindowManager
@@ -19,9 +20,15 @@ import android.webkit.URLUtil
 import android.widget.ImageView
 import android.widget.Toast
 import androidx.core.content.ContextCompat
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
 import com.bumptech.glide.Glide
 import com.daotrung.wallpapers_2021.adapter.WallpaperListColorMainAdapter
 import com.daotrung.wallpapers_2021.model.*
+import com.daotrung.wallpapers_2021.room.IDao
+import com.daotrung.wallpapers_2021.room.MyPicViewModel
+import com.daotrung.wallpapers_2021.room.MyPicturePaper
+import com.daotrung.wallpapers_2021.room.MyWallpaperViewModel
 import com.downloader.*
 import com.karumi.dexter.Dexter
 import com.karumi.dexter.MultiplePermissionsReport
@@ -36,14 +43,16 @@ const val urlGetImage = "https://hdwalls.wallzapps.com/upload/"
 
 class SliderWallpaperActivity : AppCompatActivity() {
 
+    private lateinit var mMyPicViewModel : MyPicViewModel
+    private var dao: IDao? = null
     private var list: MaterialWapaper = MaterialWapaper(ArrayList<Trending>())
     private var listCate: MaterialWallpaperCatList = MaterialWallpaperCatList(ArrayList<CatList>())
     private var listMyWallpaperWall: MyWallpaperWall =
         MyWallpaperWall(ArrayList<SlideLiveWapaper>())
+    private lateinit var myList : List<MyPicturePaper>
+
     private var id: Int = 1
-    private var getIntent = 0
     private var img: String? = ""
-    private var flag: Boolean = false
     private lateinit var img_layout: ImageView
     private lateinit var img_close: ImageView
     private lateinit var img_left_arrow: ImageView
@@ -51,9 +60,13 @@ class SliderWallpaperActivity : AppCompatActivity() {
     private lateinit var img_save_btn: ImageView
     private lateinit var img_share_btn: ImageView
     private lateinit var img_icon_heart : ImageView
-    private var check : Boolean = false
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+
+        mMyPicViewModel = ViewModelProvider(this)[MyPicViewModel::class.java]
+
+
 
         requestWindowFeature(Window.FEATURE_NO_TITLE)
         this.window.setFlags(
@@ -73,16 +86,13 @@ class SliderWallpaperActivity : AppCompatActivity() {
 
         PRDownloader.initialize(applicationContext)
 
-        img_icon_heart.setOnClickListener {
-             img_icon_heart.setImageDrawable(ContextCompat.getDrawable(this,R.drawable.heart_select_max))
-        }
-
         if (intent.getIntExtra("pos_img_trend", 0) >= 1) {
 
             list = intent.getSerializableExtra("list_img_trend") as MaterialWapaper
             id = intent.getIntExtra("pos_img_trend", 0) - 1
             img = urlGetImage + list.MaterialWallpaper[id].image
 
+            insertDataToDatabase(img!!)
             Glide.with(this).load(img).into(img_layout)
 
             img_close.setOnClickListener {
@@ -138,6 +148,8 @@ class SliderWallpaperActivity : AppCompatActivity() {
             id = intent.getIntExtra("pos_img_categories", 0) - 1
 
             img = urlGetImage + listCate.MaterialWallpaper[id].images
+
+            insertDataToDatabase(img!!)
             Glide.with(this).load(img).into(img_layout)
 
             img_close.setOnClickListener {
@@ -188,6 +200,8 @@ class SliderWallpaperActivity : AppCompatActivity() {
             listCate = intent.getSerializableExtra("list_img_color") as MaterialWallpaperCatList
             id = intent.getIntExtra("pos_img_color", 0) - 1
             img = urlGetImage + listCate.MaterialWallpaper.get(id).images
+
+            insertDataToDatabase(img!!)
             Glide.with(this).load(img).into(img_layout)
             img_close.setOnClickListener {
                 finish()
@@ -237,6 +251,8 @@ class SliderWallpaperActivity : AppCompatActivity() {
             id = intent.getIntExtra("pos_my_wallpaper", 0) - 1
 
             img = urlGetImage + listMyWallpaperWall.wallpapers[id].image
+
+            insertDataToDatabase(img!!)
             Glide.with(this).load(img).into(img_layout)
             img_close.setOnClickListener {
                 finish()
@@ -281,7 +297,18 @@ class SliderWallpaperActivity : AppCompatActivity() {
                 setDowloadDilog(img!!)
             }
         }
+    }
 
+    private fun insertDataToDatabase(img: String) {
+        if(inputCheck(img) && dao?.isExistPic(img)== true){
+            val myPicturePaper = MyPicturePaper(img)
+            mMyPicViewModel.addPicPaper(myPicturePaper)
+        }
+
+    }
+
+    private fun inputCheck(pathPic: String): Boolean {
+         return !(TextUtils.isEmpty(pathPic))
     }
 
     // show dialog with wallpaper
@@ -333,7 +360,7 @@ class SliderWallpaperActivity : AppCompatActivity() {
 
         }
         builder.setNegativeButton("No") { dialogInterface: DialogInterface, i: Int ->
-            finish()
+            setWalpaperDialog()
 
         }
         builder.show()

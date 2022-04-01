@@ -101,6 +101,7 @@ class MyLiveSliderActivity : AppCompatActivity() {
         myList = ArrayList()
         myWallpaperViewModel.allWallPaper.observe(this, Observer {mywall->
              myList = mywall
+
              val intent = intent
              id = intent.getIntExtra("ID",-1)
 

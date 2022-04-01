@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:background="#21211f"
     android:fitsSystemWindows="true"
-    tools:context=".LiveVideoActivity">
+    tools:context=".MyLiveSliderActivity">
 
     <FrameLayout
         android:layout_width="fill_parent"

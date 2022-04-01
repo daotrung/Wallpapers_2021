@@ -9,20 +9,21 @@ import kotlinx.coroutines.launch
 
 class MyWallpaperViewModel (application: Application) : AndroidViewModel(application){
     val allWallPaper : LiveData<List<MyWallPaper>>
-    val repository : MyWallRepository
+    val repository_mywall : MyWallRepository
+
     init {
         val dao = MyWallPaperDatabase.getDatabase(application).getMyWallDao()
-        repository = MyWallRepository(dao)
-        allWallPaper = repository.allMyWall
+        repository_mywall = MyWallRepository(dao)
+        allWallPaper = repository_mywall.allMyWall
     }
     fun deleteMyWallPaper(mywallpaper: MyWallPaper) = viewModelScope.launch(Dispatchers.IO ) {
-        repository.delete(mywallpaper)
+        repository_mywall.delete(mywallpaper)
     }
 
     fun updateMyWallPaper(mywallpaper: MyWallPaper) = viewModelScope.launch(Dispatchers.IO){
-        repository.update(mywallpaper)
+        repository_mywall.update(mywallpaper)
     }
     fun addMyWallPaper(mywallpaper: MyWallPaper) = viewModelScope.launch(Dispatchers.IO){
-        repository.insert(mywallpaper)
+        repository_mywall.insert(mywallpaper)
     }
 }

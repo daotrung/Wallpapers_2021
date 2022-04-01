@@ -1,32 +1,28 @@
 package com.daotrung.wallpapers_2021.adapter
 
+import android.annotation.SuppressLint
 import android.content.Intent
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.daotrung.wallpapers_2021.MyWallSliderActivity
 import com.daotrung.wallpapers_2021.R
 import com.daotrung.wallpapers_2021.SliderWallpaperActivity
 import com.daotrung.wallpapers_2021.model.MyWallpaperWall
 import com.daotrung.wallpapers_2021.model.SlideLiveWapaper
+import com.daotrung.wallpapers_2021.room.MyPicturePaper
+import com.daotrung.wallpapers_2021.room.MyWallPaper
 
-class MyWallpaperWallAdapter(private val data: MyWallpaperWall) :
+class MyWallpaperWallAdapter() :
     RecyclerView.Adapter<MyWallpaperWallAdapter.MyViewHolder>() {
-    inner class MyViewHolder(val view: View) : RecyclerView.ViewHolder(view) {
-        fun bind(myWallpaperWall: SlideLiveWapaper) {
-            val imgView = view.findViewById<ImageView>(R.id.img_list_trending)
-            val imgIcon = view.findViewById<ImageView>(R.id.icon_heart)
-            Glide.with(view.context).load(myWallpaperWall.image).centerCrop().into(imgView)
 
-            imgView.setOnClickListener {
-                val intent = Intent(view.context, SliderWallpaperActivity::class.java)
-                intent.putExtra("pos_my_wallpaper", layoutPosition + 1)
-                intent.putExtra("list_img_my_wallpaper", data as MyWallpaperWall)
-                view.context.startActivity(intent)
-            }
-        }
+    private var myPicList = emptyList<MyPicturePaper>()
+    inner class MyViewHolder( itemView: View) : RecyclerView.ViewHolder(itemView) {
+
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
@@ -36,11 +32,29 @@ class MyWallpaperWallAdapter(private val data: MyWallpaperWall) :
     }
 
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
-        holder.bind(data.wallpapers[position])
+         val currenItem = myPicList[position]
+         Glide.with(holder.itemView.context).load(currenItem.myPicUrl).centerCrop()
+             .into(holder.itemView.findViewById(R.id.img_list_trending))
+
+        val imgView = holder.itemView.findViewById<ImageView>(R.id.img_list_trending)
+        imgView.setOnClickListener {
+            val intent = Intent(holder.itemView.context,MyWallSliderActivity::class.java)
+
+            intent.putExtra("id_picture",position)
+            Log.e("id_get",position.toString())
+
+            holder.itemView.context.startActivity(intent)
+        }
     }
 
     override fun getItemCount(): Int {
-        return data.wallpapers.size
+        return myPicList.size
+
+    }
+    @SuppressLint("NotifyDataSetChanged")
+    fun setData(mywall:List<MyPicturePaper>){
+        this.myPicList = mywall
+        notifyDataSetChanged()
     }
 
 }

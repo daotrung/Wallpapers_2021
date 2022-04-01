@@ -33,7 +33,7 @@ class MyWallpaperLiveAdapter : RecyclerView.Adapter<MyWallpaperLiveAdapter.MyVie
         val imgView = holder.itemView.findViewById<ImageView>(R.id.img_list_live_wapper)
         imgView.setOnClickListener {
             val intent = Intent(holder.itemView.context,MyLiveSliderActivity::class.java)
-            intent.putExtra("myUrl",currentItem.myUrl)
+
             intent.putExtra("ID",position)
             holder.itemView.context.startActivity(intent)
         }

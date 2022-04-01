@@ -25,7 +25,9 @@ import android.os.Environment
 import android.text.TextUtils
 import android.webkit.URLUtil
 import androidx.lifecycle.ViewModelProvider
+import com.daotrung.wallpapers_2021.room.IDao
 import com.daotrung.wallpapers_2021.room.MyWallPaper
+import com.daotrung.wallpapers_2021.room.MyWallPaperDatabase
 import com.daotrung.wallpapers_2021.room.MyWallpaperViewModel
 import com.downloader.*
 import com.karumi.dexter.Dexter
@@ -65,7 +67,10 @@ private lateinit var img_gif: ImageView
 class LiveVideoActivity : AppCompatActivity() {
     private lateinit var mMyWallpaperViewModel : MyWallpaperViewModel
 
+    private var database:MyWallPaperDatabase = MyWallPaperDatabase.getDatabase(this)
+    private var iDao: IDao =  database.getMyWallDao()
     // set Intent by MyWallpaperService
+
     companion object {
         @JvmStatic
         fun prepareLiveWallpaperIntent(showAllLiveWallpapers: Boolean): Intent {
@@ -88,8 +93,6 @@ class LiveVideoActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
-
 
         // set fullscreen
         mMyWallpaperViewModel = ViewModelProvider(this)[MyWallpaperViewModel::class.java]
@@ -157,34 +160,19 @@ class LiveVideoActivity : AppCompatActivity() {
                 // downloadVideo
                 setDiloagVideo(pathVideo)
 
-                // clear cache wallpaper
-                var wallpaperManager: WallpaperManager =
-                    WallpaperManager.getInstance(applicationContext)
-                try {
-                    wallpaperManager.clear()
-                } catch (e: IOException) {
-                    e.printStackTrace()
-                }
-                //  truyen url from activity to wallpaper_service
-                var serviceIntent: Intent =
-                    Intent(applicationContext, MyWallpaperService::class.java)
-                serviceIntent.putExtra("url_pass", pathVideo)
-                this.startService(serviceIntent)
-                // setTo Wallpaper
-                startActivity(prepareLiveWallpaperIntent(false))
-                finish()
-
             }
 
     }
 
     private fun insertDataToDatabase(pathVideo: String) {
-          if(inputCheck(pathVideo)){
-              val myWallpaper = MyWallPaper(pathVideo)
-              mMyWallpaperViewModel.addMyWallPaper(myWallpaper)
-          }
+          if(inputCheck(pathVideo)&& !iDao.isExistWall(pathVideo)){
+                  val myWallpaper = MyWallPaper(pathVideo)
+                  mMyWallpaperViewModel.addMyWallPaper(myWallpaper)
+              }
+
     }
     private fun inputCheck(url:String):Boolean{
+
         return !(TextUtils.isEmpty(url))
     }
 
@@ -222,7 +210,7 @@ class LiveVideoActivity : AppCompatActivity() {
 
         }
         builder.setNegativeButton("No") { dialogInterface: DialogInterface, i: Int ->
-            finish()
+            setDialogWallPaper()
 
         }
         builder.show()
@@ -257,6 +245,7 @@ class LiveVideoActivity : AppCompatActivity() {
                         "Dowloading Completed",
                         Toast.LENGTH_SHORT
                     )
+                    setDialogWallPaper()
                 }
 
                 override fun onError(error: com.downloader.Error?) {
@@ -267,6 +256,34 @@ class LiveVideoActivity : AppCompatActivity() {
                 fun onError(error: Error?) {}
             })
 
+    }
+
+    private fun setDialogWallPaper(){
+        val builderSetWallpaper = AlertDialog.Builder(this)
+        builderSetWallpaper.setTitle("Set Wallpaper")
+        builderSetWallpaper.setMessage("Do you want set wallpaper this video ?")
+        builderSetWallpaper.setPositiveButton("Yes"){
+            dialogInterface : DialogInterface , i : Int ->
+            // clear cache wallpaper
+            var wallpaperManager: WallpaperManager =
+                WallpaperManager.getInstance(applicationContext)
+            try {
+                wallpaperManager.clear()
+            } catch (e: IOException) {
+                e.printStackTrace()
+            }
+            //  truyen url from activity to wallpaper_service
+            var serviceIntent: Intent =
+                Intent(applicationContext, MyWallpaperService::class.java)
+            serviceIntent.putExtra("url_pass", pathVideo)
+            this.startService(serviceIntent)
+            // setTo Wallpaper
+            startActivity(prepareLiveWallpaperIntent(false))
+            finish()
+        }
+        builderSetWallpaper.setNegativeButton("No"){dialogInterface: DialogInterface, i: Int ->
+            finish()
+        }
     }
 
     // display video to background
@@ -295,4 +312,6 @@ class LiveVideoActivity : AppCompatActivity() {
 
 
     }
+
+
 }

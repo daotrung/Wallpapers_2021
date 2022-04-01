@@ -21,6 +21,9 @@
         android:theme="@style/Theme.Wallpapers_2021"
         tools:ignore="GoogleAppIndexingWarning">
         <activity
+            android:name=".MyWallSliderActivity"
+            android:exported="false" />
+        <activity
             android:name=".MyLiveSliderActivity"
             android:exported="false" />
         <activity
