@@ -22,13 +22,11 @@ import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.room.Room
 import com.bumptech.glide.Glide
 import com.daotrung.wallpapers_2021.adapter.WallpaperListColorMainAdapter
 import com.daotrung.wallpapers_2021.model.*
-import com.daotrung.wallpapers_2021.room.IDao
-import com.daotrung.wallpapers_2021.room.MyPicViewModel
-import com.daotrung.wallpapers_2021.room.MyPicturePaper
-import com.daotrung.wallpapers_2021.room.MyWallpaperViewModel
+import com.daotrung.wallpapers_2021.room.*
 import com.downloader.*
 import com.karumi.dexter.Dexter
 import com.karumi.dexter.MultiplePermissionsReport
@@ -44,11 +42,11 @@ const val urlGetImage = "https://hdwalls.wallzapps.com/upload/"
 class SliderWallpaperActivity : AppCompatActivity() {
 
     private lateinit var mMyPicViewModel : MyPicViewModel
-    private var dao: IDao? = null
+    private lateinit var database: MyWallPaperDatabase
+    private lateinit var dao: IDao
     private var list: MaterialWapaper = MaterialWapaper(ArrayList<Trending>())
     private var listCate: MaterialWallpaperCatList = MaterialWallpaperCatList(ArrayList<CatList>())
-    private var listMyWallpaperWall: MyWallpaperWall =
-        MyWallpaperWall(ArrayList<SlideLiveWapaper>())
+    private var listMyWallpaperWall: MyWallpaperWall = MyWallpaperWall(ArrayList<SlideLiveWapaper>())
     private lateinit var myList : List<MyPicturePaper>
 
     private var id: Int = 1
@@ -63,7 +61,14 @@ class SliderWallpaperActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
+     // khởi tạo database , dao , viewModel
+        database = Room.databaseBuilder(
+            this,
+            MyWallPaperDatabase::class.java,
+            "mywall_database"
+        ).allowMainThreadQueries().build()
 
+        dao = database.getMyWallDao()
         mMyPicViewModel = ViewModelProvider(this)[MyPicViewModel::class.java]
 
 
@@ -139,8 +144,6 @@ class SliderWallpaperActivity : AppCompatActivity() {
                 intent.putExtra(Intent.EXTRA_STREAM, bitmapUri)
                 startActivity(Intent.createChooser(intent, "Share Image to Anothe App"))
             }
-
-
         }
         if (intent.getIntExtra("pos_img_categories", 0) >= 1) {
             listCate =
@@ -300,7 +303,7 @@ class SliderWallpaperActivity : AppCompatActivity() {
     }
 
     private fun insertDataToDatabase(img: String) {
-        if(inputCheck(img) && dao?.isExistPic(img)== true){
+        if(inputCheck(img) && !dao.isExistPic(img)){
             val myPicturePaper = MyPicturePaper(img)
             mMyPicViewModel.addPicPaper(myPicturePaper)
         }

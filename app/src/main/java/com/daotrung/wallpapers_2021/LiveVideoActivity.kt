@@ -25,6 +25,7 @@ import android.os.Environment
 import android.text.TextUtils
 import android.webkit.URLUtil
 import androidx.lifecycle.ViewModelProvider
+import androidx.room.Room
 import com.daotrung.wallpapers_2021.room.IDao
 import com.daotrung.wallpapers_2021.room.MyWallPaper
 import com.daotrung.wallpapers_2021.room.MyWallPaperDatabase
@@ -65,12 +66,14 @@ private lateinit var img_share_btn: ImageView
 private lateinit var img_gif: ImageView
 
 class LiveVideoActivity : AppCompatActivity() {
+
+
     private lateinit var mMyWallpaperViewModel : MyWallpaperViewModel
+    private lateinit var database:MyWallPaperDatabase
+    private lateinit var iDao: IDao
 
-    private var database:MyWallPaperDatabase = MyWallPaperDatabase.getDatabase(this)
-    private var iDao: IDao =  database.getMyWallDao()
+
     // set Intent by MyWallpaperService
-
     companion object {
         @JvmStatic
         fun prepareLiveWallpaperIntent(showAllLiveWallpapers: Boolean): Intent {
@@ -94,10 +97,18 @@ class LiveVideoActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        // set fullscreen
+        // khởi tạo database , dao , viewModel
+        database = Room.databaseBuilder(
+            this,
+            MyWallPaperDatabase::class.java,
+            "mywall_database"
+        ).allowMainThreadQueries().build()
+
+        iDao = database.getMyWallDao()
+
         mMyWallpaperViewModel = ViewModelProvider(this)[MyWallpaperViewModel::class.java]
 
-
+        // setFullScreen
         requestWindowFeature(Window.FEATURE_NO_TITLE)
         this.window.setFlags(
             WindowManager.LayoutParams.FLAG_FULLSCREEN,
@@ -118,7 +129,6 @@ class LiveVideoActivity : AppCompatActivity() {
 
         // lấy dữ liệu từ liveListAdapter
         val intent = intent
-
             list = intent.getSerializableExtra("list_img_live") as ArrayList<SlideLiveWapaper>
             id = intent.getIntExtra("pos_img_live", 0)
 
@@ -164,6 +174,7 @@ class LiveVideoActivity : AppCompatActivity() {
 
     }
 
+    // Xử lý add Room_database
     private fun insertDataToDatabase(pathVideo: String) {
           if(inputCheck(pathVideo)&& !iDao.isExistWall(pathVideo)){
                   val myWallpaper = MyWallPaper(pathVideo)
@@ -258,6 +269,7 @@ class LiveVideoActivity : AppCompatActivity() {
 
     }
 
+    // set dialog wallpaper
     private fun setDialogWallPaper(){
         val builderSetWallpaper = AlertDialog.Builder(this)
         builderSetWallpaper.setTitle("Set Wallpaper")

@@ -21,7 +21,7 @@ interface IDao {
     fun getAllPic(): LiveData<List<MyPicturePaper>>
 
     @Query("Select Exists (Select * from myPicTable where urlP = :path )")
-    fun isExistPic(path: String): Boolean = true
+    fun isExistPic(path: String): Boolean
 
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     suspend fun insert(mywallpaper: MyWallPaper)
@@ -36,6 +36,6 @@ interface IDao {
     fun getAllNotes(): LiveData<List<MyWallPaper>>
 
     @Query("Select Exists (Select * from myWallTable where url = :pathWall )")
-    fun isExistWall(pathWall: String): Boolean = true
+    fun isExistWall(pathWall: String): Boolean
 
 }
