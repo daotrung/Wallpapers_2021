@@ -8,12 +8,15 @@ import android.widget.ImageView
 import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
+import androidx.room.Room
 import com.bumptech.glide.Glide
 import com.daotrung.wallpapers_2021.R
 import com.daotrung.wallpapers_2021.R.drawable.heart_select
 import com.daotrung.wallpapers_2021.SliderWallpaperActivity
 import com.daotrung.wallpapers_2021.model.CatList
 import com.daotrung.wallpapers_2021.model.MaterialWallpaperCatList
+import com.daotrung.wallpapers_2021.room.IDao
+import com.daotrung.wallpapers_2021.room.MyWallPaperDatabase
 import java.io.Serializable
 
 const val urlIma = "https://hdwalls.wallzapps.com/upload/"
@@ -21,9 +24,23 @@ const val urlIma = "https://hdwalls.wallzapps.com/upload/"
 class ListWallpaperCategoriesAdapter(private val data: MaterialWallpaperCatList) :
     RecyclerView.Adapter<ListWallpaperCategoriesAdapter.MyViewHolder>() {
 
+    private lateinit var database: MyWallPaperDatabase
+    private lateinit var dao: IDao
     var check = false
     inner class MyViewHolder(val view: View) : RecyclerView.ViewHolder(view) {
         fun bind(materialWallpaperCatList: CatList) {
+
+
+            // khởi tạo database , dao , viewModel
+            database = Room.databaseBuilder(
+                itemView.context,
+                MyWallPaperDatabase::class.java,
+                "mywall_database"
+            ).allowMainThreadQueries().build()
+
+            dao = database.getMyWallDao()
+
+
             val imageView = view.findViewById<ImageView>(R.id.img_list_trending)
             val imgIcon = view.findViewById<ImageView>(R.id.icon_heart)
             Glide.with(view.context).load(urlIma + materialWallpaperCatList.images).centerCrop()
@@ -35,11 +52,8 @@ class ListWallpaperCategoriesAdapter(private val data: MaterialWallpaperCatList)
                 intent.putExtra("pos_img_categories", layoutPosition + 1)
                 view.context.startActivity(intent)
             }
-            imgIcon.setOnClickListener {
-                val drawabl = ContextCompat.getDrawable(view.context,R.drawable.heart_select)
-                imgIcon.setImageDrawable(drawabl)
-                Toast.makeText(view.context,"Đã thích ảnh !!!",Toast.LENGTH_SHORT).show()
-                imgIcon.isEnabled = false
+            if(dao.isExistFavor(urlIma+materialWallpaperCatList.images)){
+                imgIcon.setImageDrawable(ContextCompat.getDrawable(itemView.context,R.drawable.heart_select))
             }
 
         }

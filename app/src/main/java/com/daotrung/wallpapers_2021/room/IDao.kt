@@ -38,4 +38,20 @@ interface IDao {
     @Query("Select Exists (Select * from myWallTable where url = :pathWall )")
     fun isExistWall(pathWall: String): Boolean
 
+
+    @Insert(onConflict = OnConflictStrategy.IGNORE)
+    suspend fun insert(myfavoritepicture: MyFavoritePicture)
+
+    @Update
+    suspend fun update(myfavoritepicture: MyFavoritePicture)
+
+    @Delete
+    suspend fun delete(myfavoritepicture: MyFavoritePicture)
+
+    @Query("Select * from myPicFavorite order by idH asc")
+    fun getAllFavorite(): LiveData<List<MyFavoritePicture>>
+
+    @Query("Select Exists (Select * from myPicFavorite where urlHeart = :pathFav )")
+    fun isExistFavor(pathFav: String): Boolean
+
 }

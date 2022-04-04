@@ -41,13 +41,13 @@ const val urlGetImage = "https://hdwalls.wallzapps.com/upload/"
 
 class SliderWallpaperActivity : AppCompatActivity() {
 
-    private lateinit var mMyPicViewModel : MyPicViewModel
+    private  var mMyPicViewModel : MyPicViewModel? = null
+    private  var mMyFavorViewModel : MyFavoriteModel? = null
     private lateinit var database: MyWallPaperDatabase
     private lateinit var dao: IDao
     private var list: MaterialWapaper = MaterialWapaper(ArrayList<Trending>())
     private var listCate: MaterialWallpaperCatList = MaterialWallpaperCatList(ArrayList<CatList>())
-    private var listMyWallpaperWall: MyWallpaperWall = MyWallpaperWall(ArrayList<SlideLiveWapaper>())
-    private lateinit var myList : List<MyPicturePaper>
+
 
     private var id: Int = 1
     private var img: String? = ""
@@ -92,6 +92,7 @@ class SliderWallpaperActivity : AppCompatActivity() {
         PRDownloader.initialize(applicationContext)
 
         if (intent.getIntExtra("pos_img_trend", 0) >= 1) {
+
 
             list = intent.getSerializableExtra("list_img_trend") as MaterialWapaper
             id = intent.getIntExtra("pos_img_trend", 0) - 1
@@ -153,6 +154,7 @@ class SliderWallpaperActivity : AppCompatActivity() {
             img = urlGetImage + listCate.MaterialWallpaper[id].images
 
             insertDataToDatabase(img!!)
+//            setIconHeart(img!!)
             Glide.with(this).load(img).into(img_layout)
 
             img_close.setOnClickListener {
@@ -205,6 +207,8 @@ class SliderWallpaperActivity : AppCompatActivity() {
             img = urlGetImage + listCate.MaterialWallpaper.get(id).images
 
             insertDataToDatabase(img!!)
+            insertDataToFavorite(img!!)
+//            setIconHeart(img!!)
             Glide.with(this).load(img).into(img_layout)
             img_close.setOnClickListener {
                 finish()
@@ -242,72 +246,40 @@ class SliderWallpaperActivity : AppCompatActivity() {
                 val intent = Intent(Intent.ACTION_SEND)
                 intent.setType("image/*")
                 intent.putExtra(Intent.EXTRA_STREAM, bitmapUri)
-                startActivity(Intent.createChooser(intent, "Share Image to Anothe App"))
+                startActivity(Intent.createChooser(intent, "Share Image to Another App"))
             }
             img_save_btn.setOnClickListener {
                 setDowloadDilog(img!!)
             }
         }
-        if (intent.getIntExtra("pos_my_wallpaper", 0) >= 1) {
-            listMyWallpaperWall =
-                intent.getSerializableExtra("list_img_my_wallpaper") as MyWallpaperWall
-            id = intent.getIntExtra("pos_my_wallpaper", 0) - 1
 
-            img = urlGetImage + listMyWallpaperWall.wallpapers[id].image
-
-            insertDataToDatabase(img!!)
-            Glide.with(this).load(img).into(img_layout)
-            img_close.setOnClickListener {
-                finish()
-            }
-            img_left_arrow.setOnClickListener {
-                if (id == 0) {
-                    id = listMyWallpaperWall.wallpapers.size - 1
-                    img = urlGetImage + listMyWallpaperWall.wallpapers[id].image
-                    Glide.with(this).load(img).into(img_layout)
-                } else {
-                    id--
-                    img = urlGetImage + listMyWallpaperWall.wallpapers[id].image
-                    Glide.with(this).load(img).into(img_layout)
-                }
-
-            }
-            img_right_arrow.setOnClickListener {
-
-                if (id == listMyWallpaperWall.wallpapers.size - 1) {
-                    id = 0
-                    img = urlGetImage + listMyWallpaperWall.wallpapers[id].image
-                    Glide.with(this).load(img).into(img_layout)
-                } else {
-                    id++
-                    img = urlGetImage + listMyWallpaperWall.wallpapers[id].image
-                    Glide.with(this).load(img).into(img_layout)
-                }
-
-            }
-            img_share_btn.setOnClickListener {
-                val bitmapDrawale: BitmapDrawable = img_layout.drawable as BitmapDrawable
-                val bitmap: Bitmap = bitmapDrawale.bitmap
-                val bitmapPath: String =
-                    MediaStore.Images.Media.insertImage(contentResolver, bitmap, "Some title", null)
-                val bitmapUri: Uri = Uri.parse(bitmapPath)
-                val intent = Intent(Intent.ACTION_SEND)
-                intent.setType("image/*")
-                intent.putExtra(Intent.EXTRA_STREAM, bitmapUri)
-                startActivity(Intent.createChooser(intent, R.string.share_title.toString()))
-            }
-            img_save_btn.setOnClickListener {
-                setDowloadDilog(img!!)
-            }
-        }
     }
 
     private fun insertDataToDatabase(img: String) {
         if(inputCheck(img) && !dao.isExistPic(img)){
             val myPicturePaper = MyPicturePaper(img)
-            mMyPicViewModel.addPicPaper(myPicturePaper)
+            mMyPicViewModel!!.addPicPaper(myPicturePaper)
         }
 
+    }
+
+    private fun insertDataToFavorite(img:String){
+        if(inputCheck(img) && !dao.isExistFavor(img)){
+            val myPicFavoritePicture = MyFavoritePicture(img)
+            mMyFavorViewModel!!.addFavorite(myPicFavoritePicture)
+        }
+    }
+    private fun setIconHeart(img:String){
+         if(dao.isExistFavor(img)){
+             img_icon_heart.setImageDrawable(ContextCompat.getDrawable(this,R.drawable.heart_select_max))
+         }else{
+             img_icon_heart.setImageDrawable(ContextCompat.getDrawable(this,R.drawable.heart_unselect_max))
+             img_icon_heart.setOnClickListener {
+                 insertDataToFavorite(img)
+                 img_icon_heart.setImageDrawable(ContextCompat.getDrawable(this,R.drawable.heart_select_max))
+             }
+
+         }
     }
 
     private fun inputCheck(pathPic: String): Boolean {
