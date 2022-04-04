@@ -18,12 +18,12 @@ import android.view.WindowManager
 import android.webkit.URLUtil
 import android.widget.ImageView
 import android.widget.Toast
+import androidx.core.content.ContextCompat
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.room.Room
 import com.bumptech.glide.Glide
-import com.daotrung.wallpapers_2021.room.MyPicViewModel
-import com.daotrung.wallpapers_2021.room.MyPicturePaper
-import com.daotrung.wallpapers_2021.room.MyWallpaperViewModel
+import com.daotrung.wallpapers_2021.room.*
 import com.downloader.*
 import com.karumi.dexter.Dexter
 import com.karumi.dexter.MultiplePermissionsReport
@@ -35,21 +35,36 @@ import java.lang.Error
 
 private var id: Int = 0
 private var img: String? = ""
-private lateinit var myList : List<MyPicturePaper>
+private lateinit var myList : List<MyFavoritePicture>
 
 
 class MyWallSliderActivity : AppCompatActivity() {
 
     private var img_lay : ImageView? = null
-    private lateinit var myPicViewModel: MyPicViewModel
+    private lateinit var database: MyWallPaperDatabase
+    private lateinit var dao: IDao
+    private lateinit var myFavoriteModel: MyFavoriteModel
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+
+        // khởi tạo database , dao , viewModel
+        database = Room.databaseBuilder(
+            this,
+            MyWallPaperDatabase::class.java,
+            "mywall_database"
+        ).allowMainThreadQueries().build()
+
+        dao = database.getMyWallDao()
+
+        myFavoriteModel = ViewModelProvider(this)[MyFavoriteModel::class.java]
 
         requestWindowFeature(Window.FEATURE_NO_TITLE)
         this.window.setFlags(
             WindowManager.LayoutParams.FLAG_FULLSCREEN,
             WindowManager.LayoutParams.FLAG_FULLSCREEN
         )
+
         setContentView(R.layout.activity_slider_wallpaper)
 
        val img_layout: ImageView = findViewById<ImageView>(R.id.img_slider_wallpaper_last)
@@ -58,16 +73,20 @@ class MyWallSliderActivity : AppCompatActivity() {
         val  img_right_arrow: ImageView = findViewById<ImageView>(R.id.img_arrow_right_wallpaper)
       val img_share_btn: ImageView= findViewById<ImageView>(R.id.img_share_wallpaper)
       val  img_save_btn: ImageView = findViewById<ImageView>(R.id.img_btn_save_wallpaper)
+      val img_icon_heart : ImageView = findViewById(R.id.img_icon_heart_big)
+
 
         img_lay = img_layout
+
+        img_icon_heart.setImageDrawable(ContextCompat.getDrawable(this,R.drawable.heart_select_max))
         img_close.setOnClickListener {
             finish()
         }
 
         // lấy list từ room database
-        myPicViewModel = ViewModelProvider(this).get(MyPicViewModel::class.java)
+        myFavoriteModel = ViewModelProvider(this).get(MyFavoriteModel::class.java)
 
-        myPicViewModel.allPicPaper.observe(this, Observer {
+        myFavoriteModel.allPicFavorite.observe(this, Observer {
             mypic-> myList = mypic
 
             val intent = intent
@@ -75,31 +94,43 @@ class MyWallSliderActivity : AppCompatActivity() {
              id = intent.getIntExtra("id_picture",-1)
             Log.e("id_get",intent.getIntExtra("id_picture",-1).toString())
             Log.e("my_list",myList.toString())
-            Log.e("imge_url", myList[id].myPicUrl)
-            Glide.with(this).load(myList[id].myPicUrl).into(img_lay!!)
+            Log.e("imge_url", myList[id].myUrlHeart)
+            Glide.with(this).load(myList[id].myUrlHeart).into(img_lay!!)
 
         })
 
         img_left_arrow.setOnClickListener {
             if(id == 0){
                 id = myList.size-1
-                img =  myList[id].myPicUrl
+                img =  myList[id].myUrlHeart
                 Glide.with(this).load(img).into(img_lay!!)
+                if(dao.isExistFavor(img!!)){
+                    img_icon_heart.setImageDrawable(ContextCompat.getDrawable(this,R.drawable.heart_select_max))
+                }
             }else{
                 id--
-                img = myList[id].myPicUrl
+                img = myList[id].myUrlHeart
                 Glide.with(this).load(img).into(img_lay!!)
+                if(dao.isExistFavor(img!!)){
+                    img_icon_heart.setImageDrawable(ContextCompat.getDrawable(this,R.drawable.heart_select_max))
+                }
             }
         }
         img_right_arrow.setOnClickListener {
             if(id == myList.size-1){
                 id = 0
-                img = myList[id].myPicUrl
+                img = myList[id].myUrlHeart
                 Glide.with(this).load(img).into(img_lay!!)
+                if(dao.isExistFavor(img!!)){
+                    img_icon_heart.setImageDrawable(ContextCompat.getDrawable(this,R.drawable.heart_select_max))
+                }
             }else{
                 id++
-                img =  myList[id].myPicUrl
+                img =  myList[id].myUrlHeart
                 Glide.with(this).load(img).into(img_lay!!)
+                if(dao.isExistFavor(img!!)){
+                    img_icon_heart.setImageDrawable(ContextCompat.getDrawable(this,R.drawable.heart_select_max))
+                }
             }
         }
 

@@ -19,8 +19,6 @@ import com.daotrung.wallpapers_2021.room.MyWallPaperDatabase
 import java.io.Serializable
 import kotlin.math.log
 
-const val urlImage = "http://hdwalls.wallzapps.com/upload/category/"
-
 class ListTrendingAdapter(private val data: MaterialWapaper) :
     RecyclerView.Adapter<ListTrendingAdapter.MyViewHolder>() {
 
@@ -29,7 +27,6 @@ class ListTrendingAdapter(private val data: MaterialWapaper) :
 
     inner class MyViewHolder(val view: View) : RecyclerView.ViewHolder(view) {
         fun bind(materialWapaper: Trending) {
-
 
             // khởi tạo database , dao , viewModel
             database = Room.databaseBuilder(
@@ -44,7 +41,7 @@ class ListTrendingAdapter(private val data: MaterialWapaper) :
             val imgIcon = view.findViewById<ImageView>(R.id.icon_heart)
 
 
-            Glide.with(view.context).load(urlImage + materialWapaper.category_image).centerCrop()
+            Glide.with(view.context).load(get_url_img_thumb + materialWapaper.image).centerCrop()
                 .into(imgView)
 
             imgView.setOnClickListener {
@@ -56,7 +53,7 @@ class ListTrendingAdapter(private val data: MaterialWapaper) :
                 view.context.startActivity(intent)
             }
 
-            if(dao.isExistFavor(urlImage+materialWapaper.category_image)){
+            if(dao.isExistFavor(get_url_img_thumb+materialWapaper.image)){
                 imgIcon.setImageDrawable(ContextCompat.getDrawable(itemView.context,R.drawable.heart_select))
             }
 

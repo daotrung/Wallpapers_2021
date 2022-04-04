@@ -303,7 +303,6 @@ class LiveVideoActivity : AppCompatActivity() {
         val uri: Uri = Uri.parse(path)
         val fileName = File(uri.path).name
 
-        Log.e("name", fileName)
         if (fileName.contains(".bin")) {
             Toast.makeText(this, R.string.warning_type_file, Toast.LENGTH_SHORT).show()
         } else {

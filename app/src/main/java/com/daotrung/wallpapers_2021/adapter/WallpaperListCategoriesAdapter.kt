@@ -19,7 +19,7 @@ import com.daotrung.wallpapers_2021.room.IDao
 import com.daotrung.wallpapers_2021.room.MyWallPaperDatabase
 import java.io.Serializable
 
-const val urlIma = "https://hdwalls.wallzapps.com/upload/"
+const val get_url_img_thumb = "http://hdwalls.wallzapps.com/upload/"
 
 class ListWallpaperCategoriesAdapter(private val data: MaterialWallpaperCatList) :
     RecyclerView.Adapter<ListWallpaperCategoriesAdapter.MyViewHolder>() {
@@ -43,7 +43,7 @@ class ListWallpaperCategoriesAdapter(private val data: MaterialWallpaperCatList)
 
             val imageView = view.findViewById<ImageView>(R.id.img_list_trending)
             val imgIcon = view.findViewById<ImageView>(R.id.icon_heart)
-            Glide.with(view.context).load(urlIma + materialWallpaperCatList.images).centerCrop()
+            Glide.with(view.context).load(get_url_img_thumb + materialWallpaperCatList.images).centerCrop()
                 .into(imageView)
 
             imageView.setOnClickListener {
@@ -52,7 +52,7 @@ class ListWallpaperCategoriesAdapter(private val data: MaterialWallpaperCatList)
                 intent.putExtra("pos_img_categories", layoutPosition + 1)
                 view.context.startActivity(intent)
             }
-            if(dao.isExistFavor(urlIma+materialWallpaperCatList.images)){
+            if(dao.isExistFavor(get_url_img_thumb+materialWallpaperCatList.images)){
                 imgIcon.setImageDrawable(ContextCompat.getDrawable(itemView.context,R.drawable.heart_select))
             }
 

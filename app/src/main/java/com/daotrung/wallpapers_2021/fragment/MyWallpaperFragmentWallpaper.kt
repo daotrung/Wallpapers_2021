@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.daotrung.wallpapers_2021.R
 import com.daotrung.wallpapers_2021.adapter.MyWallpaperWallAdapter
 import com.daotrung.wallpapers_2021.model.MyWallpaperWall
+import com.daotrung.wallpapers_2021.room.MyFavoriteModel
 import com.daotrung.wallpapers_2021.room.MyPicViewModel
 import com.daotrung.wallpapers_2021.service.ApiInterface
 import retrofit2.Call
@@ -23,7 +24,7 @@ class MyWallpaperFragmentWallpaper : Fragment() {
 
     private lateinit var recyclerView: RecyclerView
     private lateinit var manager: RecyclerView.LayoutManager
-    private lateinit var myPicViewModel: MyPicViewModel
+    private lateinit var myFavoriteModel: MyFavoriteModel
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -41,8 +42,8 @@ class MyWallpaperFragmentWallpaper : Fragment() {
         recyclerView.adapter = myWallpaperWallAdapter
         recyclerView.layoutManager = manager
 
-        myPicViewModel = ViewModelProvider(this).get(MyPicViewModel::class.java)
-        myPicViewModel.allPicPaper.observe(viewLifecycleOwner, Observer {
+        myFavoriteModel = ViewModelProvider(this).get(MyFavoriteModel::class.java)
+        myFavoriteModel.allPicFavorite.observe(viewLifecycleOwner, Observer {
             mywall->
             myWallpaperWallAdapter.setData(mywall)
         })

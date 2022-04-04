@@ -1,6 +1,7 @@
 package com.daotrung.wallpapers_2021
 
 import android.app.AlertDialog
+import android.app.Application
 import android.app.ProgressDialog
 import android.app.WallpaperManager
 import android.content.DialogInterface
@@ -37,18 +38,16 @@ import java.io.File
 import java.io.Serializable
 import java.lang.Error
 
-const val urlGetImage = "https://hdwalls.wallzapps.com/upload/"
+const val url_get_img_preview = "http://hdwalls.wallzapps.com/upload/"
 
 class SliderWallpaperActivity : AppCompatActivity() {
 
     private  var mMyPicViewModel : MyPicViewModel? = null
-    private  var mMyFavorViewModel : MyFavoriteModel? = null
+    private  var mMyFavoriteModel : MyFavoriteModel? = null
     private lateinit var database: MyWallPaperDatabase
     private lateinit var dao: IDao
     private var list: MaterialWapaper = MaterialWapaper(ArrayList<Trending>())
     private var listCate: MaterialWallpaperCatList = MaterialWallpaperCatList(ArrayList<CatList>())
-
-
     private var id: Int = 1
     private var img: String? = ""
     private lateinit var img_layout: ImageView
@@ -58,6 +57,8 @@ class SliderWallpaperActivity : AppCompatActivity() {
     private lateinit var img_save_btn: ImageView
     private lateinit var img_share_btn: ImageView
     private lateinit var img_icon_heart : ImageView
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -70,61 +71,57 @@ class SliderWallpaperActivity : AppCompatActivity() {
 
         dao = database.getMyWallDao()
         mMyPicViewModel = ViewModelProvider(this)[MyPicViewModel::class.java]
+        mMyFavoriteModel = ViewModelProvider(this)[MyFavoriteModel::class.java]
 
-
-
-        requestWindowFeature(Window.FEATURE_NO_TITLE)
-        this.window.setFlags(
-            WindowManager.LayoutParams.FLAG_FULLSCREEN,
-            WindowManager.LayoutParams.FLAG_FULLSCREEN
-        )
+        setFullScreenMode()
         setContentView(R.layout.activity_slider_wallpaper)
 
         val intent = intent
-        img_icon_heart = findViewById(R.id.img_icon_heart_big)
-        img_layout = findViewById(R.id.img_slider_wallpaper_last)
-        img_close = findViewById(R.id.img_close_live_wallpaper)
-        img_left_arrow = findViewById(R.id.img_arrow_left_wallpaper)
-        img_right_arrow = findViewById(R.id.img_arrow_right_wallpaper)
-        img_save_btn = findViewById(R.id.img_btn_save_wallpaper)
-        img_share_btn = findViewById(R.id.img_share_wallpaper)
 
-        PRDownloader.initialize(applicationContext)
+        inFinViewById()
 
         if (intent.getIntExtra("pos_img_trend", 0) >= 1) {
 
 
             list = intent.getSerializableExtra("list_img_trend") as MaterialWapaper
             id = intent.getIntExtra("pos_img_trend", 0) - 1
-            img = urlGetImage + list.MaterialWallpaper[id].image
+            img = url_get_img_preview + list.MaterialWallpaper[id].image
 
-            insertDataToDatabase(img!!)
+//            insertDataToDatabase(img!!)
+            setIconHeart(img!!)
+
             Glide.with(this).load(img).into(img_layout)
-
+            img_icon_heart.setOnClickListener {
+                setIconHeart(img!!)
+            }
             img_close.setOnClickListener {
                 finish()
             }
             img_left_arrow.setOnClickListener {
                 if (id == 0) {
                     id = list.MaterialWallpaper.size - 1
-                    img = urlGetImage + list.MaterialWallpaper[id].image
+                    img = url_get_img_preview + list.MaterialWallpaper[id].image
                     Glide.with(this).load(img).into(img_layout)
+                    setIconHeart(img!!)
                 } else {
                     id--
-                    img = urlGetImage + list.MaterialWallpaper[id].image
+                    img = url_get_img_preview + list.MaterialWallpaper[id].image
                     Glide.with(this).load(img).into(img_layout)
+                    setIconHeart(img!!)
                 }
             }
             img_right_arrow.setOnClickListener {
 
                 if (id == list.MaterialWallpaper.size - 1) {
                     id = 0
-                    img = urlGetImage + list.MaterialWallpaper[id].image
+                    img = url_get_img_preview + list.MaterialWallpaper[id].image
                     Glide.with(this).load(img).into(img_layout)
+                    setIconHeart(img!!)
                 } else {
                     id++
-                    img = urlGetImage + list.MaterialWallpaper[id].image
+                    img = url_get_img_preview + list.MaterialWallpaper[id].image
                     Glide.with(this).load(img).into(img_layout)
+                    setIconHeart(img!!)
                 }
             }
             img_save_btn.setOnClickListener {
@@ -151,12 +148,15 @@ class SliderWallpaperActivity : AppCompatActivity() {
                 intent.getSerializableExtra("list_img_categories") as MaterialWallpaperCatList
             id = intent.getIntExtra("pos_img_categories", 0) - 1
 
-            img = urlGetImage + listCate.MaterialWallpaper[id].images
+            img = url_get_img_preview + listCate.MaterialWallpaper[id].images
 
-            insertDataToDatabase(img!!)
-//            setIconHeart(img!!)
+            setIconHeart(img!!)
+
             Glide.with(this).load(img).into(img_layout)
+            img_icon_heart.setOnClickListener {
+                setIconHeart(img!!)
 
+            }
             img_close.setOnClickListener {
                 finish()
             }
@@ -164,24 +164,28 @@ class SliderWallpaperActivity : AppCompatActivity() {
 
                 if (id == 0) {
                     id = listCate.MaterialWallpaper.size - 1
-                    img = urlGetImage + listCate.MaterialWallpaper[id].images
+                    img = url_get_img_preview + listCate.MaterialWallpaper[id].images
                     Glide.with(this).load(img).into(img_layout)
+                    setIconHeart(img!!)
                 } else {
                     id--
-                    img = urlGetImage + listCate.MaterialWallpaper[id].images
+                    img = url_get_img_preview + listCate.MaterialWallpaper[id].images
                     Glide.with(this).load(img).into(img_layout)
+                    setIconHeart(img!!)
                 }
 
             }
             img_right_arrow.setOnClickListener {
                 if (id == listCate.MaterialWallpaper.size - 1) {
                     id = 0
-                    img = urlGetImage + listCate.MaterialWallpaper[id].images
+                    img = url_get_img_preview + listCate.MaterialWallpaper[id].images
                     Glide.with(this).load(img).into(img_layout)
+                    setIconHeart(img!!)
                 } else {
                     id++
-                    img = urlGetImage + listCate.MaterialWallpaper[id].images
+                    img = url_get_img_preview + listCate.MaterialWallpaper[id].images
                     Glide.with(this).load(img).into(img_layout)
+                    setIconHeart(img!!)
                 }
 
             }
@@ -204,11 +208,14 @@ class SliderWallpaperActivity : AppCompatActivity() {
         if (intent.getIntExtra("pos_img_color", 0) >= 1) {
             listCate = intent.getSerializableExtra("list_img_color") as MaterialWallpaperCatList
             id = intent.getIntExtra("pos_img_color", 0) - 1
-            img = urlGetImage + listCate.MaterialWallpaper.get(id).images
+            img = url_get_img_preview + listCate.MaterialWallpaper.get(id).images
 
-            insertDataToDatabase(img!!)
-            insertDataToFavorite(img!!)
-//            setIconHeart(img!!)
+
+            setIconHeart(img!!)
+            img_icon_heart.setOnClickListener {
+                setIconHeart(img!!)
+
+            }
             Glide.with(this).load(img).into(img_layout)
             img_close.setOnClickListener {
                 finish()
@@ -216,24 +223,28 @@ class SliderWallpaperActivity : AppCompatActivity() {
             img_left_arrow.setOnClickListener {
                 if (id == 0) {
                     id = listCate.MaterialWallpaper.size - 1
-                    img = urlGetImage + listCate.MaterialWallpaper[id].images
+                    img = url_get_img_preview + listCate.MaterialWallpaper[id].images
                     Glide.with(this).load(img).into(img_layout)
+                    setIconHeart(img!!)
                 } else {
                     id--
-                    img = urlGetImage + listCate.MaterialWallpaper[id].images
+                    img = url_get_img_preview + listCate.MaterialWallpaper[id].images
                     Glide.with(this).load(img).into(img_layout)
+                    setIconHeart(img!!)
                 }
 
             }
             img_right_arrow.setOnClickListener {
                 if (id == listCate.MaterialWallpaper.size - 1) {
                     id = 0
-                    img = urlGetImage + listCate.MaterialWallpaper[id].images
+                    img = url_get_img_preview + listCate.MaterialWallpaper[id].images
                     Glide.with(this).load(img).into(img_layout)
+                    setIconHeart(img!!)
                 } else {
                     id++
-                    img = urlGetImage + listCate.MaterialWallpaper[id].images
+                    img = url_get_img_preview + listCate.MaterialWallpaper[id].images
                     Glide.with(this).load(img).into(img_layout)
+                    setIconHeart(img!!)
                 }
 
             }
@@ -255,6 +266,24 @@ class SliderWallpaperActivity : AppCompatActivity() {
 
     }
 
+    private fun setFullScreenMode() {
+        requestWindowFeature(Window.FEATURE_NO_TITLE)
+        this.window.setFlags(
+            WindowManager.LayoutParams.FLAG_FULLSCREEN,
+            WindowManager.LayoutParams.FLAG_FULLSCREEN)
+        PRDownloader.initialize(applicationContext)
+    }
+
+    private fun inFinViewById() {
+        img_icon_heart = findViewById(R.id.img_icon_heart_big)
+        img_layout = findViewById(R.id.img_slider_wallpaper_last)
+        img_close = findViewById(R.id.img_close_live_wallpaper)
+        img_left_arrow = findViewById(R.id.img_arrow_left_wallpaper)
+        img_right_arrow = findViewById(R.id.img_arrow_right_wallpaper)
+        img_save_btn = findViewById(R.id.img_btn_save_wallpaper)
+        img_share_btn = findViewById(R.id.img_share_wallpaper)
+    }
+
     private fun insertDataToDatabase(img: String) {
         if(inputCheck(img) && !dao.isExistPic(img)){
             val myPicturePaper = MyPicturePaper(img)
@@ -264,9 +293,9 @@ class SliderWallpaperActivity : AppCompatActivity() {
     }
 
     private fun insertDataToFavorite(img:String){
-        if(inputCheck(img) && !dao.isExistFavor(img)){
-            val myPicFavoritePicture = MyFavoritePicture(img)
-            mMyFavorViewModel!!.addFavorite(myPicFavoritePicture)
+        if(inputCheck(img)) {
+            val myFavoritePicture = MyFavoritePicture(img)
+            mMyFavoriteModel!!.addFavorite(myFavoritePicture)
         }
     }
     private fun setIconHeart(img:String){
@@ -275,8 +304,9 @@ class SliderWallpaperActivity : AppCompatActivity() {
          }else{
              img_icon_heart.setImageDrawable(ContextCompat.getDrawable(this,R.drawable.heart_unselect_max))
              img_icon_heart.setOnClickListener {
-                 insertDataToFavorite(img)
                  img_icon_heart.setImageDrawable(ContextCompat.getDrawable(this,R.drawable.heart_select_max))
+                 insertDataToFavorite(img)
+                 Toast.makeText(this,"Đã thích ảnh",Toast.LENGTH_SHORT).show()
              }
 
          }

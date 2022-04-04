@@ -17,7 +17,6 @@ import com.daotrung.wallpapers_2021.room.IDao
 import com.daotrung.wallpapers_2021.room.MyWallPaperDatabase
 import java.io.Serializable
 
-const val urlIm = "https://hdwalls.wallzapps.com/upload/"
 
 class ListWallpaperColorAdapter(private val data: MaterialWallpaperCatList) :
     RecyclerView.Adapter<ListWallpaperColorAdapter.MyViewHolder>() {
@@ -39,7 +38,7 @@ class ListWallpaperColorAdapter(private val data: MaterialWallpaperCatList) :
 
             val imgView = view.findViewById<ImageView>(R.id.img_list_trending)
             val imgIcon = view.findViewById<ImageView>(R.id.icon_heart)
-            Glide.with(view.context).load(urlIm + materialWallpaperCatList.images).centerCrop()
+            Glide.with(view.context).load(get_url_img_thumb + materialWallpaperCatList.images).centerCrop()
                 .into(imgView)
 
             imgView.setOnClickListener {
@@ -49,7 +48,7 @@ class ListWallpaperColorAdapter(private val data: MaterialWallpaperCatList) :
                 view.context.startActivity(intent)
             }
 
-            if(dao.isExistFavor(urlIma+materialWallpaperCatList.images)){
+            if(dao.isExistFavor(get_url_img_thumb+materialWallpaperCatList.images)){
                 imgIcon.setImageDrawable(ContextCompat.getDrawable(itemView.context,R.drawable.heart_select))
             }
         }
