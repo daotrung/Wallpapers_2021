@@ -3,8 +3,6 @@ package com.daotrung.wallpapers_2021
 import android.annotation.SuppressLint
 import android.app.AlertDialog
 import android.app.WallpaperManager
-import android.content.ComponentName
-import android.content.Intent
 import android.net.Uri
 import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
@@ -19,9 +17,9 @@ import com.daotrung.wallpapers_2021.model.SlideLiveWapaper
 import java.io.File
 import android.app.DownloadManager
 import android.app.ProgressDialog
-import android.content.Context
-import android.content.DialogInterface
+import android.content.*
 import android.os.Environment
+import android.provider.MediaStore
 import android.text.TextUtils
 import android.webkit.URLUtil
 import androidx.lifecycle.ViewModelProvider
@@ -38,6 +36,10 @@ import com.karumi.dexter.listener.PermissionRequest
 import com.karumi.dexter.listener.multi.MultiplePermissionsListener
 import java.io.IOException
 import java.lang.Error
+import android.content.Intent
+
+
+
 
 
 private var list: ArrayList<SlideLiveWapaper> = ArrayList()
@@ -172,6 +174,16 @@ class LiveVideoActivity : AppCompatActivity() {
 
             }
 
+
+            img_share_btn.setOnClickListener {
+                val share = Intent(Intent.ACTION_SEND)
+                share.type = "text/plain"
+                share.addFlags(Intent.FLAG_ACTIVITY_CLEAR_WHEN_TASK_RESET)
+                share.putExtra(Intent.EXTRA_SUBJECT, "Title Of The Post")
+                share.putExtra(Intent.EXTRA_TEXT, pathVideo)
+                startActivity(Intent.createChooser(share, "Share link!"))
+            }
+
     }
 
     // Xử lý add Room_database
@@ -296,6 +308,7 @@ class LiveVideoActivity : AppCompatActivity() {
         builderSetWallpaper.setNegativeButton("No"){dialogInterface: DialogInterface, i: Int ->
             finish()
         }
+        builderSetWallpaper.show()
     }
 
     // display video to background

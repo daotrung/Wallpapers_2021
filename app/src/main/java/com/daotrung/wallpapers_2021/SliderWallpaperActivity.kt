@@ -58,7 +58,6 @@ class SliderWallpaperActivity : AppCompatActivity() {
     private lateinit var img_share_btn: ImageView
     private lateinit var img_icon_heart : ImageView
 
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -128,19 +127,7 @@ class SliderWallpaperActivity : AppCompatActivity() {
                 setDowloadDilog(img!!)
             }
             img_share_btn.setOnClickListener {
-                val bitmapDrawale: BitmapDrawable = img_layout.drawable as BitmapDrawable
-                val bitmap: Bitmap = bitmapDrawale.bitmap
-                val bitmapPath: String = MediaStore.Images.Media.insertImage(
-                    contentResolver,
-                    bitmap,
-                    "Some title",
-                    null
-                )
-                val bitmapUri: Uri = Uri.parse(bitmapPath)
-                val intent = Intent(Intent.ACTION_SEND)
-                intent.setType("image/*")
-                intent.putExtra(Intent.EXTRA_STREAM, bitmapUri)
-                startActivity(Intent.createChooser(intent, "Share Image to Anothe App"))
+                shareImg()
             }
         }
         if (intent.getIntExtra("pos_img_categories", 0) >= 1) {
@@ -153,6 +140,8 @@ class SliderWallpaperActivity : AppCompatActivity() {
             setIconHeart(img!!)
 
             Glide.with(this).load(img).into(img_layout)
+
+            // can fix
             img_icon_heart.setOnClickListener {
                 setIconHeart(img!!)
 
@@ -190,15 +179,7 @@ class SliderWallpaperActivity : AppCompatActivity() {
 
             }
             img_share_btn.setOnClickListener {
-                val bitmapDrawale: BitmapDrawable = img_layout.drawable as BitmapDrawable
-                val bitmap: Bitmap = bitmapDrawale.bitmap
-                val bitmapPath: String =
-                    MediaStore.Images.Media.insertImage(contentResolver, bitmap, "Some title", null)
-                val bitmapUri: Uri = Uri.parse(bitmapPath)
-                val intent = Intent(Intent.ACTION_SEND)
-                intent.setType("image/*")
-                intent.putExtra(Intent.EXTRA_STREAM, bitmapUri)
-                startActivity(Intent.createChooser(intent, "Share Image to Another App"))
+                shareImg()
             }
             img_save_btn.setOnClickListener {
                 setDowloadDilog(img!!)
@@ -249,20 +230,52 @@ class SliderWallpaperActivity : AppCompatActivity() {
 
             }
             img_share_btn.setOnClickListener {
-                val bitmapDrawale: BitmapDrawable = img_layout.drawable as BitmapDrawable
-                val bitmap: Bitmap = bitmapDrawale.bitmap
-                val bitmapPath: String =
-                    MediaStore.Images.Media.insertImage(contentResolver, bitmap, "Some title", null)
-                val bitmapUri: Uri = Uri.parse(bitmapPath)
-                val intent = Intent(Intent.ACTION_SEND)
-                intent.setType("image/*")
-                intent.putExtra(Intent.EXTRA_STREAM, bitmapUri)
-                startActivity(Intent.createChooser(intent, "Share Image to Another App"))
+               shareImg()
             }
             img_save_btn.setOnClickListener {
                 setDowloadDilog(img!!)
             }
         }
+
+    }
+
+    private fun shareImg() {
+
+        var file: File =
+            Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS)
+        PRDownloader.download(img, file.path, URLUtil.guessFileName(img, null, null))
+            .build()
+            .setOnStartOrResumeListener { }
+            .setOnPauseListener { }
+            .setOnCancelListener(object : OnCancelListener {
+                override fun onCancel() {}
+            })
+            .setOnProgressListener(object : OnProgressListener {
+                override fun onProgress(progress: Progress?) {
+                }
+
+            })
+            .start(object : OnDownloadListener {
+                override fun onDownloadComplete() {
+                    val bitmapDrawale: BitmapDrawable = img_layout.drawable as BitmapDrawable
+                    val bitmap: Bitmap = bitmapDrawale.bitmap
+                    val bitmapPath: String =
+                        MediaStore.Images.Media.insertImage(contentResolver, bitmap, "Some title", null)
+                    val bitmapUri: Uri = Uri.parse(bitmapPath)
+                    val intent = Intent(Intent.ACTION_SEND)
+                    intent.setType("image/*")
+                    intent.putExtra(Intent.EXTRA_STREAM, bitmapUri)
+                    startActivity(Intent.createChooser(intent, "Share Image to Another App"))
+
+                }
+
+                override fun onError(error: com.downloader.Error?) {
+                    Toast.makeText(this@SliderWallpaperActivity, "Error", Toast.LENGTH_SHORT)
+                }
+
+                fun onError(error: Error?) {}
+            })
+
 
     }
 
@@ -293,14 +306,27 @@ class SliderWallpaperActivity : AppCompatActivity() {
     }
 
     private fun insertDataToFavorite(img:String){
-        if(inputCheck(img)) {
+        if(inputCheck(img)&&!dao.isExistFavor(img)) {
             val myFavoritePicture = MyFavoritePicture(img)
             mMyFavoriteModel!!.addFavorite(myFavoritePicture)
+            mMyFavoriteModel!!.deleteFavorite(myFavoritePicture)
+        }
+    }
+
+    private fun deleteDataToFavorite(img:String){
+        if(inputCheck(img)&&!dao.isExistFavor(img)) {
+            val myFavoritePicture = MyFavoritePicture(img)
+            mMyFavoriteModel!!.deleteFavorite(myFavoritePicture)
         }
     }
     private fun setIconHeart(img:String){
          if(dao.isExistFavor(img)){
              img_icon_heart.setImageDrawable(ContextCompat.getDrawable(this,R.drawable.heart_select_max))
+             img_icon_heart.setOnClickListener {
+                 img_icon_heart.setImageDrawable(ContextCompat.getDrawable(this,R.drawable.heart_unselect_max))
+                 deleteDataToFavorite(img)
+                 Toast.makeText(this,"Đã xóa ảnh khỏi danh sách yêu thích ",Toast.LENGTH_SHORT).show()
+             }
          }else{
              img_icon_heart.setImageDrawable(ContextCompat.getDrawable(this,R.drawable.heart_unselect_max))
              img_icon_heart.setOnClickListener {
@@ -398,7 +424,7 @@ class SliderWallpaperActivity : AppCompatActivity() {
             .setOnProgressListener(object : OnProgressListener {
                 override fun onProgress(progress: Progress?) {
                     var per = progress!!.currentBytes * 100 / progress.totalBytes
-                    pd.setMessage("Dowloading : $per %")
+                    pd.setMessage("Downloading : $per %")
                 }
 
             })
@@ -407,7 +433,7 @@ class SliderWallpaperActivity : AppCompatActivity() {
                     pd.dismiss()
                     Toast.makeText(
                         this@SliderWallpaperActivity,
-                        "Dowloading Completed",
+                        "Downloading Completed",
                         Toast.LENGTH_SHORT
                     )
                     setWalpaperDialog()

@@ -140,6 +140,14 @@ class MyLiveSliderActivity : AppCompatActivity() {
             setDiloagVideo(pathVideo)
 
         }
+        img_share_btn.setOnClickListener {
+            val share = Intent(Intent.ACTION_SEND)
+            share.type = "text/plain"
+            share.addFlags(Intent.FLAG_ACTIVITY_CLEAR_WHEN_TASK_RESET)
+            share.putExtra(Intent.EXTRA_SUBJECT, "Title Of The Post")
+            share.putExtra(Intent.EXTRA_TEXT, pathVideo)
+            startActivity(Intent.createChooser(share, "Share link!"))
+        }
 
     }
 
@@ -160,7 +168,6 @@ class MyLiveSliderActivity : AppCompatActivity() {
                 }
             }
         }
-
 
     }
 

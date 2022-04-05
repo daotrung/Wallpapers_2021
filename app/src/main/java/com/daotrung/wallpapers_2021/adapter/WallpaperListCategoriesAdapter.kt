@@ -54,7 +54,9 @@ class ListWallpaperCategoriesAdapter(private val data: MaterialWallpaperCatList)
             }
             if(dao.isExistFavor(get_url_img_thumb+materialWallpaperCatList.images)){
                 imgIcon.setImageDrawable(ContextCompat.getDrawable(itemView.context,R.drawable.heart_select))
+
             }
+
 
         }
     }
@@ -67,9 +69,17 @@ class ListWallpaperCategoriesAdapter(private val data: MaterialWallpaperCatList)
 
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
         holder.bind(data.MaterialWallpaper[position])
+
     }
 
     override fun getItemCount(): Int {
         return data.MaterialWallpaper.size
     }
+
+    fun update(pos : Int){
+
+    }
+
+
+
 }
