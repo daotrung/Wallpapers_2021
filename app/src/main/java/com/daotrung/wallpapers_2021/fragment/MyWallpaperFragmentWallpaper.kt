@@ -1,5 +1,6 @@
 package com.daotrung.wallpapers_2021.fragment
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -49,6 +50,8 @@ class MyWallpaperFragmentWallpaper : Fragment() {
         })
         return v
     }
+
+
 
 
 }

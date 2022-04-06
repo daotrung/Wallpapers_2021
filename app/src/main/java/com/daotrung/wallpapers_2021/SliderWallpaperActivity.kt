@@ -42,7 +42,6 @@ const val url_get_img_preview = "http://hdwalls.wallzapps.com/upload/"
 
 class SliderWallpaperActivity : AppCompatActivity() {
 
-    private  var mMyPicViewModel : MyPicViewModel? = null
     private  var mMyFavoriteModel : MyFavoriteModel? = null
     private lateinit var database: MyWallPaperDatabase
     private lateinit var dao: IDao
@@ -50,6 +49,7 @@ class SliderWallpaperActivity : AppCompatActivity() {
     private var listCate: MaterialWallpaperCatList = MaterialWallpaperCatList(ArrayList<CatList>())
     private var id: Int = 1
     private var img: String? = ""
+    private var check : Boolean = false
     private lateinit var img_layout: ImageView
     private lateinit var img_close: ImageView
     private lateinit var img_left_arrow: ImageView
@@ -69,7 +69,6 @@ class SliderWallpaperActivity : AppCompatActivity() {
         ).allowMainThreadQueries().build()
 
         dao = database.getMyWallDao()
-        mMyPicViewModel = ViewModelProvider(this)[MyPicViewModel::class.java]
         mMyFavoriteModel = ViewModelProvider(this)[MyFavoriteModel::class.java]
 
         setFullScreenMode()
@@ -86,13 +85,9 @@ class SliderWallpaperActivity : AppCompatActivity() {
             id = intent.getIntExtra("pos_img_trend", 0) - 1
             img = url_get_img_preview + list.MaterialWallpaper[id].image
 
-//            insertDataToDatabase(img!!)
-            setIconHeart(img!!)
 
             Glide.with(this).load(img).into(img_layout)
-            img_icon_heart.setOnClickListener {
-                setIconHeart(img!!)
-            }
+            setIconHeart(img!!)
             img_close.setOnClickListener {
                 finish()
             }
@@ -190,7 +185,6 @@ class SliderWallpaperActivity : AppCompatActivity() {
             listCate = intent.getSerializableExtra("list_img_color") as MaterialWallpaperCatList
             id = intent.getIntExtra("pos_img_color", 0) - 1
             img = url_get_img_preview + listCate.MaterialWallpaper.get(id).images
-
 
             setIconHeart(img!!)
             img_icon_heart.setOnClickListener {
@@ -297,11 +291,9 @@ class SliderWallpaperActivity : AppCompatActivity() {
         img_share_btn = findViewById(R.id.img_share_wallpaper)
     }
 
-    private fun insertDataToDatabase(img: String) {
-        if(inputCheck(img) && !dao.isExistPic(img)){
-            val myPicturePaper = MyPicturePaper(img)
-            mMyPicViewModel!!.addPicPaper(myPicturePaper)
-        }
+    private fun deleteFavorite(img: String) {
+            dao.deleteItemWithUrl(img)
+            img_icon_heart.setImageDrawable(ContextCompat.getDrawable(this,R.drawable.heart_unselect_max))
 
     }
 
@@ -309,34 +301,35 @@ class SliderWallpaperActivity : AppCompatActivity() {
         if(inputCheck(img)&&!dao.isExistFavor(img)) {
             val myFavoritePicture = MyFavoritePicture(img)
             mMyFavoriteModel!!.addFavorite(myFavoritePicture)
-            mMyFavoriteModel!!.deleteFavorite(myFavoritePicture)
+            img_icon_heart.setImageDrawable(ContextCompat.getDrawable(this,R.drawable.heart_select_max))
         }
     }
 
-    private fun deleteDataToFavorite(img:String){
-        if(inputCheck(img)&&!dao.isExistFavor(img)) {
-            val myFavoritePicture = MyFavoritePicture(img)
-            mMyFavoriteModel!!.deleteFavorite(myFavoritePicture)
-        }
-    }
     private fun setIconHeart(img:String){
-         if(dao.isExistFavor(img)){
-             img_icon_heart.setImageDrawable(ContextCompat.getDrawable(this,R.drawable.heart_select_max))
-             img_icon_heart.setOnClickListener {
+
+            if(dao.isExistFavor(img)){
+                img_icon_heart.setImageDrawable(ContextCompat.getDrawable(this,R.drawable.heart_select_max))
+                check = true
+            }else{
+                img_icon_heart.setImageDrawable(ContextCompat.getDrawable(this,R.drawable.heart_unselect_max))
+            }
+
+        img_icon_heart.setOnClickListener {
+             if(check){
                  img_icon_heart.setImageDrawable(ContextCompat.getDrawable(this,R.drawable.heart_unselect_max))
-                 deleteDataToFavorite(img)
+                 deleteFavorite(img)
                  Toast.makeText(this,"Đã xóa ảnh khỏi danh sách yêu thích ",Toast.LENGTH_SHORT).show()
-             }
-         }else{
-             img_icon_heart.setImageDrawable(ContextCompat.getDrawable(this,R.drawable.heart_unselect_max))
-             img_icon_heart.setOnClickListener {
+                 check = false
+             }else{
                  img_icon_heart.setImageDrawable(ContextCompat.getDrawable(this,R.drawable.heart_select_max))
                  insertDataToFavorite(img)
                  Toast.makeText(this,"Đã thích ảnh",Toast.LENGTH_SHORT).show()
+                 check = true
              }
+        }
 
-         }
     }
+
 
     private fun inputCheck(pathPic: String): Boolean {
          return !(TextUtils.isEmpty(pathPic))

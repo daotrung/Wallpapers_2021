@@ -73,4 +73,8 @@ class ListTrendingAdapter(private val data: MaterialWapaper) :
     override fun getItemCount(): Int {
         return data.MaterialWallpaper.size
     }
+    fun updateDataItem(pos:Int){
+
+        notifyItemChanged(pos)
+    }
 }

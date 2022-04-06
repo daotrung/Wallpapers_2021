@@ -1,10 +1,13 @@
 package com.daotrung.wallpapers_2021
 
 import android.annotation.SuppressLint
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import android.widget.ImageView
 import android.widget.TextView
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.widget.Toolbar
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -48,6 +51,8 @@ class WallpaperListActivity : AppCompatActivity() {
                 .equals("New")
         )
             getAllDataNewTrending(recyclerView)
+
+
         if (intent.getIntExtra(
                 "id_categories",
                 0
@@ -78,6 +83,7 @@ class WallpaperListActivity : AppCompatActivity() {
                             myAdapter = ListWallpaperCategoriesAdapter(response.body()!!)
                             layoutManager = manager
                             adapter = myAdapter
+
                         }
                     }
                 }
@@ -89,6 +95,7 @@ class WallpaperListActivity : AppCompatActivity() {
             })
     }
 
+
     private fun getAllDataNewTrending(rv: RecyclerView) {
         ApiInterface.Api2.retrofitService2.getAllDataNewTrending()
             .enqueue(object : Callback<MaterialWapaper> {
@@ -98,11 +105,16 @@ class WallpaperListActivity : AppCompatActivity() {
                     response: Response<MaterialWapaper>
                 ) {
                     if (response.isSuccessful) {
-//                    Log.e("lisst",Gson().toJson(response.body()))
+                    Log.e("lisst",Gson().toJson(response.body()))
                         recyclerView = rv.apply {
                             myAdapter = ListTrendingAdapter(response.body()!!)
                             layoutManager = manager
                             adapter = myAdapter
+
+                        }
+                        recyclerView.setOnClickListener {
+                            Log.e("CLICK","click")
+                            (myAdapter as ListTrendingAdapter).updateDataItem(1)
                         }
 
                     }
@@ -113,6 +125,17 @@ class WallpaperListActivity : AppCompatActivity() {
                 }
 
             })
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if(requestCode==1){
+            if(resultCode == RESULT_OK){
+                val check : Boolean = data?.getBooleanExtra("check",false) ?: false
+
+            }
+        }
+
     }
 
     private fun getAllDataPopularTrending(rv: RecyclerView) {

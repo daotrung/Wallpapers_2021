@@ -54,4 +54,7 @@ interface IDao {
     @Query("Select Exists (Select * from myPicFavorite where urlHeart = :pathFav )")
     fun isExistFavor(pathFav: String): Boolean
 
+    @Query("Delete from myPicFavorite where urlHeart= :pathUrl")
+    fun deleteItemWithUrl(pathUrl:String)
+
 }

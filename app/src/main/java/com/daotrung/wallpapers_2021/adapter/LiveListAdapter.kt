@@ -19,7 +19,7 @@ class LiveListAdapter(private val data: List<SlideLiveWapaper>) :
 
     inner class MyViewHolder(val view: View) : RecyclerView.ViewHolder(view) {
         fun bind(slideLiveWapaper: SlideLiveWapaper) {
-            var imgView = view.findViewById<ImageView>(R.id.img_list_live_wapper)
+            val imgView = view.findViewById<ImageView>(R.id.img_list_live_wapper)
             var imgIcon = view.findViewById<ImageView>(R.id.icon_wifi)
             if (slideLiveWapaper.original.contains(".mp4") || slideLiveWapaper.original.contains(".m4v")) {
                 Glide.with(view.context).load(slideLiveWapaper.thumbnail).centerCrop().into(imgView)
@@ -30,7 +30,6 @@ class LiveListAdapter(private val data: List<SlideLiveWapaper>) :
                     intent.putExtra("list_img_live", data as Serializable)
                     intent.putExtra("pos_img_live", layoutPosition)
                     view.context.startActivity(intent)
-
                 }
             }else{
                 Glide.with(view.context).load(slideLiveWapaper.thumbnail).centerCrop().into(imgView)

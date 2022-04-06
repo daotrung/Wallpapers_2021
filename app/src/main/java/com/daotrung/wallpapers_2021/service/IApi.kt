@@ -1,6 +1,6 @@
 package com.daotrung.wallpapers_2021.service
 
-import com.daotrung.wallpapers_2021.BuildConfig
+
 import com.daotrung.wallpapers_2021.model.*
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
@@ -8,7 +8,6 @@ import retrofit2.Call
 import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
 import retrofit2.http.GET
-import retrofit2.http.POST
 import retrofit2.http.Path
 import retrofit2.http.Query
 
@@ -55,10 +54,6 @@ interface ApiInterface {
         @Query("color_id") id: Int,
         @Query("page") page: Int = 1
     ): Call<MaterialWallpaperCatList>
-
-
-    @GET("api/first/p2pqlsnjHgdxX21GFRAYyLvNBe3zcsSz/16edd7cf-2525-485e-b11a-3dd35f382457/")
-    fun getAllListMyWallpaper(): Call<MyWallpaperWall>
 
     object Api {
         val retrofitService: ApiInterface by lazy {

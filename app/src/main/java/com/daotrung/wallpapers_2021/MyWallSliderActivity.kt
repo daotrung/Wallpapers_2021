@@ -12,6 +12,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Environment
 import android.provider.MediaStore
+import android.text.TextUtils
 import android.util.Log
 import android.view.Window
 import android.view.WindowManager
@@ -44,6 +45,8 @@ class MyWallSliderActivity : AppCompatActivity() {
     private lateinit var database: MyWallPaperDatabase
     private lateinit var dao: IDao
     private lateinit var myFavoriteModel: MyFavoriteModel
+    private var img_icon_heart : ImageView? = null
+    private var check : Boolean = false
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -73,12 +76,10 @@ class MyWallSliderActivity : AppCompatActivity() {
         val  img_right_arrow: ImageView = findViewById<ImageView>(R.id.img_arrow_right_wallpaper)
       val img_share_btn: ImageView= findViewById<ImageView>(R.id.img_share_wallpaper)
       val  img_save_btn: ImageView = findViewById<ImageView>(R.id.img_btn_save_wallpaper)
-      val img_icon_heart : ImageView = findViewById(R.id.img_icon_heart_big)
-
+       img_icon_heart = findViewById<ImageView>(R.id.img_icon_heart_big)
 
         img_lay = img_layout
 
-        img_icon_heart.setImageDrawable(ContextCompat.getDrawable(this,R.drawable.heart_select_max))
         img_close.setOnClickListener {
             finish()
         }
@@ -92,10 +93,9 @@ class MyWallSliderActivity : AppCompatActivity() {
             val intent = intent
 
              id = intent.getIntExtra("id_picture",-1)
-            Log.e("id_get",intent.getIntExtra("id_picture",-1).toString())
-            Log.e("my_list",myList.toString())
-            Log.e("imge_url", myList[id].myUrlHeart)
             Glide.with(this).load(myList[id].myUrlHeart).into(img_lay!!)
+            img_icon_heart!!.setImageDrawable(ContextCompat.getDrawable(this,R.drawable.heart_select_max))
+            setIconHeart(img!!)
 
         })
 
@@ -104,16 +104,12 @@ class MyWallSliderActivity : AppCompatActivity() {
                 id = myList.size-1
                 img =  myList[id].myUrlHeart
                 Glide.with(this).load(img).into(img_lay!!)
-                if(dao.isExistFavor(img!!)){
-                    img_icon_heart.setImageDrawable(ContextCompat.getDrawable(this,R.drawable.heart_select_max))
-                }
+                setIconHeart(img!!)
             }else{
                 id--
                 img = myList[id].myUrlHeart
                 Glide.with(this).load(img).into(img_lay!!)
-                if(dao.isExistFavor(img!!)){
-                    img_icon_heart.setImageDrawable(ContextCompat.getDrawable(this,R.drawable.heart_select_max))
-                }
+                setIconHeart(img!!)
             }
         }
         img_right_arrow.setOnClickListener {
@@ -121,16 +117,13 @@ class MyWallSliderActivity : AppCompatActivity() {
                 id = 0
                 img = myList[id].myUrlHeart
                 Glide.with(this).load(img).into(img_lay!!)
-                if(dao.isExistFavor(img!!)){
-                    img_icon_heart.setImageDrawable(ContextCompat.getDrawable(this,R.drawable.heart_select_max))
-                }
+                setIconHeart(img!!)
+
             }else{
                 id++
                 img =  myList[id].myUrlHeart
                 Glide.with(this).load(img).into(img_lay!!)
-                if(dao.isExistFavor(img!!)){
-                    img_icon_heart.setImageDrawable(ContextCompat.getDrawable(this,R.drawable.heart_select_max))
-                }
+                setIconHeart(img!!)
             }
         }
 
@@ -154,6 +147,44 @@ class MyWallSliderActivity : AppCompatActivity() {
             startActivity(Intent.createChooser(intent, "Share Image to Another App"))
         }
 
+    }
+
+    private fun setIconHeart(img: String) {
+        if(dao.isExistFavor(img)){
+            img_icon_heart!!.setImageDrawable(ContextCompat.getDrawable(this,R.drawable.heart_select_max))
+            check = true
+        }else{
+            img_icon_heart!!.setImageDrawable(ContextCompat.getDrawable(this,R.drawable.heart_unselect_max))
+        }
+
+        img_icon_heart!!.setOnClickListener {
+            if(check){
+                img_icon_heart!!.setImageDrawable(ContextCompat.getDrawable(this,R.drawable.heart_unselect_max))
+                deleteFavorite(img)
+                Toast.makeText(this,"Đã xóa ảnh khỏi danh sách yêu thích ",Toast.LENGTH_SHORT).show()
+                check = false
+            }else{
+                img_icon_heart!!.setImageDrawable(ContextCompat.getDrawable(this,R.drawable.heart_select_max))
+                insertDataToFavorite(img)
+                Toast.makeText(this,"Đã thích ảnh",Toast.LENGTH_SHORT).show()
+                check = true
+            }
+        }
+    }
+    private fun deleteFavorite(img: String) {
+        dao.deleteItemWithUrl(img)
+        img_icon_heart!!.setImageDrawable(ContextCompat.getDrawable(this,R.drawable.heart_unselect_max))
+
+    }
+    private fun insertDataToFavorite(img:String){
+        if(inputCheck(img)&&!dao.isExistFavor(img)) {
+            val myFavoritePicture = MyFavoritePicture(img)
+            myFavoriteModel!!.addFavorite(myFavoritePicture)
+            img_icon_heart!!.setImageDrawable(ContextCompat.getDrawable(this,R.drawable.heart_select_max))
+        }
+    }
+    private fun inputCheck(pathPic: String): Boolean {
+        return !(TextUtils.isEmpty(pathPic))
     }
 
 
