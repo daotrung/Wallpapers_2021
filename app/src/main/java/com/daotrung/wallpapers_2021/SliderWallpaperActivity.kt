@@ -81,14 +81,14 @@ class SliderWallpaperActivity : AppCompatActivity() {
 
         if (intent.getIntExtra("pos_img_trend", 0) >= 1) {
 
-
             list = intent.getSerializableExtra("list_img_trend") as MaterialWapaper
             id = intent.getIntExtra("pos_img_trend", 0) - 1
             img = url_get_img_preview + list.MaterialWallpaper[id].image
 
-
             Glide.with(this).load(img).into(img_layout)
-            setIconHeart(img!!,id)
+            img_icon_heart.setOnClickListener {
+                setIconHeart(img!!,id)
+            }
             img_close.setOnClickListener {
                 finish()
             }
@@ -134,9 +134,8 @@ class SliderWallpaperActivity : AppCompatActivity() {
 
             img = url_get_img_preview + listCate.MaterialWallpaper[id].images
 
-            setIconHeart(img!!,id)
-
             Glide.with(this).load(img).into(img_layout)
+            setIconHeart(img!!,id)
 
             // can fix
             img_icon_heart.setOnClickListener {
@@ -188,12 +187,8 @@ class SliderWallpaperActivity : AppCompatActivity() {
             id = intent.getIntExtra("pos_img_color", 0) - 1
             img = url_get_img_preview + listCate.MaterialWallpaper.get(id).images
 
-            setIconHeart(img!!,id)
-            img_icon_heart.setOnClickListener {
-                setIconHeart(img!!,id)
-
-            }
             Glide.with(this).load(img).into(img_layout)
+            setIconHeart(img!!,id)
             img_close.setOnClickListener {
                 finish()
             }
@@ -243,14 +238,8 @@ class SliderWallpaperActivity : AppCompatActivity() {
             .build()
             .setOnStartOrResumeListener { }
             .setOnPauseListener { }
-            .setOnCancelListener(object : OnCancelListener {
-                override fun onCancel() {}
-            })
-            .setOnProgressListener(object : OnProgressListener {
-                override fun onProgress(progress: Progress?) {
-                }
-
-            })
+            .setOnCancelListener { }
+            .setOnProgressListener { }
             .start(object : OnDownloadListener {
                 override fun onDownloadComplete() {
                     val bitmapDrawale: BitmapDrawable = img_layout.drawable as BitmapDrawable
@@ -266,7 +255,7 @@ class SliderWallpaperActivity : AppCompatActivity() {
                 }
 
                 override fun onError(error: com.downloader.Error?) {
-                    Toast.makeText(this@SliderWallpaperActivity, "Error", Toast.LENGTH_SHORT)
+                    Toast.makeText(this@SliderWallpaperActivity, "Error", Toast.LENGTH_SHORT).show()
                 }
 
                 fun onError(error: Error?) {}
@@ -308,26 +297,22 @@ class SliderWallpaperActivity : AppCompatActivity() {
     }
 
     private fun setIconHeart(img:String,pos:Int){
-
-            if(dao.isExistFavor(img)){
-                img_icon_heart.setImageDrawable(ContextCompat.getDrawable(this,R.drawable.heart_select_max))
-                check = true
-            }else{
-                img_icon_heart.setImageDrawable(ContextCompat.getDrawable(this,R.drawable.heart_unselect_max))
-            }
-
+        if(dao.isExistFavor(img)){
+            img_icon_heart.setImageDrawable(ContextCompat.getDrawable(this,R.drawable.heart_select_max))
+            check = true
+        }else{
+            img_icon_heart.setImageDrawable(ContextCompat.getDrawable(this,R.drawable.heart_unselect_max))
+        }
         img_icon_heart.setOnClickListener {
 
              if(check){
                  img_icon_heart.setImageDrawable(ContextCompat.getDrawable(this,R.drawable.heart_unselect_max))
                  deleteFavorite(img)
-                 Toast.makeText(this,"Đã xóa ảnh khỏi danh sách yêu thích ",Toast.LENGTH_SHORT).show()
                  check = false
                  sendLocalBroadcastForInformation(pos)
              }else{
                  img_icon_heart.setImageDrawable(ContextCompat.getDrawable(this,R.drawable.heart_select_max))
                  insertDataToFavorite(img)
-                 Toast.makeText(this,"Đã thích ảnh",Toast.LENGTH_SHORT).show()
                  check = true
                  sendLocalBroadcastForInformation(pos)
              }

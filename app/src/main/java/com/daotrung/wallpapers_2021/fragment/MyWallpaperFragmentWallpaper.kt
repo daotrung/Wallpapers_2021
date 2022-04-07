@@ -1,6 +1,5 @@
 package com.daotrung.wallpapers_2021.fragment
 
-import android.annotation.SuppressLint
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
@@ -18,15 +17,8 @@ import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.daotrung.wallpapers_2021.KEY_DB
 import com.daotrung.wallpapers_2021.R
-import com.daotrung.wallpapers_2021.adapter.ListWallpaperCategoriesAdapter
 import com.daotrung.wallpapers_2021.adapter.MyWallpaperWallAdapter
-import com.daotrung.wallpapers_2021.model.MyWallpaperWall
 import com.daotrung.wallpapers_2021.room.MyFavoriteModel
-import com.daotrung.wallpapers_2021.room.MyPicViewModel
-import com.daotrung.wallpapers_2021.service.ApiInterface
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
 
 
 class MyWallpaperFragmentWallpaper : Fragment() {
@@ -72,7 +64,7 @@ class MyWallpaperFragmentWallpaper : Fragment() {
                     if (intent.action.equals("localBroadCastDB")) {
                         posChange = intent.getIntExtra(KEY_DB, -1)
                         Log.e("posDB__",posChange.toString())
-                        (myWallpaperWallAdapter as MyWallpaperWallAdapter).updateDataItem(posChange)
+                        (myWallpaperWallAdapter as MyWallpaperWallAdapter).updatePos(posChange)
                     }
                 }
             }

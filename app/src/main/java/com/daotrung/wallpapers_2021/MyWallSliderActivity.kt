@@ -79,22 +79,18 @@ class MyWallSliderActivity : AppCompatActivity() {
        img_icon_heart = findViewById<ImageView>(R.id.img_icon_heart_big)
 
         img_lay = img_layout
-
         img_close.setOnClickListener {
             finish()
         }
 
         // lấy list từ room database
-
         myFavoriteModel!!.allPicFavorite.observe(this, Observer {
+
             mypic-> myList = mypic
-
             val intent = intent
-
              id = intent.getIntExtra("id_picture",-1)
+            setIconHeart(myList[id].myUrlHeart,id)
             Glide.with(this).load(myList[id].myUrlHeart).into(img_lay!!)
-            setIconHeart(img!!,id)
-
         })
 
         img_left_arrow.setOnClickListener {
@@ -130,21 +126,46 @@ class MyWallSliderActivity : AppCompatActivity() {
         }
 
         img_share_btn.setOnClickListener {
-            val bitmapDrawale: BitmapDrawable = img_lay!!.drawable as BitmapDrawable
-            val bitmap: Bitmap = bitmapDrawale.bitmap
-            val bitmapPath: String = MediaStore.Images.Media.insertImage(
-                contentResolver,
-                bitmap,
-                "Some title",
-                null
-            )
-            val bitmapUri: Uri = Uri.parse(bitmapPath)
-            val intent = Intent(Intent.ACTION_SEND)
-            intent.setType("image/*")
-            intent.putExtra(Intent.EXTRA_STREAM, bitmapUri)
-            startActivity(Intent.createChooser(intent, "Share Image to Another App"))
+              shareImg()
         }
 
+    }
+
+    private fun shareImg() {
+
+        var file: File =
+            Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS)
+        PRDownloader.download(img, file.path, URLUtil.guessFileName(img, null, null))
+            .build()
+            .setOnStartOrResumeListener { }
+            .setOnPauseListener { }
+            .setOnCancelListener { }
+            .setOnProgressListener { progress ->
+            }
+            .start(object : OnDownloadListener {
+                override fun onDownloadComplete() {
+
+                }
+
+                override fun onError(error: com.downloader.Error?) {
+                    Toast.makeText(this@MyWallSliderActivity, "Error", Toast.LENGTH_SHORT).show()
+                }
+
+            })
+
+        val bitmapDrawale: BitmapDrawable = img_lay!!.drawable as BitmapDrawable
+        val bitmap: Bitmap = bitmapDrawale.bitmap
+        val bitmapPath: String = MediaStore.Images.Media.insertImage(
+            contentResolver,
+            bitmap,
+            "Some title",
+            null
+        )
+        val bitmapUri: Uri = Uri.parse(bitmapPath)
+        val intent = Intent(Intent.ACTION_SEND)
+        intent.setType("image/*")
+        intent.putExtra(Intent.EXTRA_STREAM, bitmapUri)
+        startActivity(Intent.createChooser(intent, "Share Image to Another App"))
     }
 
     private fun setIconHeart(img: String,pos: Int) {
@@ -159,16 +180,14 @@ class MyWallSliderActivity : AppCompatActivity() {
             if(check){
                 img_icon_heart!!.setImageDrawable(ContextCompat.getDrawable(this,R.drawable.heart_unselect_max))
                 deleteFavorite(img)
-                Toast.makeText(this,"Đã xóa ảnh khỏi danh sách yêu thích ",Toast.LENGTH_SHORT).show()
-                check = false
                 sendLocalBroadcastForMyDB(pos)
+                check = false
+                finish()
 
             }else{
                 img_icon_heart!!.setImageDrawable(ContextCompat.getDrawable(this,R.drawable.heart_select_max))
                 insertDataToFavorite(img)
-                Toast.makeText(this,"Đã thích ảnh",Toast.LENGTH_SHORT).show()
                 check = true
-                sendLocalBroadcastForMyDB(pos)
             }
         }
     }
@@ -293,7 +312,6 @@ class MyWallSliderActivity : AppCompatActivity() {
         wallpaperManager.setBitmap(bitmap)
         Toast.makeText(this, "Wallpaper set!", Toast.LENGTH_SHORT).show()
     }
-
 
     private fun sendLocalBroadcastForMyDB(pos: Int) {
         val intent = Intent("localBroadCastDB")

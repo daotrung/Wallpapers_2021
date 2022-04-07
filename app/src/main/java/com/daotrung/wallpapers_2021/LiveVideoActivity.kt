@@ -149,10 +149,12 @@ class LiveVideoActivity : AppCompatActivity() {
                     id = list.size - 1
                     setVideo(list[id].original)
                     pathVideo = list[id].original
+                    insertDataToDatabase(pathVideo)
                 } else {
                     id--
                     setVideo(list[id].original)
                     pathVideo = list[id].original
+                    insertDataToDatabase(pathVideo)
                 }
 
             }
@@ -161,10 +163,12 @@ class LiveVideoActivity : AppCompatActivity() {
                     id = 0
                     setVideo(list[id].original)
                     pathVideo = list[id].original
+                    insertDataToDatabase(pathVideo)
                 } else {
                     id++
                     setVideo(list[id].original)
                     pathVideo = list[id].original
+                    insertDataToDatabase(pathVideo)
                 }
 
             }
@@ -173,8 +177,6 @@ class LiveVideoActivity : AppCompatActivity() {
                 setDiloagVideo(pathVideo)
 
             }
-
-
             img_share_btn.setOnClickListener {
                 val share = Intent(Intent.ACTION_SEND)
                 share.type = "text/plain"
