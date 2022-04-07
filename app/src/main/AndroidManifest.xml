@@ -43,9 +43,6 @@
             android:name=".WallpaperListActivity"
             android:exported="false" />
         <activity
-            android:name=".LiveSliderActivity"
-            android:exported="false" />
-        <activity
             android:name=".LiveListActivity"
             android:exported="false" />
         <activity
