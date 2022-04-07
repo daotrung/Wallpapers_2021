@@ -23,6 +23,7 @@ import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import androidx.room.Room
 import com.bumptech.glide.Glide
 import com.daotrung.wallpapers_2021.adapter.WallpaperListColorMainAdapter
@@ -87,7 +88,7 @@ class SliderWallpaperActivity : AppCompatActivity() {
 
 
             Glide.with(this).load(img).into(img_layout)
-            setIconHeart(img!!)
+            setIconHeart(img!!,id)
             img_close.setOnClickListener {
                 finish()
             }
@@ -96,12 +97,13 @@ class SliderWallpaperActivity : AppCompatActivity() {
                     id = list.MaterialWallpaper.size - 1
                     img = url_get_img_preview + list.MaterialWallpaper[id].image
                     Glide.with(this).load(img).into(img_layout)
-                    setIconHeart(img!!)
+                    list.MaterialWallpaper
+                    setIconHeart(img!!,id)
                 } else {
                     id--
                     img = url_get_img_preview + list.MaterialWallpaper[id].image
                     Glide.with(this).load(img).into(img_layout)
-                    setIconHeart(img!!)
+                    setIconHeart(img!!,id)
                 }
             }
             img_right_arrow.setOnClickListener {
@@ -110,12 +112,12 @@ class SliderWallpaperActivity : AppCompatActivity() {
                     id = 0
                     img = url_get_img_preview + list.MaterialWallpaper[id].image
                     Glide.with(this).load(img).into(img_layout)
-                    setIconHeart(img!!)
+                    setIconHeart(img!!,id)
                 } else {
                     id++
                     img = url_get_img_preview + list.MaterialWallpaper[id].image
                     Glide.with(this).load(img).into(img_layout)
-                    setIconHeart(img!!)
+                    setIconHeart(img!!,id)
                 }
             }
             img_save_btn.setOnClickListener {
@@ -132,13 +134,13 @@ class SliderWallpaperActivity : AppCompatActivity() {
 
             img = url_get_img_preview + listCate.MaterialWallpaper[id].images
 
-            setIconHeart(img!!)
+            setIconHeart(img!!,id)
 
             Glide.with(this).load(img).into(img_layout)
 
             // can fix
             img_icon_heart.setOnClickListener {
-                setIconHeart(img!!)
+                setIconHeart(img!!,id)
 
             }
             img_close.setOnClickListener {
@@ -150,12 +152,12 @@ class SliderWallpaperActivity : AppCompatActivity() {
                     id = listCate.MaterialWallpaper.size - 1
                     img = url_get_img_preview + listCate.MaterialWallpaper[id].images
                     Glide.with(this).load(img).into(img_layout)
-                    setIconHeart(img!!)
+                    setIconHeart(img!!,id)
                 } else {
                     id--
                     img = url_get_img_preview + listCate.MaterialWallpaper[id].images
                     Glide.with(this).load(img).into(img_layout)
-                    setIconHeart(img!!)
+                    setIconHeart(img!!,id)
                 }
 
             }
@@ -164,12 +166,12 @@ class SliderWallpaperActivity : AppCompatActivity() {
                     id = 0
                     img = url_get_img_preview + listCate.MaterialWallpaper[id].images
                     Glide.with(this).load(img).into(img_layout)
-                    setIconHeart(img!!)
+                    setIconHeart(img!!,id)
                 } else {
                     id++
                     img = url_get_img_preview + listCate.MaterialWallpaper[id].images
                     Glide.with(this).load(img).into(img_layout)
-                    setIconHeart(img!!)
+                    setIconHeart(img!!,id)
                 }
 
             }
@@ -186,9 +188,9 @@ class SliderWallpaperActivity : AppCompatActivity() {
             id = intent.getIntExtra("pos_img_color", 0) - 1
             img = url_get_img_preview + listCate.MaterialWallpaper.get(id).images
 
-            setIconHeart(img!!)
+            setIconHeart(img!!,id)
             img_icon_heart.setOnClickListener {
-                setIconHeart(img!!)
+                setIconHeart(img!!,id)
 
             }
             Glide.with(this).load(img).into(img_layout)
@@ -200,12 +202,12 @@ class SliderWallpaperActivity : AppCompatActivity() {
                     id = listCate.MaterialWallpaper.size - 1
                     img = url_get_img_preview + listCate.MaterialWallpaper[id].images
                     Glide.with(this).load(img).into(img_layout)
-                    setIconHeart(img!!)
+                    setIconHeart(img!!,id)
                 } else {
                     id--
                     img = url_get_img_preview + listCate.MaterialWallpaper[id].images
                     Glide.with(this).load(img).into(img_layout)
-                    setIconHeart(img!!)
+                    setIconHeart(img!!,id)
                 }
 
             }
@@ -214,12 +216,12 @@ class SliderWallpaperActivity : AppCompatActivity() {
                     id = 0
                     img = url_get_img_preview + listCate.MaterialWallpaper[id].images
                     Glide.with(this).load(img).into(img_layout)
-                    setIconHeart(img!!)
+                    setIconHeart(img!!,id)
                 } else {
                     id++
                     img = url_get_img_preview + listCate.MaterialWallpaper[id].images
                     Glide.with(this).load(img).into(img_layout)
-                    setIconHeart(img!!)
+                    setIconHeart(img!!,id)
                 }
 
             }
@@ -305,7 +307,7 @@ class SliderWallpaperActivity : AppCompatActivity() {
         }
     }
 
-    private fun setIconHeart(img:String){
+    private fun setIconHeart(img:String,pos:Int){
 
             if(dao.isExistFavor(img)){
                 img_icon_heart.setImageDrawable(ContextCompat.getDrawable(this,R.drawable.heart_select_max))
@@ -315,18 +317,28 @@ class SliderWallpaperActivity : AppCompatActivity() {
             }
 
         img_icon_heart.setOnClickListener {
+
              if(check){
                  img_icon_heart.setImageDrawable(ContextCompat.getDrawable(this,R.drawable.heart_unselect_max))
                  deleteFavorite(img)
                  Toast.makeText(this,"Đã xóa ảnh khỏi danh sách yêu thích ",Toast.LENGTH_SHORT).show()
                  check = false
+                 sendLocalBroadcastForInformation(pos)
              }else{
                  img_icon_heart.setImageDrawable(ContextCompat.getDrawable(this,R.drawable.heart_select_max))
                  insertDataToFavorite(img)
                  Toast.makeText(this,"Đã thích ảnh",Toast.LENGTH_SHORT).show()
                  check = true
+                 sendLocalBroadcastForInformation(pos)
              }
         }
+
+    }
+
+    private fun sendLocalBroadcastForInformation(pos: Int) {
+        val intent = Intent("localBroadCastForData")
+        intent.putExtra("pos_change",pos)
+        LocalBroadcastManager.getInstance(this).sendBroadcast(intent)
 
     }
 

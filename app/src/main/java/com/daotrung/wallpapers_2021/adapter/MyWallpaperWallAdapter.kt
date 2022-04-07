@@ -62,4 +62,10 @@ class MyWallpaperWallAdapter() :
         notifyDataSetChanged()
     }
 
+    fun updateDataItem(pos:Int){
+        notifyItemRemoved(pos)
+        notifyDataSetChanged()
+    }
+
+
 }

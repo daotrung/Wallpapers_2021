@@ -1,7 +1,6 @@
 package com.daotrung.wallpapers_2021.fragment
 
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -14,7 +13,6 @@ import com.daotrung.wallpapers_2021.R
 import com.daotrung.wallpapers_2021.adapter.LiveMainAdapter
 import com.daotrung.wallpapers_2021.model.WallPaper
 import com.daotrung.wallpapers_2021.service.ApiInterface
-import com.google.gson.Gson
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -32,7 +30,7 @@ class LiveWapaperFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        val view = inflater.inflate(R.layout.fragment_live_wapaper, container, false)
+        val view = inflater.inflate(R.layout.fragment_live, container, false)
 
         recyclerView = view.findViewById(R.id.rv_live_wapaper)
         myToobar = view.findViewById(R.id.my_toolbar_live_wapaper)

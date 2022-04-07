@@ -44,12 +44,12 @@
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rv_categories_main"
         android:layout_width="0sp"
-        android:layout_height="match_parent"
-        android:layout_marginTop="30sp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10sp"
         android:layout_marginEnd="13sp"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="@id/img_line_three"
-        app:layout_constraintTop_toBottomOf="@id/txt_title_categories_main_wallpaper" />
+        app:layout_constraintTop_toBottomOf="@id/img_line_three"
+        />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

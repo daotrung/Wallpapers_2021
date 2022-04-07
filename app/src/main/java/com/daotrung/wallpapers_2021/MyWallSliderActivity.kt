@@ -22,6 +22,7 @@ import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import androidx.room.Room
 import com.bumptech.glide.Glide
 import com.daotrung.wallpapers_2021.room.*
@@ -37,19 +38,18 @@ import java.lang.Error
 private var id: Int = 0
 private var img: String? = ""
 private lateinit var myList : List<MyFavoritePicture>
-
+const val KEY_DB : String = "POS_DB"
 
 class MyWallSliderActivity : AppCompatActivity() {
 
     private var img_lay : ImageView? = null
     private lateinit var database: MyWallPaperDatabase
     private lateinit var dao: IDao
-    private lateinit var myFavoriteModel: MyFavoriteModel
+    private  var myFavoriteModel: MyFavoriteModel? = null
     private var img_icon_heart : ImageView? = null
     private var check : Boolean = false
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
 
         // khởi tạo database , dao , viewModel
         database = Room.databaseBuilder(
@@ -85,17 +85,15 @@ class MyWallSliderActivity : AppCompatActivity() {
         }
 
         // lấy list từ room database
-        myFavoriteModel = ViewModelProvider(this).get(MyFavoriteModel::class.java)
 
-        myFavoriteModel.allPicFavorite.observe(this, Observer {
+        myFavoriteModel!!.allPicFavorite.observe(this, Observer {
             mypic-> myList = mypic
 
             val intent = intent
 
              id = intent.getIntExtra("id_picture",-1)
             Glide.with(this).load(myList[id].myUrlHeart).into(img_lay!!)
-            img_icon_heart!!.setImageDrawable(ContextCompat.getDrawable(this,R.drawable.heart_select_max))
-            setIconHeart(img!!)
+            setIconHeart(img!!,id)
 
         })
 
@@ -104,12 +102,12 @@ class MyWallSliderActivity : AppCompatActivity() {
                 id = myList.size-1
                 img =  myList[id].myUrlHeart
                 Glide.with(this).load(img).into(img_lay!!)
-                setIconHeart(img!!)
+                setIconHeart(img!!,id)
             }else{
                 id--
                 img = myList[id].myUrlHeart
                 Glide.with(this).load(img).into(img_lay!!)
-                setIconHeart(img!!)
+                setIconHeart(img!!,id)
             }
         }
         img_right_arrow.setOnClickListener {
@@ -117,13 +115,13 @@ class MyWallSliderActivity : AppCompatActivity() {
                 id = 0
                 img = myList[id].myUrlHeart
                 Glide.with(this).load(img).into(img_lay!!)
-                setIconHeart(img!!)
+                setIconHeart(img!!,id)
 
             }else{
                 id++
                 img =  myList[id].myUrlHeart
                 Glide.with(this).load(img).into(img_lay!!)
-                setIconHeart(img!!)
+                setIconHeart(img!!,id)
             }
         }
 
@@ -149,7 +147,7 @@ class MyWallSliderActivity : AppCompatActivity() {
 
     }
 
-    private fun setIconHeart(img: String) {
+    private fun setIconHeart(img: String,pos: Int) {
         if(dao.isExistFavor(img)){
             img_icon_heart!!.setImageDrawable(ContextCompat.getDrawable(this,R.drawable.heart_select_max))
             check = true
@@ -163,11 +161,14 @@ class MyWallSliderActivity : AppCompatActivity() {
                 deleteFavorite(img)
                 Toast.makeText(this,"Đã xóa ảnh khỏi danh sách yêu thích ",Toast.LENGTH_SHORT).show()
                 check = false
+                sendLocalBroadcastForMyDB(pos)
+
             }else{
                 img_icon_heart!!.setImageDrawable(ContextCompat.getDrawable(this,R.drawable.heart_select_max))
                 insertDataToFavorite(img)
                 Toast.makeText(this,"Đã thích ảnh",Toast.LENGTH_SHORT).show()
                 check = true
+                sendLocalBroadcastForMyDB(pos)
             }
         }
     }
@@ -291,5 +292,14 @@ class MyWallSliderActivity : AppCompatActivity() {
         val wallpaperManager = WallpaperManager.getInstance(applicationContext)
         wallpaperManager.setBitmap(bitmap)
         Toast.makeText(this, "Wallpaper set!", Toast.LENGTH_SHORT).show()
+    }
+
+
+    private fun sendLocalBroadcastForMyDB(pos: Int) {
+        val intent = Intent("localBroadCastDB")
+        intent.putExtra(KEY_DB,pos)
+        LocalBroadcastManager.getInstance(this).sendBroadcast(intent)
+        Log.e("posDB_",pos.toString())
+
     }
 }

@@ -1,7 +1,10 @@
 package com.daotrung.wallpapers_2021
 
 import android.annotation.SuppressLint
+import android.content.BroadcastReceiver
+import android.content.Context
 import android.content.Intent
+import android.content.IntentFilter
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
@@ -9,6 +12,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.widget.Toolbar
+import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.daotrung.wallpapers_2021.adapter.ListTrendingAdapter
@@ -28,6 +32,10 @@ class WallpaperListActivity : AppCompatActivity() {
     private lateinit var myAdapter: RecyclerView.Adapter<*>
     private lateinit var myToolbar: Toolbar
     private lateinit var mTitle: TextView
+
+    private lateinit var mRefreshReceiver : BroadcastReceiver
+    private lateinit var filter: IntentFilter
+    private var posChange : Int = 0
     private var flag: Boolean = false
     private var id: Int = 0
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -39,6 +47,7 @@ class WallpaperListActivity : AppCompatActivity() {
 
         // nhan dl tu cac man hinh chinh
         // tra ve mot list anh
+
         if (intent.getIntExtra("id_trend", 0) == 0 && intent.getStringExtra("title_trend")
                 .equals("Featured")
         )
@@ -51,7 +60,6 @@ class WallpaperListActivity : AppCompatActivity() {
                 .equals("New")
         )
             getAllDataNewTrending(recyclerView)
-
 
         if (intent.getIntExtra(
                 "id_categories",
@@ -71,6 +79,11 @@ class WallpaperListActivity : AppCompatActivity() {
 
     }
 
+    override fun onDestroy() {
+        super.onDestroy()
+        LocalBroadcastManager.getInstance(this).unregisterReceiver(mRefreshReceiver)
+    }
+
     private fun getAllDataCategoriesListWallpaper(mId: Int, rv: RecyclerView) {
         ApiInterface.Api2.retrofitService2.getAllDataCategoriesListWallpaper(mId)
             .enqueue(object : Callback<MaterialWallpaperCatList> {
@@ -83,6 +96,23 @@ class WallpaperListActivity : AppCompatActivity() {
                             myAdapter = ListWallpaperCategoriesAdapter(response.body()!!)
                             layoutManager = manager
                             adapter = myAdapter
+
+                            filter = IntentFilter()
+                            filter.addAction("localBroadCastForData")
+                            mRefreshReceiver = object :BroadcastReceiver(){
+                                override fun onReceive(context: Context?, intent: Intent?) {
+                                    if (intent != null) {
+                                        if(intent.action.equals("localBroadCastForData")){
+                                            posChange = intent.getIntExtra("pos_change",-1)
+                                            (myAdapter as ListWallpaperCategoriesAdapter).updateDataItem(posChange)
+                                        }
+                                    }
+                                }
+
+
+                            }
+                            LocalBroadcastManager.getInstance(this@WallpaperListActivity).registerReceiver(mRefreshReceiver, filter)
+
 
                         }
                     }
@@ -110,12 +140,26 @@ class WallpaperListActivity : AppCompatActivity() {
                             myAdapter = ListTrendingAdapter(response.body()!!)
                             layoutManager = manager
                             adapter = myAdapter
+                            filter = IntentFilter()
+                            filter.addAction("localBroadCastForData")
+                            mRefreshReceiver = object :BroadcastReceiver(){
+                                override fun onReceive(context: Context?, intent: Intent?) {
+                                    if (intent != null) {
+                                        if(intent.action.equals("localBroadCastForData")){
+                                            posChange = intent.getIntExtra("pos_change",-1)
+                                            (myAdapter as ListTrendingAdapter).updateDataItem(posChange)
+                                        }
+                                    }
+                                }
+
+
+                            }
+                            LocalBroadcastManager.getInstance(this@WallpaperListActivity).registerReceiver(mRefreshReceiver, filter)
+
+
 
                         }
-                        recyclerView.setOnClickListener {
-                            Log.e("CLICK","click")
-                            (myAdapter as ListTrendingAdapter).updateDataItem(1)
-                        }
+
 
                     }
                 }
@@ -127,16 +171,6 @@ class WallpaperListActivity : AppCompatActivity() {
             })
     }
 
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-        if(requestCode==1){
-            if(resultCode == RESULT_OK){
-                val check : Boolean = data?.getBooleanExtra("check",false) ?: false
-
-            }
-        }
-
-    }
 
     private fun getAllDataPopularTrending(rv: RecyclerView) {
         ApiInterface.Api2.retrofitService2.getAllDataPopularTrending()
@@ -150,6 +184,27 @@ class WallpaperListActivity : AppCompatActivity() {
                             myAdapter = ListTrendingAdapter(response.body()!!)
                             layoutManager = manager
                             adapter = myAdapter
+
+                            filter = IntentFilter()
+                            filter.addAction("localBroadCastForData")
+                            mRefreshReceiver = object :BroadcastReceiver(){
+                                override fun onReceive(context: Context?, intent: Intent?) {
+                                    if (intent != null) {
+                                        if(intent.action.equals("localBroadCastForData")){
+                                            posChange = intent.getIntExtra("pos_change",-1)
+                                            (myAdapter as ListTrendingAdapter).updateDataItem(posChange)
+                                        }
+                                    }
+                                }
+
+
+                            }
+                            LocalBroadcastManager.getInstance(this@WallpaperListActivity).registerReceiver(mRefreshReceiver, filter)
+
+
+
+
+
                         }
                     }
                 }
@@ -173,6 +228,26 @@ class WallpaperListActivity : AppCompatActivity() {
                             myAdapter = ListTrendingAdapter(response.body()!!)
                             layoutManager = manager
                             adapter = myAdapter
+
+                            filter = IntentFilter()
+                            filter.addAction("localBroadCastForData")
+                            mRefreshReceiver = object :BroadcastReceiver(){
+                                override fun onReceive(context: Context?, intent: Intent?) {
+                                    if (intent != null) {
+                                        if(intent.action.equals("localBroadCastForData")){
+                                            posChange = intent.getIntExtra("pos_change",-1)
+                                            (myAdapter as ListTrendingAdapter).updateDataItem(posChange)
+                                        }
+                                    }
+                                }
+
+
+                            }
+                            LocalBroadcastManager.getInstance(this@WallpaperListActivity).registerReceiver(mRefreshReceiver, filter)
+
+
+
+
                         }
                     }
                 }
@@ -196,6 +271,26 @@ class WallpaperListActivity : AppCompatActivity() {
                             myAdapter = ListWallpaperCategoriesAdapter(response.body()!!)
                             layoutManager = manager
                             adapter = myAdapter
+
+                            filter = IntentFilter()
+                            filter.addAction("localBroadCastForData")
+                            mRefreshReceiver = object :BroadcastReceiver(){
+                                override fun onReceive(context: Context?, intent: Intent?) {
+                                    if (intent != null) {
+                                        if(intent.action.equals("localBroadCastForData")){
+                                            posChange = intent.getIntExtra("pos_change",-1)
+                                            (myAdapter as ListWallpaperCategoriesAdapter).updateDataItem(posChange)
+                                        }
+                                    }
+                                }
+
+
+                            }
+                            LocalBroadcastManager.getInstance(this@WallpaperListActivity).registerReceiver(mRefreshReceiver, filter)
+
+
+
+
                         }
                     }
                 }

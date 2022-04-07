@@ -1,5 +1,6 @@
 package com.daotrung.wallpapers_2021.adapter
 
+import android.content.Context
 import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
@@ -26,7 +27,7 @@ class ListWallpaperCategoriesAdapter(private val data: MaterialWallpaperCatList)
 
     private lateinit var database: MyWallPaperDatabase
     private lateinit var dao: IDao
-    var check = false
+    private lateinit var imgIcon : ImageView
     inner class MyViewHolder(val view: View) : RecyclerView.ViewHolder(view) {
         fun bind(materialWallpaperCatList: CatList) {
 
@@ -42,7 +43,7 @@ class ListWallpaperCategoriesAdapter(private val data: MaterialWallpaperCatList)
 
 
             val imageView = view.findViewById<ImageView>(R.id.img_list_trending)
-            val imgIcon = view.findViewById<ImageView>(R.id.icon_heart)
+             imgIcon = view.findViewById<ImageView>(R.id.icon_heart)
             Glide.with(view.context).load(get_url_img_thumb + materialWallpaperCatList.images).centerCrop()
                 .into(imageView)
 
@@ -56,8 +57,6 @@ class ListWallpaperCategoriesAdapter(private val data: MaterialWallpaperCatList)
                 imgIcon.setImageDrawable(ContextCompat.getDrawable(itemView.context,R.drawable.heart_select))
 
             }
-
-
         }
     }
 
@@ -76,7 +75,8 @@ class ListWallpaperCategoriesAdapter(private val data: MaterialWallpaperCatList)
         return data.MaterialWallpaper.size
     }
 
-    fun update(pos : Int){
+    fun updateDataItem(pos:Int){
+        notifyItemChanged(pos)
 
     }
 
