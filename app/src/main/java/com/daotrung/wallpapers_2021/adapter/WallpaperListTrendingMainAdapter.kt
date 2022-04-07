@@ -11,6 +11,8 @@ import com.daotrung.wallpapers_2021.WallpaperListActivity
 import com.daotrung.wallpapers_2021.R
 import com.daotrung.wallpapers_2021.model.TrenMain
 
+const val TITLE_TREND : String = "title_trend"
+const val ID_TREND : String = "id_trend"
 class WallpaperListTrendingMainAdapter(private val data: List<TrenMain>) :
     RecyclerView.Adapter<WallpaperListTrendingMainAdapter.MyViewHolder>() {
 
@@ -27,8 +29,8 @@ class WallpaperListTrendingMainAdapter(private val data: List<TrenMain>) :
             imgView.setOnClickListener {
                 val intent = Intent(view.context, WallpaperListActivity::class.java)
 //                  Log.e("ggg",trenMain.name)
-                intent.putExtra("title_trend", trenMain.name)
-                intent.putExtra("id_trend", layoutPosition)
+                intent.putExtra(TITLE_TREND, trenMain.name)
+                intent.putExtra(ID_TREND, layoutPosition)
 //                  Log.e("id = ",layoutPosition.toString())
                 view.context.startActivity(intent)
             }

@@ -1,6 +1,5 @@
 package com.daotrung.wallpapers_2021
 
-import android.annotation.SuppressLint
 import android.app.AlertDialog
 import android.app.ProgressDialog
 import android.app.WallpaperManager
@@ -24,6 +23,8 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.bumptech.glide.Glide
+import com.daotrung.wallpapers_2021.adapter.ID_LIVE_MAIN
+import com.daotrung.wallpapers_2021.adapter.ID_OFF_MY_LIVE
 import com.daotrung.wallpapers_2021.room.MyWallPaper
 import com.daotrung.wallpapers_2021.room.MyWallPaperDatabase
 import com.daotrung.wallpapers_2021.room.MyWallpaperViewModel
@@ -43,17 +44,11 @@ private lateinit var myList : List<MyWallPaper>
 class MyLiveSliderActivity : AppCompatActivity() {
 
     private lateinit var videoView: VideoView
-
     private lateinit var img_close: ImageView
-
     private lateinit var img_left_arrow: ImageView
-
     private lateinit var img_right_arrow: ImageView
-
     private lateinit var img_save_btn: ImageView
-
-    private lateinit var img_share_btn: ImageView
-
+    private  var img_share_btn: ImageView? = null
     private lateinit var myWallpaperViewModel: MyWallpaperViewModel
 
 
@@ -93,8 +88,8 @@ class MyLiveSliderActivity : AppCompatActivity() {
         img_left_arrow = findViewById(R.id.img_arrow_left_video_my_live)
         img_right_arrow = findViewById(R.id.img_arrow_right_video_my_live)
         img_save_btn = findViewById(R.id.img_btn_save_video_my_live)
-
-        myWallpaperViewModel = ViewModelProvider(this).get(MyWallpaperViewModel::class.java)
+        img_share_btn = findViewById(R.id.img_share_video_my_live)
+        myWallpaperViewModel = ViewModelProvider(this)[MyWallpaperViewModel::class.java]
 
         PRDownloader.initialize(applicationContext)
 
@@ -103,8 +98,7 @@ class MyLiveSliderActivity : AppCompatActivity() {
              myList = mywall
 
              val intent = intent
-             id = intent.getIntExtra("ID",-1)
-
+             id = intent.getIntExtra(ID_OFF_MY_LIVE,-1)
             pathVideo = myList[id].myUrl
             setVideo(pathVideo)
 
@@ -137,10 +131,10 @@ class MyLiveSliderActivity : AppCompatActivity() {
         }
         img_save_btn.setOnClickListener {
 
-            setDiloagVideo(pathVideo)
+            setDialogVideo(pathVideo)
 
         }
-        img_share_btn.setOnClickListener {
+        img_share_btn!!.setOnClickListener {
             val share = Intent(Intent.ACTION_SEND)
             share.type = "text/plain"
             share.addFlags(Intent.FLAG_ACTIVITY_CLEAR_WHEN_TASK_RESET)
@@ -172,11 +166,11 @@ class MyLiveSliderActivity : AppCompatActivity() {
     }
 
     // xu ly download Video
-    private fun setDiloagVideo(pathVideo: String) {
+    private fun setDialogVideo(pathVideo: String) {
         val builder = AlertDialog.Builder(this)
         builder.setTitle("Save Video")
         builder.setMessage("Do you want save this video ?")
-        builder.setPositiveButton("Yes") { dialogInterface: DialogInterface, i: Int ->
+        builder.setPositiveButton("Yes") { _: DialogInterface, _: Int ->
             Dexter.withContext(this)
                 .withPermissions(
                     android.Manifest.permission.WRITE_EXTERNAL_STORAGE,
@@ -185,7 +179,7 @@ class MyLiveSliderActivity : AppCompatActivity() {
                 ).withListener(object : MultiplePermissionsListener {
                     override fun onPermissionsChecked(report: MultiplePermissionsReport) {
                         /* ... */ if (report.areAllPermissionsGranted()) {
-                            dowloadVideo(pathVideo)
+                            downloadVideo(pathVideo)
                         } else {
                             Toast.makeText(
                                 this@MyLiveSliderActivity,
@@ -201,7 +195,7 @@ class MyLiveSliderActivity : AppCompatActivity() {
                     ) { /* ... */
                     }
                 }).check()
-            var wallpaperManager: WallpaperManager =
+            val wallpaperManager: WallpaperManager =
                 WallpaperManager.getInstance(applicationContext)
             try {
                 // clear cache wallpaper
@@ -210,7 +204,7 @@ class MyLiveSliderActivity : AppCompatActivity() {
                 e.printStackTrace()
             }
             //  truyen url from activity to wallpaper_service
-            var serviceIntent: Intent = Intent(applicationContext, MyWallpaperService::class.java)
+            val serviceIntent: Intent = Intent(applicationContext, MyWallpaperService::class.java)
             serviceIntent.putExtra("url_pass", pathVideo)
             this.startService(serviceIntent)
             // setTo Wallpaper
@@ -218,12 +212,12 @@ class MyLiveSliderActivity : AppCompatActivity() {
             finish()
 
         }
-        builder.setNegativeButton("No") { dialogInterface: DialogInterface, i: Int ->
+        builder.setNegativeButton("No") { _: DialogInterface, _: Int ->
             finish()
 
             // set video wallpaper
 
-            var wallpaperManager: WallpaperManager =
+            val wallpaperManager: WallpaperManager =
                 WallpaperManager.getInstance(applicationContext)
             try {
                 // clear cache wallpaper
@@ -232,7 +226,7 @@ class MyLiveSliderActivity : AppCompatActivity() {
                 e.printStackTrace()
             }
             //  truyen url from activity to wallpaper_service
-            var serviceIntent: Intent = Intent(applicationContext, MyWallpaperService::class.java)
+            val serviceIntent: Intent = Intent(applicationContext, MyWallpaperService::class.java)
             serviceIntent.putExtra("url_pass", pathVideo)
             this.startService(serviceIntent)
             // setTo Wallpaper
@@ -243,40 +237,36 @@ class MyLiveSliderActivity : AppCompatActivity() {
 
     }
 
-    private fun dowloadVideo(pathVideo: String) {
-        var pd = ProgressDialog(this)
+    private fun downloadVideo(pathVideo: String) {
+        val pd = ProgressDialog(this)
         pd.setMessage("Dowloading....")
         pd.setCancelable(false)
         pd.show()
-        var file: File =
+        val file: File =
             Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS)
         PRDownloader.download(pathVideo, file.path, URLUtil.guessFileName(pathVideo, null, null))
             .build()
             .setOnStartOrResumeListener { }
             .setOnPauseListener { }
-            .setOnCancelListener(object : OnCancelListener {
-                override fun onCancel() {}
-            })
-            .setOnProgressListener(object : OnProgressListener {
-                override fun onProgress(progress: Progress?) {
-                    var per = progress!!.currentBytes * 100 / progress.totalBytes
-                    pd.setMessage("Dowloading : $per %")
-                }
-            })
+            .setOnCancelListener { }
+            .setOnProgressListener { progress ->
+                val per = progress!!.currentBytes * 100 / progress.totalBytes
+                pd.setMessage("Downloading : $per %")
+            }
             .start(object : OnDownloadListener {
                 override fun onDownloadComplete() {
                     pd.dismiss()
                     Toast.makeText(
                         this@MyLiveSliderActivity,
-                        "Dowloading Completed",
+                        "Downloading Completed",
                         Toast.LENGTH_SHORT
-                    )
+                    ).show()
 
                 }
 
                 override fun onError(error: com.downloader.Error?) {
                     pd.dismiss()
-                    Toast.makeText(this@MyLiveSliderActivity, "Error", Toast.LENGTH_SHORT)
+                    Toast.makeText(this@MyLiveSliderActivity, "Error", Toast.LENGTH_SHORT).show()
                 }
 
             })

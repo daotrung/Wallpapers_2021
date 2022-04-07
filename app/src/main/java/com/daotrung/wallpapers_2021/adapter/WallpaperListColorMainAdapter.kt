@@ -17,6 +17,8 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
+const val NAME_COLOR : String = "name_color"
+const val ID_COLOR : String = "id_color"
 class WallpaperListColorMainAdapter(private val data: List<ColorMain>) :
     RecyclerView.Adapter<WallpaperListColorMainAdapter.MyViewHolder>() {
     private var size: Int = 0
@@ -51,8 +53,8 @@ class WallpaperListColorMainAdapter(private val data: List<ColorMain>) :
                     // truyen id qua click moi imgview den man hinh hien thi
                     imgView.setOnClickListener {
                         val intent = Intent(view.context, WallpaperListActivity::class.java)
-                        intent.putExtra("name_color", arrayList[layoutPosition].name)
-                        intent.putExtra("id_color", arrayList[layoutPosition].id)
+                        intent.putExtra(NAME_COLOR, arrayList[layoutPosition].name)
+                        intent.putExtra(ID_COLOR, arrayList[layoutPosition].id)
                         view.context.startActivity(intent)
                     }
 

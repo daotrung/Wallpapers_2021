@@ -8,7 +8,9 @@ import android.widget.TextView
 import androidx.appcompat.widget.Toolbar
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.daotrung.wallpapers_2021.adapter.ID_LIVE_MAIN
 import com.daotrung.wallpapers_2021.adapter.LiveListAdapter
+import com.daotrung.wallpapers_2021.adapter.TITLE_LIVE_MAIN
 import com.daotrung.wallpapers_2021.model.SlideLiveWapaper
 import com.daotrung.wallpapers_2021.service.ApiInterface
 import com.google.gson.Gson
@@ -22,7 +24,7 @@ class LiveListActivity : AppCompatActivity() {
     private lateinit var recyclerView: RecyclerView
     private lateinit var manager: RecyclerView.LayoutManager
     private lateinit var myAdapter: RecyclerView.Adapter<*>
-    private lateinit var myToobar: Toolbar
+    private lateinit var myToolbar: Toolbar
     private lateinit var mTitle: TextView
     private var myId: Int = 0
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -31,23 +33,22 @@ class LiveListActivity : AppCompatActivity() {
         recyclerView = findViewById(R.id.rv_list_live_wapper)
         manager = GridLayoutManager(this, 3)
         val intent = intent
-        myId = intent.getIntExtra("idGet", 0)
+        myId = intent.getIntExtra(ID_LIVE_MAIN, 0)
 
-        Log.e("id",myId.toString())
         getSlideDataById(recyclerView, myId)
         setToolbar()
     }
 
     @SuppressLint("ResourceAsColor")
     private fun setToolbar() {
-        myToobar = findViewById(R.id.toolbar_live_list)
-        mTitle = myToobar.findViewById(R.id.txt_title_toolbar_live)
-        mTitle.text = intent.getStringExtra("title")
-        setSupportActionBar(myToobar)
+        myToolbar = findViewById(R.id.toolbar_live_list)
+        mTitle = myToolbar.findViewById(R.id.txt_title_toolbar_live)
+        mTitle.text = intent.getStringExtra(TITLE_LIVE_MAIN)
+        setSupportActionBar(myToolbar)
         supportActionBar?.setHomeAsUpIndicator(R.drawable.arrow_ios_forward)
         supportActionBar?.setDisplayShowHomeEnabled(true)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
-        myToobar.setNavigationOnClickListener {
+        myToolbar.setNavigationOnClickListener {
             finish()
         }
     }
@@ -66,7 +67,7 @@ class LiveListActivity : AppCompatActivity() {
                             myAdapter = LiveListAdapter(response.body()!!)
                             layoutManager = manager
                             adapter = myAdapter
-                            Log.e("data",response.body().toString())
+//                            Log.e("data",response.body().toString())
                         }
                     }
                 }

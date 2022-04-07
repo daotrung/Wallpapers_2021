@@ -17,7 +17,8 @@ import com.daotrung.wallpapers_2021.room.IDao
 import com.daotrung.wallpapers_2021.room.MyWallPaperDatabase
 import java.io.Serializable
 
-
+const val LIST_IMG_COLOR : String = "list_img_color"
+const val POS_IMG_COLOR : String = "pos_img_color"
 class ListWallpaperColorAdapter(private val data: MaterialWallpaperCatList) :
     RecyclerView.Adapter<ListWallpaperColorAdapter.MyViewHolder>() {
 
@@ -43,8 +44,8 @@ class ListWallpaperColorAdapter(private val data: MaterialWallpaperCatList) :
 
             imgView.setOnClickListener {
                 val intent = Intent(view.context, SliderWallpaperActivity::class.java)
-                intent.putExtra("list_img_color", data as Serializable)
-                intent.putExtra("pos_img_color", layoutPosition + 1)
+                intent.putExtra(LIST_IMG_COLOR, data as Serializable)
+                intent.putExtra(POS_IMG_COLOR, layoutPosition + 1)
                 view.context.startActivity(intent)
             }
 

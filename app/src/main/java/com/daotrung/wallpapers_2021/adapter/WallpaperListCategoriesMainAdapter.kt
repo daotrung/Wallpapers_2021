@@ -15,7 +15,8 @@ import com.daotrung.wallpapers_2021.model.MaterialWallpaperCateMain
 
 const val urlImg = "https://hdwalls.wallzapps.com/upload/category/"
 const val limit = 9
-
+const val NAME_TITLE_CATEGORIES : String = "name_title_categories"
+const val ID_CATEGORIES : String = "id_categories"
 class ListCategoriesMainAdapter(private val data: MaterialWallpaperCateMain) :
     RecyclerView.Adapter<ListCategoriesMainAdapter.MyViewHolder>() {
     inner class MyViewHolder(val view: View) : RecyclerView.ViewHolder(view) {
@@ -31,8 +32,8 @@ class ListCategoriesMainAdapter(private val data: MaterialWallpaperCateMain) :
 
             img_main.setOnClickListener {
                 val intent = Intent(view.context, WallpaperListActivity::class.java)
-                intent.putExtra("name_title_categories", materialWallpaperCateMain.category_name)
-                intent.putExtra("id_categories", materialWallpaperCateMain.cid.toInt())
+                intent.putExtra(NAME_TITLE_CATEGORIES, materialWallpaperCateMain.category_name)
+                intent.putExtra(ID_CATEGORIES, materialWallpaperCateMain.cid.toInt())
 //                Log.e("id",materialWallpaperCateMain.cid)
                 view.context.startActivity(intent)
             }

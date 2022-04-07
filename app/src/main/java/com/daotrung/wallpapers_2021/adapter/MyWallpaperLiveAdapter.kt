@@ -15,6 +15,7 @@ import com.daotrung.wallpapers_2021.R
 import com.daotrung.wallpapers_2021.room.MyWallPaper
 import java.io.Serializable
 
+const val ID_OFF_MY_LIVE : String = "ID"
 class MyWallpaperLiveAdapter : RecyclerView.Adapter<MyWallpaperLiveAdapter.MyViewHolder>(){
     private var myWallpaperList = emptyList<MyWallPaper>()
     class MyViewHolder (itemView:View):RecyclerView.ViewHolder(itemView){
@@ -34,7 +35,7 @@ class MyWallpaperLiveAdapter : RecyclerView.Adapter<MyWallpaperLiveAdapter.MyVie
         imgView.setOnClickListener {
             val intent = Intent(holder.itemView.context,MyLiveSliderActivity::class.java)
 
-            intent.putExtra("ID",position)
+            intent.putExtra(ID_OFF_MY_LIVE,position)
             holder.itemView.context.startActivity(intent)
         }
     }

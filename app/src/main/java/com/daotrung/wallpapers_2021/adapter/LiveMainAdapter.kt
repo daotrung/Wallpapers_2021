@@ -12,6 +12,8 @@ import com.daotrung.wallpapers_2021.LiveListActivity
 import com.daotrung.wallpapers_2021.R
 import com.daotrung.wallpapers_2021.model.WallPaper
 
+const val ID_LIVE_MAIN : String = "idGet"
+const val TITLE_LIVE_MAIN : String = "title"
 class LiveMainAdapter(private val data: List<WallPaper>) :
     RecyclerView.Adapter<LiveMainAdapter.MyViewHolder>() {
 
@@ -25,8 +27,8 @@ class LiveMainAdapter(private val data: List<WallPaper>) :
 
             imageView.setOnClickListener {
                 val intent = Intent(view.context, LiveListActivity::class.java)
-                intent.putExtra("idGet", wallpaper.id)
-                intent.putExtra("title", wallpaper.title)
+                intent.putExtra(ID_LIVE_MAIN, wallpaper.id)
+                intent.putExtra(TITLE_LIVE_MAIN, wallpaper.title)
                 view.context.startActivity(intent)
             }
 

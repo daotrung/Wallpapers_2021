@@ -37,9 +37,8 @@ import com.karumi.dexter.listener.multi.MultiplePermissionsListener
 import java.io.IOException
 import java.lang.Error
 import android.content.Intent
-
-
-
+import com.daotrung.wallpapers_2021.adapter.LIST_LIVE_VIDEO
+import com.daotrung.wallpapers_2021.adapter.POS_LIVE_VIDEO
 
 
 private var list: ArrayList<SlideLiveWapaper> = ArrayList()
@@ -131,8 +130,8 @@ class LiveVideoActivity : AppCompatActivity() {
 
         // lấy dữ liệu từ liveListAdapter
         val intent = intent
-            list = intent.getSerializableExtra("list_img_live") as ArrayList<SlideLiveWapaper>
-            id = intent.getIntExtra("pos_img_live", 0)
+            list = intent.getSerializableExtra(LIST_LIVE_VIDEO) as ArrayList<SlideLiveWapaper>
+            id = intent.getIntExtra(POS_LIVE_VIDEO, 0)
 
             // lấy path url thong qua dl vua truyen ve
             pathVideo = list[id].original
@@ -176,6 +175,7 @@ class LiveVideoActivity : AppCompatActivity() {
                 // downloadVideo
                 setDiloagVideo(pathVideo)
 
+
             }
             img_share_btn.setOnClickListener {
                 val share = Intent(Intent.ACTION_SEND)
@@ -206,7 +206,7 @@ class LiveVideoActivity : AppCompatActivity() {
         val builder = AlertDialog.Builder(this)
         builder.setTitle("Save Video")
         builder.setMessage("Do you want save this video ?")
-        builder.setPositiveButton("Yes") { dialogInterface: DialogInterface, i: Int ->
+        builder.setPositiveButton("Yes") { _: DialogInterface, _: Int ->
             Dexter.withContext(this)
                 .withPermissions(
                     android.Manifest.permission.WRITE_EXTERNAL_STORAGE,
@@ -234,7 +234,7 @@ class LiveVideoActivity : AppCompatActivity() {
 
 
         }
-        builder.setNegativeButton("No") { dialogInterface: DialogInterface, i: Int ->
+        builder.setNegativeButton("No") { _: DialogInterface, _: Int ->
             setDialogWallPaper()
 
         }
@@ -244,7 +244,7 @@ class LiveVideoActivity : AppCompatActivity() {
 
     private fun dowloadVideo(pathVideo: String) {
         var pd = ProgressDialog(this)
-        pd.setMessage("Dowloading....")
+        pd.setMessage("Downloading....")
         pd.setCancelable(false)
         pd.show()
         var file: File =
@@ -253,29 +253,25 @@ class LiveVideoActivity : AppCompatActivity() {
             .build()
             .setOnStartOrResumeListener { }
             .setOnPauseListener { }
-            .setOnCancelListener(object : OnCancelListener {
-                override fun onCancel() {}
-            })
-            .setOnProgressListener(object : OnProgressListener {
-                override fun onProgress(progress: Progress?) {
-                    var per = progress!!.currentBytes * 100 / progress.totalBytes
-                    pd.setMessage("Dowloading : $per %")
-                }
-            })
+            .setOnCancelListener { }
+            .setOnProgressListener { progress ->
+                var per = progress!!.currentBytes * 100 / progress.totalBytes
+                pd.setMessage("Downloading : $per %")
+            }
             .start(object : OnDownloadListener {
                 override fun onDownloadComplete() {
                     pd.dismiss()
                     Toast.makeText(
                         this@LiveVideoActivity,
-                        "Dowloading Completed",
+                        "Downloading Completed",
                         Toast.LENGTH_SHORT
-                    )
+                    ).show()
                     setDialogWallPaper()
                 }
 
                 override fun onError(error: com.downloader.Error?) {
                     pd.dismiss()
-                    Toast.makeText(this@LiveVideoActivity, "Error", Toast.LENGTH_SHORT)
+                    Toast.makeText(this@LiveVideoActivity, "Error", Toast.LENGTH_SHORT).show()
                 }
 
                 fun onError(error: Error?) {}

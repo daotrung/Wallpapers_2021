@@ -27,8 +27,8 @@ class WallpaperListCategoriesMainSheetAdapter(private val data: MaterialWallpape
 
             img_main.setOnClickListener {
                 val intent = Intent(view.context, WallpaperListActivity::class.java)
-                intent.putExtra("name_title_categories", materialWallpaperCateMain.category_name)
-                intent.putExtra("id_categories", materialWallpaperCateMain.cid.toInt())
+                intent.putExtra(NAME_TITLE_CATEGORIES, materialWallpaperCateMain.category_name)
+                intent.putExtra(ID_CATEGORIES, materialWallpaperCateMain.cid.toInt())
 //                Log.e("id",materialWallpaperCateMain.cid)
                 view.context.startActivity(intent)
             }

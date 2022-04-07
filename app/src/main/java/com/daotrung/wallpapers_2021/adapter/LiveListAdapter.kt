@@ -12,6 +12,8 @@ import com.daotrung.wallpapers_2021.R
 import com.daotrung.wallpapers_2021.model.SlideLiveWapaper
 import java.io.Serializable
 
+const val LIST_LIVE_VIDEO: String = "list_img_live"
+const val POS_LIVE_VIDEO : String = "pos_img_live"
 class LiveListAdapter(private val data: List<SlideLiveWapaper>) :
     RecyclerView.Adapter<LiveListAdapter.MyViewHolder>() {
 
@@ -27,8 +29,8 @@ class LiveListAdapter(private val data: List<SlideLiveWapaper>) :
                 imgView.setOnClickListener {
 
                     val intent = Intent(view.context, LiveVideoActivity::class.java)
-                    intent.putExtra("list_img_live", data as Serializable)
-                    intent.putExtra("pos_img_live", layoutPosition)
+                    intent.putExtra(LIST_LIVE_VIDEO, data as Serializable)
+                    intent.putExtra(POS_LIVE_VIDEO, layoutPosition)
                     view.context.startActivity(intent)
                 }
             }else{

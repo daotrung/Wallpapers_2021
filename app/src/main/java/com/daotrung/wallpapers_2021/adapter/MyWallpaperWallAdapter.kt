@@ -15,6 +15,7 @@ import com.daotrung.wallpapers_2021.room.IDao
 import com.daotrung.wallpapers_2021.room.MyFavoritePicture
 import com.daotrung.wallpapers_2021.room.MyWallPaperDatabase
 
+const val ID_MY_WALL_LIST : String = "id_picture"
 class MyWallpaperWallAdapter() :
     RecyclerView.Adapter<MyWallpaperWallAdapter.MyViewHolder>() {
 
@@ -42,7 +43,7 @@ class MyWallpaperWallAdapter() :
         imgView.setOnClickListener {
             val intent = Intent(holder.itemView.context,MyWallSliderActivity::class.java)
 
-            intent.putExtra("id_picture",position)
+            intent.putExtra(ID_MY_WALL_LIST,position)
 
             holder.itemView.context.startActivity(intent)
         }

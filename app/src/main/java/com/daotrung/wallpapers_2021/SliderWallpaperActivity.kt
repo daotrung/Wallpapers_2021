@@ -26,7 +26,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import androidx.room.Room
 import com.bumptech.glide.Glide
-import com.daotrung.wallpapers_2021.adapter.WallpaperListColorMainAdapter
+import com.daotrung.wallpapers_2021.adapter.*
 import com.daotrung.wallpapers_2021.model.*
 import com.daotrung.wallpapers_2021.room.*
 import com.downloader.*
@@ -79,10 +79,10 @@ class SliderWallpaperActivity : AppCompatActivity() {
 
         inFinViewById()
 
-        if (intent.getIntExtra("pos_img_trend", 0) >= 1) {
+        if (intent.getIntExtra(POST_IMG_TREND, 0) >= 1) {
 
-            list = intent.getSerializableExtra("list_img_trend") as MaterialWapaper
-            id = intent.getIntExtra("pos_img_trend", 0) - 1
+            list = intent.getSerializableExtra(LIST_IMG_TREND) as MaterialWapaper
+            id = intent.getIntExtra(POST_IMG_TREND, 0) - 1
             img = url_get_img_preview + list.MaterialWallpaper[id].image
 
             Glide.with(this).load(img).into(img_layout)
@@ -127,10 +127,10 @@ class SliderWallpaperActivity : AppCompatActivity() {
                 shareImg()
             }
         }
-        if (intent.getIntExtra("pos_img_categories", 0) >= 1) {
+        if (intent.getIntExtra(POST_IMG_CATEGORIES, 0) >= 1) {
             listCate =
-                intent.getSerializableExtra("list_img_categories") as MaterialWallpaperCatList
-            id = intent.getIntExtra("pos_img_categories", 0) - 1
+                intent.getSerializableExtra(LIST_IMG_CATEGORIES) as MaterialWallpaperCatList
+            id = intent.getIntExtra(POST_IMG_CATEGORIES, 0) - 1
 
             img = url_get_img_preview + listCate.MaterialWallpaper[id].images
 
@@ -182,9 +182,9 @@ class SliderWallpaperActivity : AppCompatActivity() {
 
             }
         }
-        if (intent.getIntExtra("pos_img_color", 0) >= 1) {
-            listCate = intent.getSerializableExtra("list_img_color") as MaterialWallpaperCatList
-            id = intent.getIntExtra("pos_img_color", 0) - 1
+        if (intent.getIntExtra(POST_IMG_CATEGORIES, 0) >= 1) {
+            listCate = intent.getSerializableExtra(LIST_IMG_CATEGORIES) as MaterialWallpaperCatList
+            id = intent.getIntExtra(POST_IMG_CATEGORIES, 0) - 1
             img = url_get_img_preview + listCate.MaterialWallpaper.get(id).images
 
             Glide.with(this).load(img).into(img_layout)
@@ -242,13 +242,13 @@ class SliderWallpaperActivity : AppCompatActivity() {
             .setOnProgressListener { }
             .start(object : OnDownloadListener {
                 override fun onDownloadComplete() {
-                    val bitmapDrawale: BitmapDrawable = img_layout.drawable as BitmapDrawable
-                    val bitmap: Bitmap = bitmapDrawale.bitmap
+                    val bitmapDrawable: BitmapDrawable = img_layout.drawable as BitmapDrawable
+                    val bitmap: Bitmap = bitmapDrawable.bitmap
                     val bitmapPath: String =
                         MediaStore.Images.Media.insertImage(contentResolver, bitmap, "Some title", null)
                     val bitmapUri: Uri = Uri.parse(bitmapPath)
                     val intent = Intent(Intent.ACTION_SEND)
-                    intent.setType("image/*")
+                    intent.type = "image/*"
                     intent.putExtra(Intent.EXTRA_STREAM, bitmapUri)
                     startActivity(Intent.createChooser(intent, "Share Image to Another App"))
 
@@ -337,11 +337,11 @@ class SliderWallpaperActivity : AppCompatActivity() {
         val builderWallpaer = AlertDialog.Builder(this)
         builderWallpaer.setTitle("Set Wallpaper")
         builderWallpaer.setMessage("DO you want set up wallpaper ?")
-        builderWallpaer.setPositiveButton("No") { dialogInterface: DialogInterface, i: Int ->
+        builderWallpaer.setPositiveButton("No") { _: DialogInterface, _: Int ->
             finish()
 
         }
-        builderWallpaer.setNegativeButton("Yes") { dialogInterface: DialogInterface, i: Int ->
+        builderWallpaer.setNegativeButton("Yes") { _: DialogInterface, _: Int ->
             setBackgroundWallpaper()
         }
         builderWallpaer.show()
@@ -352,7 +352,7 @@ class SliderWallpaperActivity : AppCompatActivity() {
         val builder = AlertDialog.Builder(this)
         builder.setTitle("Download Image")
         builder.setMessage("Do you want download ?")
-        builder.setPositiveButton("Yes") { dialogInterface: DialogInterface, i: Int ->
+        builder.setPositiveButton("Yes") { _: DialogInterface, _: Int ->
             Dexter.withContext(this)
                 .withPermissions(
                     android.Manifest.permission.WRITE_EXTERNAL_STORAGE,
@@ -380,7 +380,7 @@ class SliderWallpaperActivity : AppCompatActivity() {
 
 
         }
-        builder.setNegativeButton("No") { dialogInterface: DialogInterface, i: Int ->
+        builder.setNegativeButton("No") { _: DialogInterface, _: Int ->
             setWalpaperDialog()
 
         }
@@ -408,16 +408,11 @@ class SliderWallpaperActivity : AppCompatActivity() {
             .build()
             .setOnStartOrResumeListener { }
             .setOnPauseListener { }
-            .setOnCancelListener(object : OnCancelListener {
-                override fun onCancel() {}
-            })
-            .setOnProgressListener(object : OnProgressListener {
-                override fun onProgress(progress: Progress?) {
-                    var per = progress!!.currentBytes * 100 / progress.totalBytes
-                    pd.setMessage("Downloading : $per %")
-                }
-
-            })
+            .setOnCancelListener { }
+            .setOnProgressListener { progress ->
+                var per = progress!!.currentBytes * 100 / progress.totalBytes
+                pd.setMessage("Downloading : $per %")
+            }
             .start(object : OnDownloadListener {
                 override fun onDownloadComplete() {
                     pd.dismiss()
@@ -425,13 +420,13 @@ class SliderWallpaperActivity : AppCompatActivity() {
                         this@SliderWallpaperActivity,
                         "Downloading Completed",
                         Toast.LENGTH_SHORT
-                    )
+                    ).show()
                     setWalpaperDialog()
                 }
 
                 override fun onError(error: com.downloader.Error?) {
                     pd.dismiss()
-                    Toast.makeText(this@SliderWallpaperActivity, "Error", Toast.LENGTH_SHORT)
+                    Toast.makeText(this@SliderWallpaperActivity, "Error", Toast.LENGTH_SHORT).show()
                 }
 
                 fun onError(error: Error?) {}

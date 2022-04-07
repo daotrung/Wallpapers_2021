@@ -19,6 +19,8 @@ import com.daotrung.wallpapers_2021.room.MyWallPaperDatabase
 import java.io.Serializable
 import kotlin.math.log
 
+const val LIST_IMG_TREND : String = "list_img_trend"
+const val POST_IMG_TREND : String = "pos_img_trend"
 class ListTrendingAdapter(private val data: MaterialWapaper) :
     RecyclerView.Adapter<ListTrendingAdapter.MyViewHolder>() {
 
@@ -47,9 +49,9 @@ class ListTrendingAdapter(private val data: MaterialWapaper) :
             imgView.setOnClickListener {
                 val intent = Intent(view.context, SliderWallpaperActivity::class.java)
 
-                intent.putExtra("list_img_trend", data as Serializable)
-                intent.putExtra("pos_img_trend", layoutPosition + 1)
-                Log.e("id=", layoutPosition.toString())
+                intent.putExtra(LIST_IMG_TREND, data as Serializable)
+                intent.putExtra(POST_IMG_TREND, layoutPosition + 1)
+//                Log.e("id=", layoutPosition.toString())
                 view.context.startActivity(intent)
             }
 

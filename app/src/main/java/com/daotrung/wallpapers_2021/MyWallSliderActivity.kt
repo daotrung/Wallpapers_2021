@@ -25,6 +25,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import androidx.room.Room
 import com.bumptech.glide.Glide
+import com.daotrung.wallpapers_2021.adapter.ID_MY_WALL_LIST
 import com.daotrung.wallpapers_2021.room.*
 import com.downloader.*
 import com.karumi.dexter.Dexter
@@ -70,13 +71,13 @@ class MyWallSliderActivity : AppCompatActivity() {
 
         setContentView(R.layout.activity_slider_wallpaper)
 
-       val img_layout: ImageView = findViewById<ImageView>(R.id.img_slider_wallpaper_last)
-       val img_close : ImageView = findViewById<ImageView>(R.id.img_close_live_wallpaper)
-       val  img_left_arrow:ImageView =  findViewById<ImageView>(R.id.img_arrow_left_wallpaper)
-        val  img_right_arrow: ImageView = findViewById<ImageView>(R.id.img_arrow_right_wallpaper)
-      val img_share_btn: ImageView= findViewById<ImageView>(R.id.img_share_wallpaper)
-      val  img_save_btn: ImageView = findViewById<ImageView>(R.id.img_btn_save_wallpaper)
-       img_icon_heart = findViewById<ImageView>(R.id.img_icon_heart_big)
+       val img_layout: ImageView = findViewById(R.id.img_slider_wallpaper_last)
+       val img_close : ImageView = findViewById(R.id.img_close_live_wallpaper)
+       val  img_left_arrow:ImageView =  findViewById(R.id.img_arrow_left_wallpaper)
+        val  img_right_arrow: ImageView = findViewById(R.id.img_arrow_right_wallpaper)
+      val img_share_btn: ImageView= findViewById(R.id.img_share_wallpaper)
+      val  img_save_btn: ImageView = findViewById(R.id.img_btn_save_wallpaper)
+       img_icon_heart = findViewById(R.id.img_icon_heart_big)
 
         img_lay = img_layout
         img_close.setOnClickListener {
@@ -88,7 +89,7 @@ class MyWallSliderActivity : AppCompatActivity() {
 
             mypic-> myList = mypic
             val intent = intent
-             id = intent.getIntExtra("id_picture",-1)
+             id = intent.getIntExtra(ID_MY_WALL_LIST,-1)
             setIconHeart(myList[id].myUrlHeart,id)
             Glide.with(this).load(myList[id].myUrlHeart).into(img_lay!!)
         })
@@ -122,7 +123,7 @@ class MyWallSliderActivity : AppCompatActivity() {
         }
 
         img_save_btn.setOnClickListener {
-              setDowloadDialog(img!!)
+            setDownloadDialog(img!!)
         }
 
         img_share_btn.setOnClickListener {
@@ -208,11 +209,11 @@ class MyWallSliderActivity : AppCompatActivity() {
     }
 
 
-    private fun setDowloadDialog(img: String) {
+    private fun setDownloadDialog(img: String) {
         val builder = AlertDialog.Builder(this)
         builder.setTitle("Download Image")
         builder.setMessage("Do you want download ?")
-        builder.setPositiveButton("Yes") { dialogInterface: DialogInterface, i: Int ->
+        builder.setPositiveButton("Yes") { _: DialogInterface, _: Int ->
             Dexter.withContext(this)
                 .withPermissions(
                     android.Manifest.permission.WRITE_EXTERNAL_STORAGE,
@@ -221,7 +222,7 @@ class MyWallSliderActivity : AppCompatActivity() {
                 ).withListener(object : MultiplePermissionsListener {
                     override fun onPermissionsChecked(report: MultiplePermissionsReport) {
                         /* ... */ if (report.areAllPermissionsGranted()) {
-                            dowloadImage(img)
+                            downloadImage(img)
                         } else {
                             Toast.makeText(
                                 this@MyWallSliderActivity,
@@ -240,14 +241,14 @@ class MyWallSliderActivity : AppCompatActivity() {
 
 
         }
-        builder.setNegativeButton("No") { dialogInterface: DialogInterface, i: Int ->
-            setWalpaperDialog()
+        builder.setNegativeButton("No") { _: DialogInterface, _: Int ->
+            setWallpaperDialog()
 
         }
         builder.show()
 
     }
-    private fun dowloadImage(img: String) {
+    private fun downloadImage(img: String) {
         var pd = ProgressDialog(this)
         pd.setMessage("Downloading....")
         pd.setCancelable(false)
@@ -258,16 +259,11 @@ class MyWallSliderActivity : AppCompatActivity() {
             .build()
             .setOnStartOrResumeListener { }
             .setOnPauseListener { }
-            .setOnCancelListener(object : OnCancelListener {
-                override fun onCancel() {}
-            })
-            .setOnProgressListener(object : OnProgressListener {
-                override fun onProgress(progress: Progress?) {
-                    var per = progress!!.currentBytes * 100 / progress.totalBytes
-                    pd.setMessage("Dowloading : $per %")
-                }
-
-            })
+            .setOnCancelListener { }
+            .setOnProgressListener { progress ->
+                var per = progress!!.currentBytes * 100 / progress.totalBytes
+                pd.setMessage("Downloading : $per %")
+            }
             .start(object : OnDownloadListener {
                 override fun onDownloadComplete() {
                     pd.dismiss()
@@ -275,39 +271,38 @@ class MyWallSliderActivity : AppCompatActivity() {
                         this@MyWallSliderActivity,
                         "Dowloading Completed",
                         Toast.LENGTH_SHORT
-                    )
-                    setWalpaperDialog()
+                    ).show()
+                    setDownloadDialog(img)
                 }
 
                 override fun onError(error: com.downloader.Error?) {
                     pd.dismiss()
-                    Toast.makeText(this@MyWallSliderActivity, "Error", Toast.LENGTH_SHORT)
+                    Toast.makeText(this@MyWallSliderActivity, "Error", Toast.LENGTH_SHORT).show()
                 }
 
-                fun onError(error: Error?) {}
             })
 
 
 
     }
 
-    private fun setWalpaperDialog() {
-        val builderWallpaer = AlertDialog.Builder(this)
-        builderWallpaer.setTitle("Set Wallpaper")
-        builderWallpaer.setMessage("DO you want set up wallpaper ?")
-        builderWallpaer.setPositiveButton("No") { dialogInterface: DialogInterface, i: Int ->
+    private fun setWallpaperDialog() {
+        val builderWallpaper = AlertDialog.Builder(this)
+        builderWallpaper.setTitle("Set Wallpaper")
+        builderWallpaper.setMessage("DO you want set up wallpaper ?")
+        builderWallpaper.setPositiveButton("No") { _: DialogInterface, _: Int ->
             finish()
 
         }
-        builderWallpaer.setNegativeButton("Yes") { dialogInterface: DialogInterface, i: Int ->
+        builderWallpaper.setNegativeButton("Yes") { _: DialogInterface, _: Int ->
             setBackgroundWallpaper()
         }
-        builderWallpaer.show()
+        builderWallpaper.show()
     }
 
     private fun setBackgroundWallpaper() {
-        var bitmapDrawale: BitmapDrawable = img_lay?.drawable as BitmapDrawable
-        var bitmap: Bitmap = bitmapDrawale.bitmap
+        val bitmapDrawable: BitmapDrawable = img_lay?.drawable as BitmapDrawable
+        val bitmap: Bitmap = bitmapDrawable.bitmap
         val wallpaperManager = WallpaperManager.getInstance(applicationContext)
         wallpaperManager.setBitmap(bitmap)
         Toast.makeText(this, "Wallpaper set!", Toast.LENGTH_SHORT).show()

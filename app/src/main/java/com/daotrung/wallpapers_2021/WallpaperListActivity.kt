@@ -15,8 +15,7 @@ import androidx.appcompat.widget.Toolbar
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.daotrung.wallpapers_2021.adapter.ListTrendingAdapter
-import com.daotrung.wallpapers_2021.adapter.ListWallpaperCategoriesAdapter
+import com.daotrung.wallpapers_2021.adapter.*
 import com.daotrung.wallpapers_2021.model.MaterialWallpaperCatList
 import com.daotrung.wallpapers_2021.model.MaterialWapaper
 import com.daotrung.wallpapers_2021.service.ApiInterface
@@ -48,29 +47,29 @@ class WallpaperListActivity : AppCompatActivity() {
         // nhan dl tu cac man hinh chinh
         // tra ve mot list anh
 
-        if (intent.getIntExtra("id_trend", 0) == 0 && intent.getStringExtra("title_trend")
+        if (intent.getIntExtra(ID_TREND, 0) == 0 && intent.getStringExtra(TITLE_TREND)
                 .equals("Featured")
         )
             getAllDataFeaturedTrending(recyclerView)
-        if (intent.getIntExtra("id_trend", 0) == 1 && intent.getStringExtra("title_trend")
+        if (intent.getIntExtra(ID_TREND, 0) == 1 && intent.getStringExtra(TITLE_TREND)
                 .equals("Popular")
         )
             getAllDataPopularTrending(recyclerView)
-        if (intent.getIntExtra("id_trend", 0) == 2 && intent.getStringExtra("title_trend")
+        if (intent.getIntExtra(ID_TREND, 0) == 2 && intent.getStringExtra(TITLE_TREND)
                 .equals("New")
         )
             getAllDataNewTrending(recyclerView)
 
         if (intent.getIntExtra(
-                "id_categories",
+                ID_CATEGORIES,
                 0
-            ) != 0 && intent.getStringExtra("name_title_categories") != ""
+            ) != 0 && intent.getStringExtra(NAME_TITLE_CATEGORIES) != ""
         ) {
-            id = intent.getIntExtra("id_categories", 0)
+            id = intent.getIntExtra(ID_CATEGORIES, 0)
             getAllDataCategoriesListWallpaper(id, recyclerView)
         }
-        if (intent.getIntExtra("id_color", 0) != 0 && intent.getStringExtra("name_color") != "") {
-            id = intent.getIntExtra("id_color", 0)
+        if (intent.getIntExtra(ID_COLOR, 0) != 0 && intent.getStringExtra(NAME_COLOR) != "") {
+            id = intent.getIntExtra(ID_COLOR, 0)
             getAllSliderListColor(id, recyclerView)
         }
         manager = GridLayoutManager(this, 3)
@@ -135,7 +134,7 @@ class WallpaperListActivity : AppCompatActivity() {
                     response: Response<MaterialWapaper>
                 ) {
                     if (response.isSuccessful) {
-                    Log.e("lisst",Gson().toJson(response.body()))
+//                    Log.e("lisst",Gson().toJson(response.body()))
                         recyclerView = rv.apply {
                             myAdapter = ListTrendingAdapter(response.body()!!)
                             layoutManager = manager
@@ -306,31 +305,31 @@ class WallpaperListActivity : AppCompatActivity() {
     private fun setToolbar() {
         myToolbar = findViewById(R.id.toolbar_trending_list)
         mTitle = myToolbar.findViewById(R.id.txt_title_toolbar_trending)
-        if (intent.getIntExtra("id_trend", 0) == 0 && intent.getStringExtra("title_trend")
+        if (intent.getIntExtra(ID_TREND, 0) == 0 && intent.getStringExtra(TITLE_TREND)
                 .equals("Featured")
         )
-            mTitle.text = intent.getStringExtra("title_trend")
+            mTitle.text = intent.getStringExtra(TITLE_TREND)
         setSupportActionBar(myToolbar)
-        if (intent.getIntExtra("id_trend", 0) == 1 && intent.getStringExtra("title_trend")
+        if (intent.getIntExtra(ID_TREND, 0) == 1 && intent.getStringExtra(TITLE_TREND)
                 .equals("Popular")
         )
-            mTitle.text = intent.getStringExtra("title_trend")
+            mTitle.text = intent.getStringExtra(TITLE_TREND)
         setSupportActionBar(myToolbar)
-        if (intent.getIntExtra("id_trend", 0) == 2 && intent.getStringExtra("title_trend")
+        if (intent.getIntExtra(ID_TREND, 0) == 2 && intent.getStringExtra(TITLE_TREND)
                 .equals("New")
         )
-            mTitle.text = intent.getStringExtra("title_trend")
+            mTitle.text = intent.getStringExtra(TITLE_TREND)
         setSupportActionBar(myToolbar)
         if (intent.getIntExtra(
-                "id_categories",
+                ID_CATEGORIES,
                 0
-            ) != 0 && intent.getStringExtra("name_title_categories") != ""
+            ) != 0 && intent.getStringExtra(NAME_TITLE_CATEGORIES) != ""
         ) {
-            mTitle.text = intent.getStringExtra("name_title_categories")
+            mTitle.text = intent.getStringExtra(NAME_TITLE_CATEGORIES)
             setSupportActionBar(myToolbar)
         }
-        if (intent.getIntExtra("id_color", 0) != 0 && intent.getStringExtra("name_color") != "") {
-            mTitle.text = intent.getStringExtra("name_color")
+        if (intent.getIntExtra(ID_COLOR, 0) != 0 && intent.getStringExtra(NAME_COLOR) != "") {
+            mTitle.text = intent.getStringExtra(NAME_COLOR)
             setSupportActionBar(myToolbar)
         }
 

@@ -22,6 +22,8 @@ import java.io.Serializable
 
 const val get_url_img_thumb = "http://hdwalls.wallzapps.com/upload/"
 
+const val LIST_IMG_CATEGORIES : String = "list_img_categories"
+const val POST_IMG_CATEGORIES : String = "pos_img_categories"
 class ListWallpaperCategoriesAdapter(private val data: MaterialWallpaperCatList) :
     RecyclerView.Adapter<ListWallpaperCategoriesAdapter.MyViewHolder>() {
 
@@ -49,8 +51,8 @@ class ListWallpaperCategoriesAdapter(private val data: MaterialWallpaperCatList)
 
             imageView.setOnClickListener {
                 val intent = Intent(view.context, SliderWallpaperActivity::class.java)
-                intent.putExtra("list_img_categories", data as Serializable)
-                intent.putExtra("pos_img_categories", layoutPosition + 1)
+                intent.putExtra(LIST_IMG_CATEGORIES, data as Serializable)
+                intent.putExtra(POST_IMG_CATEGORIES, layoutPosition + 1)
                 view.context.startActivity(intent)
             }
             if(dao.isExistFavor(get_url_img_thumb+materialWallpaperCatList.images)){
