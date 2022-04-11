@@ -86,12 +86,10 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/img_banner_settings"
         android:layout_alignParentTop="true"
-        android:layout_alignParentEnd="true"
-        android:layout_marginStart="100sp"
+        android:layout_marginStart="80sp"
         android:layout_marginLeft="57dp"
         android:layout_marginTop="297sp"
-        android:layout_marginEnd="20sp"
-        android:layout_toRightOf="@id/img_term"
+        android:layout_toEndOf="@id/img_term"
         android:src="@drawable/contact_us" />
 
     <TextView
@@ -99,9 +97,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/img_contact"
-        android:layout_toRightOf="@id/term_txt"
         android:layout_marginStart="50sp"
         android:layout_marginBottom="22sp"
+        android:layout_toEndOf="@id/term_txt"
         android:fontFamily="@font/poppins_medium"
         android:text="Contact Us"
         android:textColor="@color/white" />

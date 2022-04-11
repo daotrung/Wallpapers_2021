@@ -93,6 +93,7 @@ class LiveVideoActivity : AppCompatActivity() {
             }
             return liveWallpaperIntent
         }
+
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -281,11 +282,11 @@ class LiveVideoActivity : AppCompatActivity() {
 
     // set dialog wallpaper
     private fun setDialogWallPaper(){
-        val builderSetWallpaper = AlertDialog.Builder(this)
-        builderSetWallpaper.setTitle("Set Wallpaper")
-        builderSetWallpaper.setMessage("Do you want set wallpaper this video ?")
-        builderSetWallpaper.setPositiveButton("Yes"){
-            dialogInterface : DialogInterface , i : Int ->
+
+        val builder = AlertDialog.Builder(this)
+        builder.setTitle("Set Wallpaper")
+        builder.setMessage("Do you wan set this video to wallpaper ? ")
+        builder.setPositiveButton("Yes"){_:DialogInterface,_:Int->
             // clear cache wallpaper
             var wallpaperManager: WallpaperManager =
                 WallpaperManager.getInstance(applicationContext)
@@ -301,12 +302,13 @@ class LiveVideoActivity : AppCompatActivity() {
             this.startService(serviceIntent)
             // setTo Wallpaper
             startActivity(prepareLiveWallpaperIntent(false))
-            finish()
         }
-        builderSetWallpaper.setNegativeButton("No"){dialogInterface: DialogInterface, i: Int ->
-            finish()
+        builder.setNegativeButton("No"){_:DialogInterface,_:Int->
+            builder.setCancelable(true)
         }
-        builderSetWallpaper.show()
+        builder.show()
+
+
     }
 
     // display video to background

@@ -35,14 +35,23 @@ import com.karumi.dexter.listener.PermissionRequest
 import com.karumi.dexter.listener.multi.MultiplePermissionsListener
 import java.io.File
 import java.lang.Error
+import android.graphics.drawable.Drawable
+import android.app.DownloadManager
+import android.content.Context
+import androidx.core.content.PackageManagerCompat
+
+import androidx.core.content.PackageManagerCompat.LOG_TAG
+import java.lang.Exception
+import java.security.AccessController.getContext
+
 
 private var id: Int = 0
-private var img: String? = ""
+
 private lateinit var myList : List<MyFavoritePicture>
 const val KEY_DB : String = "POS_DB"
 
 class MyWallSliderActivity : AppCompatActivity() {
-
+    private var img: String? = ""
     private var img_lay : ImageView? = null
     private lateinit var database: MyWallPaperDatabase
     private lateinit var dao: IDao
@@ -71,7 +80,7 @@ class MyWallSliderActivity : AppCompatActivity() {
 
         setContentView(R.layout.activity_slider_wallpaper)
 
-       val img_layout: ImageView = findViewById(R.id.img_slider_wallpaper_last)
+        img_lay = findViewById(R.id.img_slider_wallpaper_last)
        val img_close : ImageView = findViewById(R.id.img_close_live_wallpaper)
        val  img_left_arrow:ImageView =  findViewById(R.id.img_arrow_left_wallpaper)
         val  img_right_arrow: ImageView = findViewById(R.id.img_arrow_right_wallpaper)
@@ -79,7 +88,6 @@ class MyWallSliderActivity : AppCompatActivity() {
       val  img_save_btn: ImageView = findViewById(R.id.img_btn_save_wallpaper)
        img_icon_heart = findViewById(R.id.img_icon_heart_big)
 
-        img_lay = img_layout
         img_close.setOnClickListener {
             finish()
         }
@@ -92,8 +100,8 @@ class MyWallSliderActivity : AppCompatActivity() {
              id = intent.getIntExtra(ID_MY_WALL_LIST,-1)
             setIconHeart(myList[id].myUrlHeart,id)
             Glide.with(this).load(myList[id].myUrlHeart).into(img_lay!!)
+            img = myList[id].myUrlHeart
         })
-
         img_left_arrow.setOnClickListener {
             if(id == 0){
                 id = myList.size-1
@@ -132,41 +140,101 @@ class MyWallSliderActivity : AppCompatActivity() {
 
     }
 
+    private fun setDownloadDialog(img: String) {
+        val builder = AlertDialog.Builder(this)
+        builder.setTitle("Download Image")
+        builder.setMessage("Do you want download ?")
+        builder.setPositiveButton("Yes") { _: DialogInterface, _: Int ->
+            Dexter.withContext(this)
+                .withPermissions(
+                    android.Manifest.permission.WRITE_EXTERNAL_STORAGE,
+                    android.Manifest.permission.READ_EXTERNAL_STORAGE,
+                    android.Manifest.permission.SET_WALLPAPER
+                ).withListener(object : MultiplePermissionsListener {
+                    override fun onPermissionsChecked(report: MultiplePermissionsReport) {
+                        /* ... */ if (report.areAllPermissionsGranted()) {
+                            downloadImage(img)
+                        } else {
+                            Toast.makeText(
+                                this@MyWallSliderActivity,
+                                "Please allow all permission",
+                                Toast.LENGTH_SHORT
+                            ).show()
+                        }
+                    }
+
+                    override fun onPermissionRationaleShouldBeShown(
+                        permissions: List<PermissionRequest?>?,
+                        token: PermissionToken?
+                    ) { /* ... */
+                    }
+                }).check()
+
+
+        }
+        builder.setNegativeButton("No") { _: DialogInterface, _: Int ->
+            setWallpaperDialog()
+        }
+        builder.show()
+    }
+
     private fun shareImg() {
+            Dexter.withContext(this)
+                .withPermissions(
+                    android.Manifest.permission.WRITE_EXTERNAL_STORAGE,
+                    android.Manifest.permission.READ_EXTERNAL_STORAGE,
+                    android.Manifest.permission.SET_WALLPAPER
+                ).withListener(object : MultiplePermissionsListener {
+                    override fun onPermissionsChecked(report: MultiplePermissionsReport) {
+                        /* ... */ if (report.areAllPermissionsGranted()) {
+                            try {
+                                val dm = getSystemService(DOWNLOAD_SERVICE) as DownloadManager
+                                val downloadUri = Uri.parse(img)
+                                val request = DownloadManager.Request(downloadUri)
+                                request.setAllowedNetworkTypes(DownloadManager.Request.NETWORK_WIFI or DownloadManager.Request.NETWORK_MOBILE)
+                                    .setAllowedOverRoaming(false)
+                                    .setTitle(img)
+                                    .setMimeType("image/jpeg") // Your file type. You can use this code to download other file types also.
+                                    .setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED)
+                                    .setDestinationInExternalPublicDir(
+                                        Environment.DIRECTORY_PICTURES,
+                                        File.separator + img.toString() + ".jpg"
+                                    )
+                                dm.enqueue(request)
 
-        var file: File =
-            Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS)
-        PRDownloader.download(img, file.path, URLUtil.guessFileName(img, null, null))
-            .build()
-            .setOnStartOrResumeListener { }
-            .setOnPauseListener { }
-            .setOnCancelListener { }
-            .setOnProgressListener { progress ->
-            }
-            .start(object : OnDownloadListener {
-                override fun onDownloadComplete() {
+                            } catch (e: Exception) {
+                                Toast.makeText(this@MyWallSliderActivity, "Share img", Toast.LENGTH_SHORT).show()
+                            }
+                            Toast.makeText(this@MyWallSliderActivity, "Image download started.", Toast.LENGTH_SHORT).show()
+                            val bitmapDrawable: BitmapDrawable = img_lay?.drawable as BitmapDrawable
+                            val bitmap: Bitmap = bitmapDrawable.bitmap
+                            val bitmapPath: String =
+                                MediaStore.Images.Media.insertImage(contentResolver, bitmap, "Some title", null)
+                            val bitmapUri: Uri = Uri.parse(bitmapPath)
+                            val intent = Intent(Intent.ACTION_SEND)
+                            intent.type = "image/*"
+                            intent.putExtra(Intent.EXTRA_STREAM, bitmapUri)
+                            startActivity(Intent.createChooser(intent, "Share Image to Another App"))
 
-                }
+                        } else {
+                            Toast.makeText(
+                                this@MyWallSliderActivity,
+                                "Please allow all permission",
+                                Toast.LENGTH_SHORT
+                            ).show()
+                        }
+                    }
 
-                override fun onError(error: com.downloader.Error?) {
-                    Toast.makeText(this@MyWallSliderActivity, "Error", Toast.LENGTH_SHORT).show()
-                }
+                    override fun onPermissionRationaleShouldBeShown(
+                        permissions: List<PermissionRequest?>?,
+                        token: PermissionToken?
+                    ) { /* ... */
+                    }
+                }).check()
 
-            })
 
-        val bitmapDrawale: BitmapDrawable = img_lay!!.drawable as BitmapDrawable
-        val bitmap: Bitmap = bitmapDrawale.bitmap
-        val bitmapPath: String = MediaStore.Images.Media.insertImage(
-            contentResolver,
-            bitmap,
-            "Some title",
-            null
-        )
-        val bitmapUri: Uri = Uri.parse(bitmapPath)
-        val intent = Intent(Intent.ACTION_SEND)
-        intent.setType("image/*")
-        intent.putExtra(Intent.EXTRA_STREAM, bitmapUri)
-        startActivity(Intent.createChooser(intent, "Share Image to Another App"))
+
+
     }
 
     private fun setIconHeart(img: String,pos: Int) {
@@ -209,110 +277,55 @@ class MyWallSliderActivity : AppCompatActivity() {
     }
 
 
-    private fun setDownloadDialog(img: String) {
-        val builder = AlertDialog.Builder(this)
-        builder.setTitle("Download Image")
-        builder.setMessage("Do you want download ?")
-        builder.setPositiveButton("Yes") { _: DialogInterface, _: Int ->
-            Dexter.withContext(this)
-                .withPermissions(
-                    android.Manifest.permission.WRITE_EXTERNAL_STORAGE,
-                    android.Manifest.permission.READ_EXTERNAL_STORAGE,
-                    android.Manifest.permission.SET_WALLPAPER
-                ).withListener(object : MultiplePermissionsListener {
-                    override fun onPermissionsChecked(report: MultiplePermissionsReport) {
-                        /* ... */ if (report.areAllPermissionsGranted()) {
-                            downloadImage(img)
-                        } else {
-                            Toast.makeText(
-                                this@MyWallSliderActivity,
-                                "Please allow all permission",
-                                Toast.LENGTH_SHORT
-                            ).show()
-                        }
-                    }
-
-                    override fun onPermissionRationaleShouldBeShown(
-                        permissions: List<PermissionRequest?>?,
-                        token: PermissionToken?
-                    ) { /* ... */
-                    }
-                }).check()
-
-
-        }
-        builder.setNegativeButton("No") { _: DialogInterface, _: Int ->
-            setWallpaperDialog()
-
-        }
-        builder.show()
-
-    }
-    private fun downloadImage(img: String) {
-        var pd = ProgressDialog(this)
-        pd.setMessage("Downloading....")
-        pd.setCancelable(false)
-        pd.show()
-        var file: File =
-            Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS)
-        PRDownloader.download(img, file.path, URLUtil.guessFileName(img, null, null))
-            .build()
-            .setOnStartOrResumeListener { }
-            .setOnPauseListener { }
-            .setOnCancelListener { }
-            .setOnProgressListener { progress ->
-                var per = progress!!.currentBytes * 100 / progress.totalBytes
-                pd.setMessage("Downloading : $per %")
-            }
-            .start(object : OnDownloadListener {
-                override fun onDownloadComplete() {
-                    pd.dismiss()
-                    Toast.makeText(
-                        this@MyWallSliderActivity,
-                        "Dowloading Completed",
-                        Toast.LENGTH_SHORT
-                    ).show()
-                    setDownloadDialog(img)
-                }
-
-                override fun onError(error: com.downloader.Error?) {
-                    pd.dismiss()
-                    Toast.makeText(this@MyWallSliderActivity, "Error", Toast.LENGTH_SHORT).show()
-                }
-
-            })
-
-
-
-    }
-
-    private fun setWallpaperDialog() {
-        val builderWallpaper = AlertDialog.Builder(this)
-        builderWallpaper.setTitle("Set Wallpaper")
-        builderWallpaper.setMessage("DO you want set up wallpaper ?")
-        builderWallpaper.setPositiveButton("No") { _: DialogInterface, _: Int ->
-            finish()
-
-        }
-        builderWallpaper.setNegativeButton("Yes") { _: DialogInterface, _: Int ->
-            setBackgroundWallpaper()
-        }
-        builderWallpaper.show()
-    }
-
-    private fun setBackgroundWallpaper() {
-        val bitmapDrawable: BitmapDrawable = img_lay?.drawable as BitmapDrawable
-        val bitmap: Bitmap = bitmapDrawable.bitmap
-        val wallpaperManager = WallpaperManager.getInstance(applicationContext)
-        wallpaperManager.setBitmap(bitmap)
-        Toast.makeText(this, "Wallpaper set!", Toast.LENGTH_SHORT).show()
-    }
-
     private fun sendLocalBroadcastForMyDB(pos: Int) {
         val intent = Intent("localBroadCastDB")
         intent.putExtra(KEY_DB,pos)
         LocalBroadcastManager.getInstance(this).sendBroadcast(intent)
         Log.e("posDB_",pos.toString())
 
+    }
+
+
+    private fun downloadImage(img: String) {
+        try {
+            val dm = getSystemService(DOWNLOAD_SERVICE) as DownloadManager
+            val downloadUri = Uri.parse(img)
+            val request = DownloadManager.Request(downloadUri)
+            request.setAllowedNetworkTypes(DownloadManager.Request.NETWORK_WIFI or DownloadManager.Request.NETWORK_MOBILE)
+                .setAllowedOverRoaming(false)
+                .setTitle(img)
+                .setMimeType("image/jpeg") // Your file type. You can use this code to download other file types also.
+                .setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED)
+                .setDestinationInExternalPublicDir(
+                    Environment.DIRECTORY_PICTURES,
+                    File.separator + img.toString() + ".jpg"
+                )
+            dm.enqueue(request)
+            Toast.makeText(this, "Image download started.", Toast.LENGTH_SHORT).show()
+            setWallpaperDialog()
+
+        } catch (e: Exception) {
+            Toast.makeText(this, "Image download failed.", Toast.LENGTH_SHORT).show()
+        }
+
+    }
+
+    private fun setWallpaperDialog() {
+        val builder = AlertDialog.Builder(this)
+        builder.setTitle("Save Wallpaper")
+        builder.setMessage("Do you want save image to wallpaper ?")
+        builder.setPositiveButton("Yes"){_:DialogInterface,_:Int ->
+            val intent = Intent(this,SetWallpaperActivity::class.java)
+            intent.putExtra("mw_2",img)
+            Log.e("mw",intent.putExtra("mw_2",img).toString())
+            startActivity(intent)
+        }
+
+        builder.setNegativeButton("No"){_:DialogInterface,_:Int->
+            builder.setOnDismissListener {
+                builder.setCancelable(true)
+            }
+        }
+        builder.show()
     }
 }

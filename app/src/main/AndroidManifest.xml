@@ -22,6 +22,9 @@
         android:usesCleartextTraffic="true"
         tools:ignore="GoogleAppIndexingWarning">
         <activity
+            android:name=".SetWallpaperActivity"
+            android:exported="false" />
+        <activity
             android:name=".MyWallSliderActivity"
             android:exported="false" />
         <activity
