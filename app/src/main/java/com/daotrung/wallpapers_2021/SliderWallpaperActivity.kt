@@ -355,7 +355,7 @@ class SliderWallpaperActivity : AppCompatActivity() {
 
 
     // dowload img
-    private fun setDownloadDilog(img: String) {
+    private fun setDownloadDilog(imgUrl: String) {
         val builder = AlertDialog.Builder(this)
         builder.setTitle("Download Image")
         builder.setMessage("Do you want download ?")
@@ -368,7 +368,7 @@ class SliderWallpaperActivity : AppCompatActivity() {
                 ).withListener(object : MultiplePermissionsListener {
                     override fun onPermissionsChecked(report: MultiplePermissionsReport) {
                         /* ... */ if (report.areAllPermissionsGranted()) {
-                            downloadImage(img)
+                            downloadImage(imgUrl)
                         } else {
                             Toast.makeText(
                                 this@SliderWallpaperActivity,
@@ -388,7 +388,7 @@ class SliderWallpaperActivity : AppCompatActivity() {
 
         }
         builder.setNegativeButton("No") { _: DialogInterface, _: Int ->
-              setWallpaperDialog()
+              setWallpaperDialog(imgUrl)
         }
         builder.show()
     }
@@ -409,7 +409,7 @@ class SliderWallpaperActivity : AppCompatActivity() {
                 )
             dm.enqueue(request)
             Toast.makeText(this, "Image download started.", Toast.LENGTH_SHORT).show()
-            setWallpaperDialog()
+            setWallpaperDialog(img)
 
         } catch (e: Exception) {
             Toast.makeText(this, "Image download failed.", Toast.LENGTH_SHORT).show()
@@ -417,14 +417,14 @@ class SliderWallpaperActivity : AppCompatActivity() {
 
     }
 
-    private fun setWallpaperDialog() {
+    private fun setWallpaperDialog(img: String) {
          val builder = AlertDialog.Builder(this)
         builder.setTitle("Save Wallpaper")
-        builder.setMessage("Do you want save image to wallpaper ?")
+        builder.setMessage("Do you want set image to wallpaper ?")
         builder.setPositiveButton("Yes"){_:DialogInterface,_:Int ->
-             val intent = Intent(this,SetWallpaperActivity::class.java)
+             val intent = Intent(this,SetActivityWallpaper::class.java)
             intent.putExtra("mw_1",img)
-            Log.e("mw",intent.putExtra("mw_1",img).toString())
+            Log.e("mw__",img.toString())
             startActivity(intent)
         }
 

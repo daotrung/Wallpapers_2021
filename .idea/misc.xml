@@ -68,21 +68,38 @@
         <entry key="..\:/Learn_Android/Kotlin_Basic/Android/Project/project_1/app/src/main/res/menu/menu.xml" value="0.18020833333333333" />
         <entry key="..\:/Learn_Android/Kotlin_Basic/Android/Project/project_1/app/src/main/res/menu/menu_main.xml" value="0.18020833333333333" />
         <entry key="..\:/Learn_Android/Kotlin_Basic/Android/Project/project_1/app/src/main/res/xml/wallpaper.xml" value="1.2357142857142858" />
+        <entry key="..\:/Learn_Android/Wallpapers_2021/app/src/main/res/layout-large/activity_live_video.xml" value="0.153125" />
+        <entry key="..\:/Learn_Android/Wallpapers_2021/app/src/main/res/layout-large/activity_slider_live.xml" value="0.153125" />
+        <entry key="..\:/Learn_Android/Wallpapers_2021/app/src/main/res/layout-large/activity_slider_wallpaper.xml" value="0.153125" />
+        <entry key="..\:/Learn_Android/Wallpapers_2021/app/src/main/res/layout-small/activity_live_video.xml" value="0.8571428571428571" />
+        <entry key="..\:/Learn_Android/Wallpapers_2021/app/src/main/res/layout-small/activity_slider_live.xml" value="0.6721991701244814" />
+        <entry key="..\:/Learn_Android/Wallpapers_2021/app/src/main/res/layout-small/activity_slider_wallpaper.xml" value="0.6721991701244814" />
+        <entry key="..\:/Learn_Android/Wallpapers_2021/app/src/main/res/layout/activity_list_live_wapaper.xml" value="0.20416666666666666" />
         <entry key="..\:/Learn_Android/Wallpapers_2021/app/src/main/res/layout/activity_list_trending.xml" value="0.20416666666666666" />
         <entry key="..\:/Learn_Android/Wallpapers_2021/app/src/main/res/layout/activity_live_video.xml" value="0.20416666666666666" />
         <entry key="..\:/Learn_Android/Wallpapers_2021/app/src/main/res/layout/activity_my_live_slider.xml" value="0.17760416666666667" />
+        <entry key="..\:/Learn_Android/Wallpapers_2021/app/src/main/res/layout/activity_my_wall_slider.xml" value="0.20416666666666666" />
+        <entry key="..\:/Learn_Android/Wallpapers_2021/app/src/main/res/layout/activity_privacy.xml" value="0.20416666666666666" />
         <entry key="..\:/Learn_Android/Wallpapers_2021/app/src/main/res/layout/activity_set_wallpaper.xml" value="0.20416666666666666" />
+        <entry key="..\:/Learn_Android/Wallpapers_2021/app/src/main/res/layout/activity_set_wallpaper2.xml" value="0.165625" />
+        <entry key="..\:/Learn_Android/Wallpapers_2021/app/src/main/res/layout/activity_setting.xml" value="0.1" />
         <entry key="..\:/Learn_Android/Wallpapers_2021/app/src/main/res/layout/activity_slider_live.xml" value="0.20416666666666666" />
         <entry key="..\:/Learn_Android/Wallpapers_2021/app/src/main/res/layout/activity_slider_wallpaper.xml" value="0.11041666666666666" />
+        <entry key="..\:/Learn_Android/Wallpapers_2021/app/src/main/res/layout/activity_term_of_use.xml" value="0.24249422632794457" />
         <entry key="..\:/Learn_Android/Wallpapers_2021/app/src/main/res/layout/bottom_layout_sheet_color.xml" value="0.20416666666666666" />
         <entry key="..\:/Learn_Android/Wallpapers_2021/app/src/main/res/layout/bottom_sheet_categories_fragment.xml" value="0.20416666666666666" />
         <entry key="..\:/Learn_Android/Wallpapers_2021/app/src/main/res/layout/bottom_sheet_color_fragment.xml" value="0.20416666666666666" />
         <entry key="..\:/Learn_Android/Wallpapers_2021/app/src/main/res/layout/category_fragment.xml" value="0.20416666666666666" />
+        <entry key="..\:/Learn_Android/Wallpapers_2021/app/src/main/res/layout/dong_categories_live_wapaper.xml" value="0.20416666666666666" />
+        <entry key="..\:/Learn_Android/Wallpapers_2021/app/src/main/res/layout/dong_categories_wallpaper_main.xml" value="0.20416666666666666" />
+        <entry key="..\:/Learn_Android/Wallpapers_2021/app/src/main/res/layout/dong_list_live_wapper.xml" value="0.20416666666666666" />
         <entry key="..\:/Learn_Android/Wallpapers_2021/app/src/main/res/layout/dong_list_my_wall.xml" value="0.11666666666666667" />
         <entry key="..\:/Learn_Android/Wallpapers_2021/app/src/main/res/layout/dong_list_trending.xml" value="0.13489583333333333" />
+        <entry key="..\:/Learn_Android/Wallpapers_2021/app/src/main/res/layout/dong_trending.xml" value="0.20416666666666666" />
         <entry key="..\:/Learn_Android/Wallpapers_2021/app/src/main/res/layout/fragment_color.xml" value="0.20416666666666666" />
         <entry key="..\:/Learn_Android/Wallpapers_2021/app/src/main/res/layout/fragment_live_wapaper.xml" value="0.20416666666666666" />
         <entry key="..\:/Learn_Android/Wallpapers_2021/app/src/main/res/layout/fragment_my_wall_paper.xml" value="0.20416666666666666" />
+        <entry key="..\:/Learn_Android/Wallpapers_2021/app/src/main/res/layout/fragment_my_wallpaper_wallpaper.xml" value="0.20416666666666666" />
         <entry key="..\:/Learn_Android/Wallpapers_2021/app/src/main/res/layout/fragment_settings.xml" value="0.20416666666666666" />
         <entry key="..\:/Learn_Android/Wallpapers_2021/app/src/main/res/layout/fragment_trending.xml" value="0.22" />
         <entry key="..\:/Learn_Android/Wallpapers_2021/app/src/main/res/layout/fragment_wallpaper.xml" value="0.1" />

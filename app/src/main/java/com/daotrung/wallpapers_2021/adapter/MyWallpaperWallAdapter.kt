@@ -47,7 +47,7 @@ class MyWallpaperWallAdapter() :
 
             holder.itemView.context.startActivity(intent)
         }
-        imgIcoN.setImageDrawable(ContextCompat.getDrawable(holder.itemView.context,R.drawable.heart_select))
+        imgIcoN.setImageDrawable(ContextCompat.getDrawable(holder.itemView.context,R.drawable.heart_select_max))
 
         database = Room.databaseBuilder(
             holder.itemView.context,

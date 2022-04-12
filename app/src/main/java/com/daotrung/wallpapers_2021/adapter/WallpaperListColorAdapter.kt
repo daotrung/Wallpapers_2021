@@ -50,7 +50,7 @@ class ListWallpaperColorAdapter(private val data: MaterialWallpaperCatList) :
             }
 
             if(dao.isExistFavor(get_url_img_thumb+materialWallpaperCatList.images)){
-                imgIcon.setImageDrawable(ContextCompat.getDrawable(itemView.context,R.drawable.heart_select))
+                imgIcon.setImageDrawable(ContextCompat.getDrawable(itemView.context,R.drawable.heart_select_max))
             }
         }
 

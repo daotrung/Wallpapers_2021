@@ -173,7 +173,7 @@ class MyWallSliderActivity : AppCompatActivity() {
 
         }
         builder.setNegativeButton("No") { _: DialogInterface, _: Int ->
-            setWallpaperDialog()
+            setWallpaperDialog(img)
         }
         builder.show()
     }
@@ -302,7 +302,7 @@ class MyWallSliderActivity : AppCompatActivity() {
                 )
             dm.enqueue(request)
             Toast.makeText(this, "Image download started.", Toast.LENGTH_SHORT).show()
-            setWallpaperDialog()
+            setWallpaperDialog(img)
 
         } catch (e: Exception) {
             Toast.makeText(this, "Image download failed.", Toast.LENGTH_SHORT).show()
@@ -310,14 +310,14 @@ class MyWallSliderActivity : AppCompatActivity() {
 
     }
 
-    private fun setWallpaperDialog() {
+    private fun setWallpaperDialog(img: String) {
         val builder = AlertDialog.Builder(this)
         builder.setTitle("Save Wallpaper")
-        builder.setMessage("Do you want save image to wallpaper ?")
+        builder.setMessage("Do you want set image to wallpaper ?")
         builder.setPositiveButton("Yes"){_:DialogInterface,_:Int ->
             val intent = Intent(this,SetWallpaperActivity::class.java)
             intent.putExtra("mw_2",img)
-            Log.e("mw",intent.putExtra("mw_2",img).toString())
+            Log.e("mw_2",img.toString())
             startActivity(intent)
         }
 

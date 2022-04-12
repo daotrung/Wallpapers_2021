@@ -237,7 +237,6 @@ class LiveVideoActivity : AppCompatActivity() {
         }
         builder.setNegativeButton("No") { _: DialogInterface, _: Int ->
             setDialogWallPaper()
-
         }
         builder.show()
     }
@@ -302,6 +301,7 @@ class LiveVideoActivity : AppCompatActivity() {
             this.startService(serviceIntent)
             // setTo Wallpaper
             startActivity(prepareLiveWallpaperIntent(false))
+            onBackPressed()
         }
         builder.setNegativeButton("No"){_:DialogInterface,_:Int->
             builder.setCancelable(true)
@@ -313,6 +313,8 @@ class LiveVideoActivity : AppCompatActivity() {
 
     // display video to background
     private fun setVideo(path: String) {
+
+        val progressBar : ProgressDialog
         val uri: Uri = Uri.parse(path)
         val fileName = File(uri.path).name
 
@@ -321,11 +323,16 @@ class LiveVideoActivity : AppCompatActivity() {
         } else {
             if (fileName.contains(".mp4") || (fileName.contains(".3gp")) || (fileName.contains(".m4v"))) {
                 videoView.visibility = View.VISIBLE
+                videoView.setMediaController(MediaController(this))
                 videoView.setVideoURI(uri)
                 videoView.start()
                 img_gif.visibility = View.INVISIBLE
+
+                progressBar = ProgressDialog.show(this,"Please wait...","Loading data",true)
                 videoView.setOnPreparedListener {
-                    it.apply { isLooping = true }
+                    progressBar.dismiss()
+                    it.apply {
+                        isLooping = true }
                 }
             } else {
                 videoView.visibility = View.INVISIBLE

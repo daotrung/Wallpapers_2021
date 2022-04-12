@@ -56,7 +56,7 @@ class ListTrendingAdapter(private val data: MaterialWapaper) :
             }
 
             if(dao.isExistFavor(get_url_img_thumb+materialWapaper.image)){
-                imgIcon.setImageDrawable(ContextCompat.getDrawable(itemView.context,R.drawable.heart_select))
+                imgIcon.setImageDrawable(ContextCompat.getDrawable(itemView.context,R.drawable.heart_select_max))
             }
 
         }

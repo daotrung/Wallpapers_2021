@@ -17,6 +17,7 @@ import android.view.Window
 import android.view.WindowManager
 import android.webkit.URLUtil
 import android.widget.ImageView
+import android.widget.MediaController
 import android.widget.Toast
 import android.widget.VideoView
 import androidx.lifecycle.LiveData
@@ -146,6 +147,8 @@ class MyLiveSliderActivity : AppCompatActivity() {
     }
 
     private fun setVideo(path: String) {
+        val progressDialog : ProgressDialog
+
         val uri: Uri = Uri.parse(path)
         val fileName = File(uri.path).name
 
@@ -155,9 +158,13 @@ class MyLiveSliderActivity : AppCompatActivity() {
         } else {
             if (fileName.contains(".mp4") || (fileName.contains(".3gp")) || (fileName.contains(".m4v"))) {
                 videoView.visibility = View.VISIBLE
+                videoView.setMediaController(MediaController(this))
                 videoView.setVideoURI(uri)
                 videoView.start()
+
+                progressDialog = ProgressDialog.show(this,"Please wait...","Loading data",true)
                 videoView.setOnPreparedListener {
+                    progressDialog.dismiss()
                     it.apply { isLooping = true }
                 }
             }
@@ -209,29 +216,11 @@ class MyLiveSliderActivity : AppCompatActivity() {
             this.startService(serviceIntent)
             // setTo Wallpaper
             startActivity(prepareLiveWallpaperIntent(false))
-            finish()
+            setVideo(pathVideo)
 
         }
         builder.setNegativeButton("No") { _: DialogInterface, _: Int ->
-            finish()
-
-            // set video wallpaper
-
-            val wallpaperManager: WallpaperManager =
-                WallpaperManager.getInstance(applicationContext)
-            try {
-                // clear cache wallpaper
-                wallpaperManager.clear()
-            } catch (e: IOException) {
-                e.printStackTrace()
-            }
-            //  truyen url from activity to wallpaper_service
-            val serviceIntent: Intent = Intent(applicationContext, MyWallpaperService::class.java)
-            serviceIntent.putExtra("url_pass", pathVideo)
-            this.startService(serviceIntent)
-            // setTo Wallpaper
-            startActivity(prepareLiveWallpaperIntent(false))
-            finish()
+             setDialogWallpaper()
         }
         builder.show()
 
@@ -261,7 +250,7 @@ class MyLiveSliderActivity : AppCompatActivity() {
                         "Downloading Completed",
                         Toast.LENGTH_SHORT
                     ).show()
-
+                    setDialogWallpaper()
                 }
 
                 override fun onError(error: com.downloader.Error?) {
@@ -271,6 +260,33 @@ class MyLiveSliderActivity : AppCompatActivity() {
 
             })
 
+    }
+
+    private fun setDialogWallpaper() {
+        val builder = AlertDialog.Builder(this)
+        builder.setTitle("Set Wallpaper")
+        builder.setMessage("Do you wan set this video to wallpaper ? ")
+        builder.setPositiveButton("Yes"){_:DialogInterface,_:Int->
+            // clear cache wallpaper
+            var wallpaperManager: WallpaperManager =
+                WallpaperManager.getInstance(applicationContext)
+            try {
+                wallpaperManager.clear()
+            } catch (e: IOException) {
+                e.printStackTrace()
+            }
+            //  truyen url from activity to wallpaper_service
+            var serviceIntent: Intent =
+                Intent(applicationContext, MyWallpaperService::class.java)
+            serviceIntent.putExtra("url_pass", pathVideo)
+            this.startService(serviceIntent)
+            // setTo Wallpaper
+            startActivity(LiveVideoActivity.prepareLiveWallpaperIntent(false))
+        }
+        builder.setNegativeButton("No"){_:DialogInterface,_:Int->
+            builder.setCancelable(true)
+        }
+        builder.show()
     }
 
 }

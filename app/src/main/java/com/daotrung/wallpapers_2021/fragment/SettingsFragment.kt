@@ -49,14 +49,14 @@ class SettingsFragment : Fragment() {
                 //e.toString();
             }
         }
-        imgTerm.setOnClickListener {
-            val intent : Intent = Intent(context,PrivacyActivity::class.java)
-            context?.startActivity(intent)
-        }
-        imgPrivacy.setOnClickListener {
-            val intent : Intent = Intent(context,PrivacyActivity::class.java)
-            context?.startActivity(intent)
-        }
+//        imgTerm.setOnClickListener {
+//            val intent : Intent = Intent(context,PrivacyActivity::class.java)
+//            context?.startActivity(intent)
+//        }
+//        imgPrivacy.setOnClickListener {
+//            val intent : Intent = Intent(context,PrivacyActivity::class.java)
+//            context?.startActivity(intent)
+//        }
 
         imgWrite.setOnClickListener {
             val uri: Uri = Uri.parse("market://details?id=Wallpaper_2021")

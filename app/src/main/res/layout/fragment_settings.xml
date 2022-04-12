@@ -37,8 +37,8 @@
 
     <ImageView
         android:id="@+id/img_privacy"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="50sp"
+        android:layout_height="50sp"
         android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
         android:layout_marginStart="38sp"
@@ -59,8 +59,8 @@
 
     <ImageView
         android:id="@+id/img_term"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="50sp"
+        android:layout_height="50sp"
         android:layout_below="@+id/img_banner_settings"
         android:layout_alignParentTop="true"
         android:layout_marginStart="100sp"
@@ -82,8 +82,8 @@
 
     <ImageView
         android:id="@+id/img_contact"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="50sp"
+        android:layout_height="50sp"
         android:layout_below="@+id/img_banner_settings"
         android:layout_alignParentTop="true"
         android:layout_marginStart="80sp"
@@ -106,8 +106,8 @@
 
     <ImageView
         android:id="@+id/img_share"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="50sp"
+        android:layout_height="50sp"
         android:layout_below="@+id/img_privacy"
         android:layout_alignParentStart="true"
         android:layout_marginStart="38sp"
@@ -127,8 +127,8 @@
 
     <ImageView
         android:id="@+id/img_write"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="50sp"
+        android:layout_height="50sp"
         android:layout_below="@id/img_term"
         android:layout_marginStart="100sp"
         android:layout_marginTop="89sp"

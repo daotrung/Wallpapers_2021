@@ -1,7 +1,6 @@
 package com.daotrung.wallpapers_2021
 
 import android.app.WallpaperManager
-import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.drawable.BitmapDrawable
 import androidx.appcompat.app.AppCompatActivity
@@ -15,12 +14,10 @@ import android.widget.Toast
 import com.bumptech.glide.Glide
 import com.downloader.PRDownloader
 
-class SetWallpaperActivity : AppCompatActivity() {
-
+class SetActivityWallpaper : AppCompatActivity() {
     private lateinit var btn_save : Button
     private lateinit var img_wall_paper : ImageView
     private lateinit var url_img : String
-    private lateinit var url_img_2 : String
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -29,19 +26,15 @@ class SetWallpaperActivity : AppCompatActivity() {
             WindowManager.LayoutParams.FLAG_FULLSCREEN,
             WindowManager.LayoutParams.FLAG_FULLSCREEN)
         PRDownloader.initialize(applicationContext)
-        setContentView(R.layout.activity_set_wallpaper)
-         btn_save =  findViewById(R.id.btn_set_wall)
-         img_wall_paper  = findViewById(R.id.img_preview_image)
+        setContentView(R.layout.activity_set_wallpaper2)
+        btn_save =  findViewById(R.id.btn_set_wall_2)
+        img_wall_paper  = findViewById(R.id.img_preview_image_2)
 
 
         val intent = intent
-        if(intent.getStringExtra("mw_1")!="") {
-             url_img_2 = intent.getStringExtra("mw_1").toString()
-            Log.e("mw_get",url_img_2)
-            Glide.with(this).load(url_img_2).into(img_wall_paper)
-        }
-        if(intent.getStringExtra("mw_2")!=""){
-            url_img = intent.getStringExtra("mw_2").toString()
+
+        if(intent.getStringExtra("mw_1")!=""){
+            url_img = intent.getStringExtra("mw_1").toString()
             Glide.with(this).load(url_img).into(img_wall_paper)
 
         }
