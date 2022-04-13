@@ -139,7 +139,6 @@ class LiveVideoActivity : AppCompatActivity() {
 
             // insert data to mywallpaper
             insertDataToDatabase(pathVideo)
-
             setVideo(pathVideo)
             img_close.setOnClickListener {
                 finish()

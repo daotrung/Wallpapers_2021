@@ -20,7 +20,6 @@ class SetWallpaperActivity : AppCompatActivity() {
     private lateinit var btn_save : Button
     private lateinit var img_wall_paper : ImageView
     private lateinit var url_img : String
-    private lateinit var url_img_2 : String
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -33,23 +32,16 @@ class SetWallpaperActivity : AppCompatActivity() {
          btn_save =  findViewById(R.id.btn_set_wall)
          img_wall_paper  = findViewById(R.id.img_preview_image)
 
-
-        val intent = intent
-        if(intent.getStringExtra("mw_1")!="") {
-             url_img_2 = intent.getStringExtra("mw_1").toString()
-            Log.e("mw_get",url_img_2)
-            Glide.with(this).load(url_img_2).into(img_wall_paper)
-        }
-        if(intent.getStringExtra("mw_2")!=""){
+            val intent = intent
             url_img = intent.getStringExtra("mw_2").toString()
             Glide.with(this).load(url_img).into(img_wall_paper)
 
-        }
         btn_save.setOnClickListener {
             var bitmapDrawale: BitmapDrawable = img_wall_paper.drawable as BitmapDrawable
             var bitmap: Bitmap = bitmapDrawale.bitmap
             val wallpaperManager = WallpaperManager.getInstance(applicationContext)
             wallpaperManager.setBitmap(bitmap)
+            btn_save.isEnabled = false
             Toast.makeText(this, "Wallpaper set!", Toast.LENGTH_SHORT).show()
             this.finish()
         }

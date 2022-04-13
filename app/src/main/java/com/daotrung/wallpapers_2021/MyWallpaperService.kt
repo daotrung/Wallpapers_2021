@@ -1,5 +1,6 @@
 package com.daotrung.wallpapers_2021
 
+import android.app.ProgressDialog
 import android.content.Intent
 import android.graphics.Canvas
 import android.graphics.Rect
@@ -34,10 +35,10 @@ class MyWallpaperService : WallpaperService() {
         private var height: Int = 0
         private var mySurfaceHolder: MySurfaceHolder? = null
 
-
         override fun onSurfaceCreated(holder: SurfaceHolder?) {
 
             super.onSurfaceCreated(holder)
+
             mp = MediaPlayer()
             mySurfaceHolder = holder?.let { MySurfaceHolder(it) }
             mp!!.setDisplay(mySurfaceHolder)

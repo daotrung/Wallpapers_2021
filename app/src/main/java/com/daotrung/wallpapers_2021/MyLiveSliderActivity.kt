@@ -282,6 +282,7 @@ class MyLiveSliderActivity : AppCompatActivity() {
             this.startService(serviceIntent)
             // setTo Wallpaper
             startActivity(LiveVideoActivity.prepareLiveWallpaperIntent(false))
+            onBackPressed()
         }
         builder.setNegativeButton("No"){_:DialogInterface,_:Int->
             builder.setCancelable(true)

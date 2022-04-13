@@ -25,8 +25,6 @@ class SettingsFragment : Fragment() {
         // Inflate the layout for this fragment
         val view = inflater.inflate(R.layout.fragment_settings, container, false)
         val imgSetting: ImageView = view.findViewById(R.id.img_settings)
-        val imgPrivacy: ImageView = view.findViewById(R.id.img_privacy)
-        val imgTerm: ImageView = view.findViewById(R.id.img_term)
         val imgContact: ImageView = view.findViewById(R.id.img_contact)
         val imgShare: ImageView = view.findViewById(R.id.img_share)
         val imgWrite: ImageView = view.findViewById(R.id.img_write)
@@ -59,45 +57,22 @@ class SettingsFragment : Fragment() {
 //        }
 
         imgWrite.setOnClickListener {
-            val uri: Uri = Uri.parse("market://details?id=Wallpaper_2021")
-            val goToMarket = Intent(Intent.ACTION_VIEW, uri)
-            // To count with Play market backstack, After pressing back button,
-            // to taken back to our application, we need to add following flags to intent.
-            goToMarket.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY or
-                    Intent.FLAG_ACTIVITY_NEW_DOCUMENT or
-                    Intent.FLAG_ACTIVITY_MULTIPLE_TASK)
-            try {
-                startActivity(goToMarket)
-            } catch (e: ActivityNotFoundException) {
-                startActivity(Intent(Intent.ACTION_VIEW,
-                    Uri.parse("https://play.google.com/store/apps/details?id=com.luzapplications.alessio.topwallpapers&hl=vi&gl=US")))
-            }
+                goToUrl("https://www.facebook.com/SuntechLtd1/")
         }
 
         imgContact.setOnClickListener {
-            val uri: Uri = Uri.parse("market://details?id=Wallpaper_2021")
-            val goToMarket = Intent(Intent.ACTION_VIEW, uri)
-            // To count with Play market backstack, After pressing back button,
-            // to taken back to our application, we need to add following flags to intent.
-            goToMarket.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY or
-                    Intent.FLAG_ACTIVITY_NEW_DOCUMENT or
-                    Intent.FLAG_ACTIVITY_MULTIPLE_TASK)
-            try {
-                startActivity(goToMarket)
-            } catch (e: ActivityNotFoundException) {
-                startActivity(Intent(Intent.ACTION_VIEW,
-                    Uri.parse("https://play.google.com/store/apps/details?id=com.luzapplications.alessio.topwallpapers&hl=vi&gl=US")))
-            }
+            goToUrl("https://suntechltd.net/contact/")
         }
 
-        imgSetting.setOnClickListener {
-            val intent : Intent = Intent(context,SettingActivity::class.java)
-            context?.startActivity(intent)
-        }
         return view
 
 
 
+    }
+
+    private fun goToUrl(s: String) {
+           val uri:Uri = Uri.parse(s)
+        startActivity(Intent(Intent.ACTION_VIEW,uri))
     }
 
 }

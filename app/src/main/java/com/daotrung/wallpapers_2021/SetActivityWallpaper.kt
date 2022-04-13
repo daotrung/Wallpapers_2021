@@ -43,6 +43,7 @@ class SetActivityWallpaper : AppCompatActivity() {
             var bitmap: Bitmap = bitmapDrawale.bitmap
             val wallpaperManager = WallpaperManager.getInstance(applicationContext)
             wallpaperManager.setBitmap(bitmap)
+            btn_save.isEnabled = false
             Toast.makeText(this, "Wallpaper set!", Toast.LENGTH_SHORT).show()
             this.finish()
         }
