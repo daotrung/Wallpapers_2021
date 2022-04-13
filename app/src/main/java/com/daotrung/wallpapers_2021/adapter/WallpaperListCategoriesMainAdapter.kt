@@ -15,14 +15,14 @@ import com.daotrung.wallpapers_2021.model.MaterialWallpaperCateMain
 
 const val urlImg = "https://hdwalls.wallzapps.com/upload/category/"
 const val limit = 9
-const val NAME_TITLE_CATEGORIES : String = "name_title_categories"
-const val ID_CATEGORIES : String = "id_categories"
+const val NAME_TITLE_CATEGORIES: String = "name_title_categories"
+const val ID_CATEGORIES: String = "id_categories"
+
 class ListCategoriesMainAdapter(private val data: MaterialWallpaperCateMain) :
     RecyclerView.Adapter<ListCategoriesMainAdapter.MyViewHolder>() {
     inner class MyViewHolder(val view: View) : RecyclerView.ViewHolder(view) {
         fun bind(materialWallpaperCateMain: CatMain) {
-//            Log.e("eee",materialWallpaperCateMain.category_name.toString())
-//            Log.e("eee",materialWallpaperCateMain.category_image.toString())
+
             val img_main = view.findViewById<ImageView>(R.id.img_categories_main_wallpaper)
             val txt_main = view.findViewById<TextView>(R.id.txt_title_categories_main_wallpaper)
 

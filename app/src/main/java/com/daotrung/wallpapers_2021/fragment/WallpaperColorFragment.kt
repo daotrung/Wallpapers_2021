@@ -67,7 +67,7 @@ class WallpaperColorFragment : Fragment() {
         )
         recyclerView.layoutManager = LinearLayoutManager(context, RecyclerView.HORIZONTAL, false)
 
-        arrayList = arrayListOf<ColorMain>()
+        arrayList = arrayListOf()
 
         getData()
 

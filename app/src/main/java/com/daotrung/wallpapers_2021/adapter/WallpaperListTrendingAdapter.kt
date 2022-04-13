@@ -1,7 +1,6 @@
 package com.daotrung.wallpapers_2021.adapter
 
 import android.content.Intent
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -17,10 +16,10 @@ import com.daotrung.wallpapers_2021.model.Trending
 import com.daotrung.wallpapers_2021.room.IDao
 import com.daotrung.wallpapers_2021.room.MyWallPaperDatabase
 import java.io.Serializable
-import kotlin.math.log
 
-const val LIST_IMG_TREND : String = "list_img_trend"
-const val POST_IMG_TREND : String = "pos_img_trend"
+const val LIST_IMG_TREND: String = "list_img_trend"
+const val POST_IMG_TREND: String = "pos_img_trend"
+
 class ListTrendingAdapter(private val data: MaterialWapaper) :
     RecyclerView.Adapter<ListTrendingAdapter.MyViewHolder>() {
 
@@ -55,8 +54,13 @@ class ListTrendingAdapter(private val data: MaterialWapaper) :
                 view.context.startActivity(intent)
             }
 
-            if(dao.isExistFavor(get_url_img_thumb+materialWapaper.image)){
-                imgIcon.setImageDrawable(ContextCompat.getDrawable(itemView.context,R.drawable.heart_select_max))
+            if (dao.isExistFavor(get_url_img_thumb + materialWapaper.image)) {
+                imgIcon.setImageDrawable(
+                    ContextCompat.getDrawable(
+                        itemView.context,
+                        R.drawable.heart_select_max
+                    )
+                )
             }
 
         }
@@ -75,7 +79,8 @@ class ListTrendingAdapter(private val data: MaterialWapaper) :
     override fun getItemCount(): Int {
         return data.MaterialWallpaper.size
     }
-    fun updateDataItem(pos:Int){
+
+    fun updateDataItem(pos: Int) {
 
         notifyItemChanged(pos)
     }

@@ -3,7 +3,6 @@ package com.daotrung.wallpapers_2021
 import android.annotation.SuppressLint
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
 import android.widget.TextView
 import androidx.appcompat.widget.Toolbar
 import androidx.recyclerview.widget.GridLayoutManager
@@ -13,11 +12,9 @@ import com.daotrung.wallpapers_2021.adapter.LiveListAdapter
 import com.daotrung.wallpapers_2021.adapter.TITLE_LIVE_MAIN
 import com.daotrung.wallpapers_2021.model.SlideLiveWapaper
 import com.daotrung.wallpapers_2021.service.ApiInterface
-import com.google.gson.Gson
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
-import java.io.Serializable
 
 class LiveListActivity : AppCompatActivity() {
 

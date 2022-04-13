@@ -1,20 +1,17 @@
 package com.daotrung.wallpapers_2021.fragment
 
-import android.content.Intent
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
-import androidx.fragment.app.FragmentManager
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.daotrung.wallpapers_2021.R
 import com.daotrung.wallpapers_2021.adapter.ListCategoriesMainAdapter
 import com.daotrung.wallpapers_2021.model.MaterialWallpaperCateMain
 import com.daotrung.wallpapers_2021.service.ApiInterface
-import com.google.android.material.bottomsheet.BottomSheetDialog
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -22,7 +19,6 @@ import retrofit2.Response
 class WallpaperCategoryFragment : Fragment() {
 
     private lateinit var recyclerView: RecyclerView
-    private lateinit var recyclerView_list: RecyclerView
     private lateinit var manager: RecyclerView.LayoutManager
     private lateinit var myAdapter: RecyclerView.Adapter<*>
     private lateinit var bottomSheetFragmentCategories: BottomSheetFragmentCategories

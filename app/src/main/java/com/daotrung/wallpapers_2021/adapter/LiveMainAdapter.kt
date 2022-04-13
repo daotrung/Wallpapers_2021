@@ -12,8 +12,9 @@ import com.daotrung.wallpapers_2021.LiveListActivity
 import com.daotrung.wallpapers_2021.R
 import com.daotrung.wallpapers_2021.model.WallPaper
 
-const val ID_LIVE_MAIN : String = "idGet"
-const val TITLE_LIVE_MAIN : String = "title"
+const val ID_LIVE_MAIN: String = "idGet"
+const val TITLE_LIVE_MAIN: String = "title"
+
 class LiveMainAdapter(private val data: List<WallPaper>) :
     RecyclerView.Adapter<LiveMainAdapter.MyViewHolder>() {
 
@@ -33,16 +34,6 @@ class LiveMainAdapter(private val data: List<WallPaper>) :
             }
 
         }
-//        init {
-//            view.setOnClickListener {
-//                val position:Int = adapterPosition
-//                val intent =  Intent(view.context,ActivityListLiveWapaper::class.java)
-//                intent.putExtra("idGet",idGetList)
-//                intent.putExtra("title",tile_m)
-//                view.context.startActivity(intent)
-//            }
-//        }
-
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {

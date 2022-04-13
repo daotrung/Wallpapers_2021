@@ -17,8 +17,9 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
-const val NAME_COLOR : String = "name_color"
-const val ID_COLOR : String = "id_color"
+const val NAME_COLOR: String = "name_color"
+const val ID_COLOR: String = "id_color"
+
 class WallpaperListColorMainAdapter(private val data: List<ColorMain>) :
     RecyclerView.Adapter<WallpaperListColorMainAdapter.MyViewHolder>() {
     private var size: Int = 0
@@ -26,8 +27,8 @@ class WallpaperListColorMainAdapter(private val data: List<ColorMain>) :
 
     inner class MyViewHolder(val view: View) : RecyclerView.ViewHolder(view) {
         fun bind(materialWallpaperColorMain: ColorMain) {
-            var imgView = view.findViewById<ImageView>(R.id.color_main)
-            var txtColor = view.findViewById<TextView>(R.id.txt_name_color)
+            val imgView = view.findViewById<ImageView>(R.id.color_main)
+            val txtColor = view.findViewById<TextView>(R.id.txt_name_color)
             imgView.setImageResource(materialWallpaperColorMain.category_image)
             txtColor.text = materialWallpaperColorMain.category_name
 

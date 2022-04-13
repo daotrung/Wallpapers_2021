@@ -7,7 +7,6 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.daotrung.wallpapers_2021.R
-import com.daotrung.wallpapers_2021.adapter.WallpaperListCategoriesMainSheetAdapter
 import com.daotrung.wallpapers_2021.adapter.WallpaperListColorMainAdapter
 import com.daotrung.wallpapers_2021.model.ColorMain
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
@@ -63,7 +62,7 @@ class BottomSheetFragmentColor : BottomSheetDialogFragment() {
         )
         recyclerView.layoutManager = GridLayoutManager(context, 4)
 
-        arrayList = arrayListOf<ColorMain>()
+        arrayList = arrayListOf()
 
         getData()
 

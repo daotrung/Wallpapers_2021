@@ -20,14 +20,10 @@ import android.widget.ImageView
 import android.widget.MediaController
 import android.widget.Toast
 import android.widget.VideoView
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
-import com.bumptech.glide.Glide
-import com.daotrung.wallpapers_2021.adapter.ID_LIVE_MAIN
 import com.daotrung.wallpapers_2021.adapter.ID_OFF_MY_LIVE
 import com.daotrung.wallpapers_2021.room.MyWallPaper
-import com.daotrung.wallpapers_2021.room.MyWallPaperDatabase
 import com.daotrung.wallpapers_2021.room.MyWallpaperViewModel
 import com.downloader.*
 import com.karumi.dexter.Dexter
@@ -37,11 +33,11 @@ import com.karumi.dexter.listener.PermissionRequest
 import com.karumi.dexter.listener.multi.MultiplePermissionsListener
 import java.io.File
 import java.io.IOException
-import java.lang.Error
 
 private var id: Int = 0
 private lateinit var pathVideo: String
-private lateinit var myList : List<MyWallPaper>
+private lateinit var myList: List<MyWallPaper>
+
 class MyLiveSliderActivity : AppCompatActivity() {
 
     private lateinit var videoView: VideoView
@@ -49,7 +45,7 @@ class MyLiveSliderActivity : AppCompatActivity() {
     private lateinit var img_left_arrow: ImageView
     private lateinit var img_right_arrow: ImageView
     private lateinit var img_save_btn: ImageView
-    private  var img_share_btn: ImageView? = null
+    private var img_share_btn: ImageView? = null
     private lateinit var myWallpaperViewModel: MyWallpaperViewModel
 
 
@@ -59,7 +55,8 @@ class MyLiveSliderActivity : AppCompatActivity() {
         fun prepareLiveWallpaperIntent(showAllLiveWallpapers: Boolean): Intent {
             val liveWallpaperIntent = Intent()
             if (showAllLiveWallpapers ||
-                Build.VERSION.SDK_INT <= Build.VERSION_CODES.ICE_CREAM_SANDWICH_MR1) {
+                Build.VERSION.SDK_INT <= Build.VERSION_CODES.ICE_CREAM_SANDWICH_MR1
+            ) {
                 liveWallpaperIntent.action = WallpaperManager.ACTION_LIVE_WALLPAPER_CHOOSER
             } else {
                 liveWallpaperIntent.action = WallpaperManager.ACTION_CHANGE_LIVE_WALLPAPER
@@ -73,6 +70,7 @@ class MyLiveSliderActivity : AppCompatActivity() {
             return liveWallpaperIntent
         }
     }
+
     override fun onCreate(savedInstanceState: Bundle?) {
 
         // set full screen video
@@ -95,11 +93,11 @@ class MyLiveSliderActivity : AppCompatActivity() {
         PRDownloader.initialize(applicationContext)
 
         myList = ArrayList()
-        myWallpaperViewModel.allWallPaper.observe(this, Observer {mywall->
-             myList = mywall
+        myWallpaperViewModel.allWallPaper.observe(this, Observer { mywall ->
+            myList = mywall
 
-             val intent = intent
-             id = intent.getIntExtra(ID_OFF_MY_LIVE,-1)
+            val intent = intent
+            id = intent.getIntExtra(ID_OFF_MY_LIVE, -1)
             pathVideo = myList[id].myUrl
             setVideo(pathVideo)
 
@@ -110,7 +108,7 @@ class MyLiveSliderActivity : AppCompatActivity() {
         }
         img_left_arrow.setOnClickListener {
             if (id == 0) {
-                id =  myList.size-1
+                id = myList.size - 1
                 setVideo(myList[id].myUrl)
                 pathVideo = myList[id].myUrl
             } else {
@@ -120,14 +118,14 @@ class MyLiveSliderActivity : AppCompatActivity() {
             }
         }
         img_right_arrow.setOnClickListener {
-            if (id == myList.size-1) {
+            if (id == myList.size - 1) {
                 id = 0
                 setVideo(myList[id].myUrl)
                 pathVideo = myList[id].myUrl
             } else {
                 id++
-                setVideo( myList[id].myUrl)
-                pathVideo =  myList[id].myUrl
+                setVideo(myList[id].myUrl)
+                pathVideo = myList[id].myUrl
             }
         }
         img_save_btn.setOnClickListener {
@@ -147,7 +145,7 @@ class MyLiveSliderActivity : AppCompatActivity() {
     }
 
     private fun setVideo(path: String) {
-        val progressDialog : ProgressDialog
+        val progressDialog: ProgressDialog
 
         val uri: Uri = Uri.parse(path)
         val fileName = File(uri.path).name
@@ -162,7 +160,7 @@ class MyLiveSliderActivity : AppCompatActivity() {
                 videoView.setVideoURI(uri)
                 videoView.start()
 
-                progressDialog = ProgressDialog.show(this,"Please wait...","Loading data",true)
+                progressDialog = ProgressDialog.show(this, "Please wait...", "Loading data", true)
                 videoView.setOnPreparedListener {
                     progressDialog.dismiss()
                     it.apply { isLooping = true }
@@ -220,7 +218,7 @@ class MyLiveSliderActivity : AppCompatActivity() {
 
         }
         builder.setNegativeButton("No") { _: DialogInterface, _: Int ->
-             setDialogWallpaper()
+            setDialogWallpaper()
         }
         builder.show()
 
@@ -266,9 +264,9 @@ class MyLiveSliderActivity : AppCompatActivity() {
         val builder = AlertDialog.Builder(this)
         builder.setTitle("Set Wallpaper")
         builder.setMessage("Do you wan set this video to wallpaper ? ")
-        builder.setPositiveButton("Yes"){_:DialogInterface,_:Int->
+        builder.setPositiveButton("Yes") { _: DialogInterface, _: Int ->
             // clear cache wallpaper
-            var wallpaperManager: WallpaperManager =
+            val wallpaperManager: WallpaperManager =
                 WallpaperManager.getInstance(applicationContext)
             try {
                 wallpaperManager.clear()
@@ -276,7 +274,7 @@ class MyLiveSliderActivity : AppCompatActivity() {
                 e.printStackTrace()
             }
             //  truyen url from activity to wallpaper_service
-            var serviceIntent: Intent =
+            val serviceIntent: Intent =
                 Intent(applicationContext, MyWallpaperService::class.java)
             serviceIntent.putExtra("url_pass", pathVideo)
             this.startService(serviceIntent)
@@ -284,7 +282,7 @@ class MyLiveSliderActivity : AppCompatActivity() {
             startActivity(LiveVideoActivity.prepareLiveWallpaperIntent(false))
             onBackPressed()
         }
-        builder.setNegativeButton("No"){_:DialogInterface,_:Int->
+        builder.setNegativeButton("No") { _: DialogInterface, _: Int ->
             builder.setCancelable(true)
         }
         builder.show()

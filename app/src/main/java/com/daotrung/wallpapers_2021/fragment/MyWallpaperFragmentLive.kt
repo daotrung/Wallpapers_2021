@@ -11,7 +11,6 @@ import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.daotrung.wallpapers_2021.R
 import com.daotrung.wallpapers_2021.adapter.MyWallpaperLiveAdapter
-import com.daotrung.wallpapers_2021.room.MyWallPaper
 import com.daotrung.wallpapers_2021.room.MyWallpaperViewModel
 
 
@@ -19,7 +18,7 @@ private lateinit var recyclerView: RecyclerView
 private lateinit var manager: RecyclerView.LayoutManager
 
 
-class MyWallpaperFragmentLive : Fragment(){
+class MyWallpaperFragmentLive : Fragment() {
     private lateinit var myWallpaperViewModel: MyWallpaperViewModel
 
     override fun onCreateView(
@@ -35,8 +34,8 @@ class MyWallpaperFragmentLive : Fragment(){
         recyclerView.adapter = myWallpaperLiveAdapter
         recyclerView.layoutManager = manager
 
-        myWallpaperViewModel = ViewModelProvider(this).get(MyWallpaperViewModel::class.java)
-        myWallpaperViewModel.allWallPaper.observe(viewLifecycleOwner, Observer {mywall->
+        myWallpaperViewModel = ViewModelProvider(this)[MyWallpaperViewModel::class.java]
+        myWallpaperViewModel.allWallPaper.observe(viewLifecycleOwner, Observer { mywall ->
             myWallpaperLiveAdapter.setData(mywall)
 
         })

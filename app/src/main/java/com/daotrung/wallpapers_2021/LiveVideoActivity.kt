@@ -7,7 +7,6 @@ import android.net.Uri
 import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import android.view.Window
 import android.view.WindowManager
@@ -15,11 +14,9 @@ import android.widget.*
 import com.bumptech.glide.Glide
 import com.daotrung.wallpapers_2021.model.SlideLiveWapaper
 import java.io.File
-import android.app.DownloadManager
 import android.app.ProgressDialog
 import android.content.*
 import android.os.Environment
-import android.provider.MediaStore
 import android.text.TextUtils
 import android.webkit.URLUtil
 import androidx.lifecycle.ViewModelProvider
@@ -69,8 +66,8 @@ private lateinit var img_gif: ImageView
 class LiveVideoActivity : AppCompatActivity() {
 
 
-    private lateinit var mMyWallpaperViewModel : MyWallpaperViewModel
-    private lateinit var database:MyWallPaperDatabase
+    private lateinit var mMyWallpaperViewModel: MyWallpaperViewModel
+    private lateinit var database: MyWallPaperDatabase
     private lateinit var iDao: IDao
 
 
@@ -80,7 +77,8 @@ class LiveVideoActivity : AppCompatActivity() {
         fun prepareLiveWallpaperIntent(showAllLiveWallpapers: Boolean): Intent {
             val liveWallpaperIntent = Intent()
             if (showAllLiveWallpapers ||
-                Build.VERSION.SDK_INT <= Build.VERSION_CODES.ICE_CREAM_SANDWICH_MR1) {
+                Build.VERSION.SDK_INT <= Build.VERSION_CODES.ICE_CREAM_SANDWICH_MR1
+            ) {
                 liveWallpaperIntent.action = WallpaperManager.ACTION_LIVE_WALLPAPER_CHOOSER
             } else {
                 liveWallpaperIntent.action = WallpaperManager.ACTION_CHANGE_LIVE_WALLPAPER
@@ -131,72 +129,73 @@ class LiveVideoActivity : AppCompatActivity() {
 
         // lấy dữ liệu từ liveListAdapter
         val intent = intent
-            list = intent.getSerializableExtra(LIST_LIVE_VIDEO) as ArrayList<SlideLiveWapaper>
-            id = intent.getIntExtra(POS_LIVE_VIDEO, 0)
+        list = intent.getSerializableExtra(LIST_LIVE_VIDEO) as ArrayList<SlideLiveWapaper>
+        id = intent.getIntExtra(POS_LIVE_VIDEO, 0)
 
-            // lấy path url thong qua dl vua truyen ve
-            pathVideo = list[id].original
+        // lấy path url thong qua dl vua truyen ve
+        pathVideo = list[id].original
 
-            // insert data to mywallpaper
-            insertDataToDatabase(pathVideo)
-            setVideo(pathVideo)
-            img_close.setOnClickListener {
-                finish()
+        // insert data to mywallpaper
+        insertDataToDatabase(pathVideo)
+        setVideo(pathVideo)
+        img_close.setOnClickListener {
+            finish()
+        }
+        img_left_arrow.setOnClickListener {
+            if (id == 0) {
+                id = list.size - 1
+                setVideo(list[id].original)
+                pathVideo = list[id].original
+                insertDataToDatabase(pathVideo)
+            } else {
+                id--
+                setVideo(list[id].original)
+                pathVideo = list[id].original
+                insertDataToDatabase(pathVideo)
             }
-            img_left_arrow.setOnClickListener {
-                if (id == 0) {
-                    id = list.size - 1
-                    setVideo(list[id].original)
-                    pathVideo = list[id].original
-                    insertDataToDatabase(pathVideo)
-                } else {
-                    id--
-                    setVideo(list[id].original)
-                    pathVideo = list[id].original
-                    insertDataToDatabase(pathVideo)
-                }
 
+        }
+        img_right_arrow.setOnClickListener {
+            if (id == list.size - 1) {
+                id = 0
+                setVideo(list[id].original)
+                pathVideo = list[id].original
+                insertDataToDatabase(pathVideo)
+            } else {
+                id++
+                setVideo(list[id].original)
+                pathVideo = list[id].original
+                insertDataToDatabase(pathVideo)
             }
-            img_right_arrow.setOnClickListener {
-                if (id == list.size - 1) {
-                    id = 0
-                    setVideo(list[id].original)
-                    pathVideo = list[id].original
-                    insertDataToDatabase(pathVideo)
-                } else {
-                    id++
-                    setVideo(list[id].original)
-                    pathVideo = list[id].original
-                    insertDataToDatabase(pathVideo)
-                }
 
-            }
-            img_save_btn.setOnClickListener {
-                // downloadVideo
-                setDiloagVideo(pathVideo)
+        }
+        img_save_btn.setOnClickListener {
+            // downloadVideo
+            setDiloagVideo(pathVideo)
 
 
-            }
-            img_share_btn.setOnClickListener {
-                val share = Intent(Intent.ACTION_SEND)
-                share.type = "text/plain"
-                share.addFlags(Intent.FLAG_ACTIVITY_CLEAR_WHEN_TASK_RESET)
-                share.putExtra(Intent.EXTRA_SUBJECT, "Title Of The Post")
-                share.putExtra(Intent.EXTRA_TEXT, pathVideo)
-                startActivity(Intent.createChooser(share, "Share link!"))
-            }
+        }
+        img_share_btn.setOnClickListener {
+            val share = Intent(Intent.ACTION_SEND)
+            share.type = "text/plain"
+            share.addFlags(Intent.FLAG_ACTIVITY_CLEAR_WHEN_TASK_RESET)
+            share.putExtra(Intent.EXTRA_SUBJECT, "Title Of The Post")
+            share.putExtra(Intent.EXTRA_TEXT, pathVideo)
+            startActivity(Intent.createChooser(share, "Share link!"))
+        }
 
     }
 
     // Xử lý add Room_database
     private fun insertDataToDatabase(pathVideo: String) {
-          if(inputCheck(pathVideo)&& !iDao.isExistWall(pathVideo)){
-                  val myWallpaper = MyWallPaper(pathVideo)
-                  mMyWallpaperViewModel.addMyWallPaper(myWallpaper)
-              }
+        if (inputCheck(pathVideo) && !iDao.isExistWall(pathVideo)) {
+            val myWallpaper = MyWallPaper(pathVideo)
+            mMyWallpaperViewModel.addMyWallPaper(myWallpaper)
+        }
 
     }
-    private fun inputCheck(url:String):Boolean{
+
+    private fun inputCheck(url: String): Boolean {
 
         return !(TextUtils.isEmpty(url))
     }
@@ -215,7 +214,7 @@ class LiveVideoActivity : AppCompatActivity() {
                 ).withListener(object : MultiplePermissionsListener {
                     override fun onPermissionsChecked(report: MultiplePermissionsReport) {
                         /* ... */ if (report.areAllPermissionsGranted()) {
-                            dowloadVideo(pathVideo)
+                            downloadVideo(pathVideo)
                         } else {
                             Toast.makeText(
                                 this@LiveVideoActivity,
@@ -241,7 +240,7 @@ class LiveVideoActivity : AppCompatActivity() {
     }
 
 
-    private fun dowloadVideo(pathVideo: String) {
+    private fun downloadVideo(pathVideo: String) {
         var pd = ProgressDialog(this)
         pd.setMessage("Downloading....")
         pd.setCancelable(false)
@@ -279,12 +278,12 @@ class LiveVideoActivity : AppCompatActivity() {
     }
 
     // set dialog wallpaper
-    private fun setDialogWallPaper(){
+    private fun setDialogWallPaper() {
 
         val builder = AlertDialog.Builder(this)
         builder.setTitle("Set Wallpaper")
         builder.setMessage("Do you wan set this video to wallpaper ? ")
-        builder.setPositiveButton("Yes"){_:DialogInterface,_:Int->
+        builder.setPositiveButton("Yes") { _: DialogInterface, _: Int ->
             // clear cache wallpaper
             var wallpaperManager: WallpaperManager =
                 WallpaperManager.getInstance(applicationContext)
@@ -302,7 +301,7 @@ class LiveVideoActivity : AppCompatActivity() {
             startActivity(prepareLiveWallpaperIntent(false))
             onBackPressed()
         }
-        builder.setNegativeButton("No"){_:DialogInterface,_:Int->
+        builder.setNegativeButton("No") { _: DialogInterface, _: Int ->
             builder.setCancelable(true)
         }
         builder.show()
@@ -313,7 +312,7 @@ class LiveVideoActivity : AppCompatActivity() {
     // display video to background
     private fun setVideo(path: String) {
 
-        val progressBar : ProgressDialog
+        val progressBar: ProgressDialog
         val uri: Uri = Uri.parse(path)
         val fileName = File(uri.path).name
 
@@ -327,11 +326,12 @@ class LiveVideoActivity : AppCompatActivity() {
                 videoView.start()
                 img_gif.visibility = View.INVISIBLE
 
-                progressBar = ProgressDialog.show(this,"Please wait...","Loading data",true)
+                progressBar = ProgressDialog.show(this, "Please wait...", "Loading data", true)
                 videoView.setOnPreparedListener {
                     progressBar.dismiss()
                     it.apply {
-                        isLooping = true }
+                        isLooping = true
+                    }
                 }
             } else {
                 videoView.visibility = View.INVISIBLE

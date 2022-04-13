@@ -23,7 +23,7 @@ class LiveWapaperFragment : Fragment() {
     private lateinit var recyclerView: RecyclerView
     private lateinit var manager: RecyclerView.LayoutManager
     private lateinit var myAdapter: RecyclerView.Adapter<*>
-    private lateinit var myToobar: Toolbar
+    private lateinit var myToolbar: Toolbar
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -33,10 +33,10 @@ class LiveWapaperFragment : Fragment() {
         val view = inflater.inflate(R.layout.fragment_live, container, false)
 
         recyclerView = view.findViewById(R.id.rv_live_wapaper)
-        myToobar = view.findViewById(R.id.my_toolbar_live_wapaper)
+        myToolbar = view.findViewById(R.id.my_toolbar_live_wapaper)
 //        val toolbar = findViewById(R.id.toolbar) as Toolbar?
-        myToobar.title = ""
-        (activity as AppCompatActivity).setSupportActionBar(myToobar)
+        myToolbar.title = ""
+        (activity as AppCompatActivity).setSupportActionBar(myToolbar)
         manager = GridLayoutManager(context, 2)
 
         getAllData(recyclerView)

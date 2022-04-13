@@ -46,7 +46,7 @@ class MyWallpaperFragmentWallpaper : Fragment() {
         recyclerView.adapter = myWallpaperWallAdapter
         recyclerView.layoutManager = manager
 
-        myFavoriteModel = ViewModelProvider(this).get(MyFavoriteModel::class.java)
+        myFavoriteModel = ViewModelProvider(this)[MyFavoriteModel::class.java]
         myFavoriteModel.allPicFavorite.observe(viewLifecycleOwner, Observer { mywall ->
             myWallpaperWallAdapter.setData(mywall)
             setBroadCast(myWallpaperWallAdapter)
@@ -63,7 +63,7 @@ class MyWallpaperFragmentWallpaper : Fragment() {
                 if (intent != null) {
                     if (intent.action.equals("localBroadCastDB")) {
                         posChange = intent.getIntExtra(KEY_DB, -1)
-                        Log.e("posDB__",posChange.toString())
+                        Log.e("posDB__", posChange.toString())
                         (myWallpaperWallAdapter as MyWallpaperWallAdapter).updatePos(posChange)
                     }
                 }

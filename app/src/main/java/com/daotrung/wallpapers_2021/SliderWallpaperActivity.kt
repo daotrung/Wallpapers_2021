@@ -41,26 +41,26 @@ const val url_get_img_preview = "http://hdwalls.wallzapps.com/upload/"
 
 class SliderWallpaperActivity : AppCompatActivity() {
 
-    private  var mMyFavoriteModel : MyFavoriteModel? = null
+    private var mMyFavoriteModel: MyFavoriteModel? = null
     private lateinit var database: MyWallPaperDatabase
     private lateinit var dao: IDao
     private var list: MaterialWapaper = MaterialWapaper(ArrayList<Trending>())
     private var listCate: MaterialWallpaperCatList = MaterialWallpaperCatList(ArrayList<CatList>())
     private var id: Int = 1
     private var img: String? = ""
-    private var check : Boolean = false
+    private var check: Boolean = false
     private lateinit var img_layout: ImageView
     private lateinit var img_close: ImageView
     private lateinit var img_left_arrow: ImageView
     private lateinit var img_right_arrow: ImageView
     private lateinit var img_save_btn: ImageView
     private lateinit var img_share_btn: ImageView
-    private lateinit var img_icon_heart : ImageView
+    private lateinit var img_icon_heart: ImageView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-     // khởi tạo database , dao , viewModel
+        // khởi tạo database , dao , viewModel
         database = Room.databaseBuilder(
             this,
             MyWallPaperDatabase::class.java,
@@ -85,7 +85,7 @@ class SliderWallpaperActivity : AppCompatActivity() {
 
             Glide.with(this).load(img).into(img_layout)
             img_icon_heart.setOnClickListener {
-                setIconHeart(img!!,id)
+                setIconHeart(img!!, id)
             }
             img_close.setOnClickListener {
                 finish()
@@ -96,12 +96,12 @@ class SliderWallpaperActivity : AppCompatActivity() {
                     img = url_get_img_preview + list.MaterialWallpaper[id].image
                     Glide.with(this).load(img).into(img_layout)
                     list.MaterialWallpaper
-                    setIconHeart(img!!,id)
+                    setIconHeart(img!!, id)
                 } else {
                     id--
                     img = url_get_img_preview + list.MaterialWallpaper[id].image
                     Glide.with(this).load(img).into(img_layout)
-                    setIconHeart(img!!,id)
+                    setIconHeart(img!!, id)
                 }
             }
             img_right_arrow.setOnClickListener {
@@ -110,12 +110,12 @@ class SliderWallpaperActivity : AppCompatActivity() {
                     id = 0
                     img = url_get_img_preview + list.MaterialWallpaper[id].image
                     Glide.with(this).load(img).into(img_layout)
-                    setIconHeart(img!!,id)
+                    setIconHeart(img!!, id)
                 } else {
                     id++
                     img = url_get_img_preview + list.MaterialWallpaper[id].image
                     Glide.with(this).load(img).into(img_layout)
-                    setIconHeart(img!!,id)
+                    setIconHeart(img!!, id)
                 }
             }
             img_save_btn.setOnClickListener {
@@ -133,11 +133,11 @@ class SliderWallpaperActivity : AppCompatActivity() {
             img = url_get_img_preview + listCate.MaterialWallpaper[id].images
 
             Glide.with(this).load(img).into(img_layout)
-            setIconHeart(img!!,id)
+            setIconHeart(img!!, id)
 
             // can fix
             img_icon_heart.setOnClickListener {
-                setIconHeart(img!!,id)
+                setIconHeart(img!!, id)
 
             }
             img_close.setOnClickListener {
@@ -149,12 +149,12 @@ class SliderWallpaperActivity : AppCompatActivity() {
                     id = listCate.MaterialWallpaper.size - 1
                     img = url_get_img_preview + listCate.MaterialWallpaper[id].images
                     Glide.with(this).load(img).into(img_layout)
-                    setIconHeart(img!!,id)
+                    setIconHeart(img!!, id)
                 } else {
                     id--
                     img = url_get_img_preview + listCate.MaterialWallpaper[id].images
                     Glide.with(this).load(img).into(img_layout)
-                    setIconHeart(img!!,id)
+                    setIconHeart(img!!, id)
                 }
 
             }
@@ -163,12 +163,12 @@ class SliderWallpaperActivity : AppCompatActivity() {
                     id = 0
                     img = url_get_img_preview + listCate.MaterialWallpaper[id].images
                     Glide.with(this).load(img).into(img_layout)
-                    setIconHeart(img!!,id)
+                    setIconHeart(img!!, id)
                 } else {
                     id++
                     img = url_get_img_preview + listCate.MaterialWallpaper[id].images
                     Glide.with(this).load(img).into(img_layout)
-                    setIconHeart(img!!,id)
+                    setIconHeart(img!!, id)
                 }
 
             }
@@ -186,7 +186,7 @@ class SliderWallpaperActivity : AppCompatActivity() {
             img = url_get_img_preview + listCate.MaterialWallpaper.get(id).images
 
             Glide.with(this).load(img).into(img_layout)
-            setIconHeart(img!!,id)
+            setIconHeart(img!!, id)
             img_close.setOnClickListener {
                 finish()
             }
@@ -195,12 +195,12 @@ class SliderWallpaperActivity : AppCompatActivity() {
                     id = listCate.MaterialWallpaper.size - 1
                     img = url_get_img_preview + listCate.MaterialWallpaper[id].images
                     Glide.with(this).load(img).into(img_layout)
-                    setIconHeart(img!!,id)
+                    setIconHeart(img!!, id)
                 } else {
                     id--
                     img = url_get_img_preview + listCate.MaterialWallpaper[id].images
                     Glide.with(this).load(img).into(img_layout)
-                    setIconHeart(img!!,id)
+                    setIconHeart(img!!, id)
                 }
 
             }
@@ -209,17 +209,17 @@ class SliderWallpaperActivity : AppCompatActivity() {
                     id = 0
                     img = url_get_img_preview + listCate.MaterialWallpaper[id].images
                     Glide.with(this).load(img).into(img_layout)
-                    setIconHeart(img!!,id)
+                    setIconHeart(img!!, id)
                 } else {
                     id++
                     img = url_get_img_preview + listCate.MaterialWallpaper[id].images
                     Glide.with(this).load(img).into(img_layout)
-                    setIconHeart(img!!,id)
+                    setIconHeart(img!!, id)
                 }
 
             }
             img_share_btn.setOnClickListener {
-               shareImg()
+                shareImg()
             }
             img_save_btn.setOnClickListener {
                 setDownloadDilog(img!!)
@@ -253,13 +253,26 @@ class SliderWallpaperActivity : AppCompatActivity() {
                             dm.enqueue(request)
 
                         } catch (e: Exception) {
-                            Toast.makeText(this@SliderWallpaperActivity, "Share img", Toast.LENGTH_SHORT).show()
+                            Toast.makeText(
+                                this@SliderWallpaperActivity,
+                                "Share img",
+                                Toast.LENGTH_SHORT
+                            ).show()
                         }
-                        Toast.makeText(this@SliderWallpaperActivity, "Image download started.", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(
+                            this@SliderWallpaperActivity,
+                            "Image download started.",
+                            Toast.LENGTH_SHORT
+                        ).show()
                         val bitmapDrawable: BitmapDrawable = img_layout.drawable as BitmapDrawable
                         val bitmap: Bitmap = bitmapDrawable.bitmap
                         val bitmapPath: String =
-                            MediaStore.Images.Media.insertImage(contentResolver, bitmap, "Some title", null)
+                            MediaStore.Images.Media.insertImage(
+                                contentResolver,
+                                bitmap,
+                                "Some title",
+                                null
+                            )
                         val bitmapUri: Uri = Uri.parse(bitmapPath)
                         val intent = Intent(Intent.ACTION_SEND)
                         intent.type = "image/*"
@@ -289,7 +302,8 @@ class SliderWallpaperActivity : AppCompatActivity() {
         requestWindowFeature(Window.FEATURE_NO_TITLE)
         this.window.setFlags(
             WindowManager.LayoutParams.FLAG_FULLSCREEN,
-            WindowManager.LayoutParams.FLAG_FULLSCREEN)
+            WindowManager.LayoutParams.FLAG_FULLSCREEN
+        )
         PRDownloader.initialize(applicationContext)
     }
 
@@ -304,53 +318,83 @@ class SliderWallpaperActivity : AppCompatActivity() {
     }
 
     private fun deleteFavorite(img: String) {
-            dao.deleteItemWithUrl(img)
-            img_icon_heart.setImageDrawable(ContextCompat.getDrawable(this,R.drawable.heart_unselect_max))
+        dao.deleteItemWithUrl(img)
+        img_icon_heart.setImageDrawable(
+            ContextCompat.getDrawable(
+                this,
+                R.drawable.heart_unselect_max
+            )
+        )
 
     }
 
-    private fun insertDataToFavorite(img:String){
-        if(inputCheck(img)&&!dao.isExistFavor(img)) {
+    private fun insertDataToFavorite(img: String) {
+        if (inputCheck(img) && !dao.isExistFavor(img)) {
             val myFavoritePicture = MyFavoritePicture(img)
             mMyFavoriteModel!!.addFavorite(myFavoritePicture)
-            img_icon_heart.setImageDrawable(ContextCompat.getDrawable(this,R.drawable.heart_select_max))
+            img_icon_heart.setImageDrawable(
+                ContextCompat.getDrawable(
+                    this,
+                    R.drawable.heart_select_max
+                )
+            )
         }
     }
 
-    private fun setIconHeart(img:String,pos:Int){
-        if(dao.isExistFavor(img)){
-            img_icon_heart.setImageDrawable(ContextCompat.getDrawable(this,R.drawable.heart_select_max))
+    private fun setIconHeart(img: String, pos: Int) {
+        if (dao.isExistFavor(img)) {
+            img_icon_heart.setImageDrawable(
+                ContextCompat.getDrawable(
+                    this,
+                    R.drawable.heart_select_max
+                )
+            )
             check = true
-        }else{
-            img_icon_heart.setImageDrawable(ContextCompat.getDrawable(this,R.drawable.heart_unselect_max))
+        } else {
+            img_icon_heart.setImageDrawable(
+                ContextCompat.getDrawable(
+                    this,
+                    R.drawable.heart_unselect_max
+                )
+            )
         }
         img_icon_heart.setOnClickListener {
 
-             if(check){
-                 img_icon_heart.setImageDrawable(ContextCompat.getDrawable(this,R.drawable.heart_unselect_max))
-                 deleteFavorite(img)
-                 check = false
-                 sendLocalBroadcastForInformation(pos)
-             }else{
-                 img_icon_heart.setImageDrawable(ContextCompat.getDrawable(this,R.drawable.heart_select_max))
-                 insertDataToFavorite(img)
-                 check = true
-                 sendLocalBroadcastForInformation(pos)
-             }
+            if (check) {
+                img_icon_heart.setImageDrawable(
+                    ContextCompat.getDrawable(
+                        this,
+                        R.drawable.heart_unselect_max
+                    )
+                )
+                deleteFavorite(img)
+                check = false
+                sendLocalBroadcastForInformation(pos)
+            } else {
+                img_icon_heart.setImageDrawable(
+                    ContextCompat.getDrawable(
+                        this,
+                        R.drawable.heart_select_max
+                    )
+                )
+                insertDataToFavorite(img)
+                check = true
+                sendLocalBroadcastForInformation(pos)
+            }
         }
 
     }
 
     private fun sendLocalBroadcastForInformation(pos: Int) {
         val intent = Intent("localBroadCastForData")
-        intent.putExtra("pos_change",pos)
+        intent.putExtra("pos_change", pos)
         LocalBroadcastManager.getInstance(this).sendBroadcast(intent)
 
     }
 
 
     private fun inputCheck(pathPic: String): Boolean {
-         return !(TextUtils.isEmpty(pathPic))
+        return !(TextUtils.isEmpty(pathPic))
     }
 
 
@@ -388,7 +432,7 @@ class SliderWallpaperActivity : AppCompatActivity() {
 
         }
         builder.setNegativeButton("No") { _: DialogInterface, _: Int ->
-              setWallpaperDialog(imgUrl)
+            setWallpaperDialog(imgUrl)
         }
         builder.show()
     }
@@ -418,20 +462,20 @@ class SliderWallpaperActivity : AppCompatActivity() {
     }
 
     private fun setWallpaperDialog(img: String) {
-         val builder = AlertDialog.Builder(this)
+        val builder = AlertDialog.Builder(this)
         builder.setTitle("Save Wallpaper")
         builder.setMessage("Do you want set image to wallpaper ?")
-        builder.setPositiveButton("Yes"){_:DialogInterface,_:Int ->
-             val intent = Intent(this,SetActivityWallpaper::class.java)
-            intent.putExtra("mw_1",img)
-            Log.e("mw__",img.toString())
+        builder.setPositiveButton("Yes") { _: DialogInterface, _: Int ->
+            val intent = Intent(this, SetActivityWallpaper::class.java)
+            intent.putExtra("mw_1", img)
+            Log.e("mw__", img.toString())
             startActivity(intent)
         }
 
-        builder.setNegativeButton("No"){_:DialogInterface,_:Int->
-             builder.setOnDismissListener {
-                 builder.setCancelable(true)
-             }
+        builder.setNegativeButton("No") { _: DialogInterface, _: Int ->
+            builder.setOnDismissListener {
+                builder.setCancelable(true)
+            }
         }
         builder.show()
     }

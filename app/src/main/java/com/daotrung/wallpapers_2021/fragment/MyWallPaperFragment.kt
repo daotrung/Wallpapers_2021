@@ -15,8 +15,8 @@ import kotlinx.coroutines.newFixedThreadPoolContext
 
 class MyWallPaperFragment : Fragment() {
 
-    lateinit var viewPager2: ViewPager2
-    var tabTitle = arrayOf("Live", "Wallpaper")
+    private lateinit var viewPager2: ViewPager2
+    private var tabTitle = arrayOf("Live", "Wallpaper")
     lateinit var adapter: ViewPagerAdapter
 
     override fun onCreateView(

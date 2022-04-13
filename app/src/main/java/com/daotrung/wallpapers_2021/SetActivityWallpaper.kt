@@ -15,29 +15,28 @@ import com.bumptech.glide.Glide
 import com.downloader.PRDownloader
 
 class SetActivityWallpaper : AppCompatActivity() {
-    private lateinit var btn_save : Button
-    private lateinit var img_wall_paper : ImageView
-    private lateinit var url_img : String
+    private lateinit var btn_save: Button
+    private lateinit var img_wall_paper: ImageView
+    private lateinit var url_img: String
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         requestWindowFeature(Window.FEATURE_NO_TITLE)
         this.window.setFlags(
             WindowManager.LayoutParams.FLAG_FULLSCREEN,
-            WindowManager.LayoutParams.FLAG_FULLSCREEN)
+            WindowManager.LayoutParams.FLAG_FULLSCREEN
+        )
         PRDownloader.initialize(applicationContext)
         setContentView(R.layout.activity_set_wallpaper2)
-        btn_save =  findViewById(R.id.btn_set_wall_2)
-        img_wall_paper  = findViewById(R.id.img_preview_image_2)
+        btn_save = findViewById(R.id.btn_set_wall_2)
+        img_wall_paper = findViewById(R.id.img_preview_image_2)
 
 
         val intent = intent
 
-        if(intent.getStringExtra("mw_1")!=""){
-            url_img = intent.getStringExtra("mw_1").toString()
-            Glide.with(this).load(url_img).into(img_wall_paper)
+        url_img = intent.getStringExtra("mw_1").toString()
+        Glide.with(this).load(url_img).into(img_wall_paper)
 
-        }
         btn_save.setOnClickListener {
             var bitmapDrawale: BitmapDrawable = img_wall_paper.drawable as BitmapDrawable
             var bitmap: Bitmap = bitmapDrawale.bitmap

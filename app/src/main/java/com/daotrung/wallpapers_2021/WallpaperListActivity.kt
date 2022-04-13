@@ -32,9 +32,9 @@ class WallpaperListActivity : AppCompatActivity() {
     private lateinit var myToolbar: Toolbar
     private lateinit var mTitle: TextView
 
-    private lateinit var mRefreshReceiver : BroadcastReceiver
+    private lateinit var mRefreshReceiver: BroadcastReceiver
     private lateinit var filter: IntentFilter
-    private var posChange : Int = 0
+    private var posChange: Int = 0
     private var flag: Boolean = false
     private var id: Int = 0
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -98,19 +98,22 @@ class WallpaperListActivity : AppCompatActivity() {
 
                             filter = IntentFilter()
                             filter.addAction("localBroadCastForData")
-                            mRefreshReceiver = object :BroadcastReceiver(){
+                            mRefreshReceiver = object : BroadcastReceiver() {
                                 override fun onReceive(context: Context?, intent: Intent?) {
                                     if (intent != null) {
-                                        if(intent.action.equals("localBroadCastForData")){
-                                            posChange = intent.getIntExtra("pos_change",-1)
-                                            (myAdapter as ListWallpaperCategoriesAdapter).updateDataItem(posChange)
+                                        if (intent.action.equals("localBroadCastForData")) {
+                                            posChange = intent.getIntExtra("pos_change", -1)
+                                            (myAdapter as ListWallpaperCategoriesAdapter).updateDataItem(
+                                                posChange
+                                            )
                                         }
                                     }
                                 }
 
 
                             }
-                            LocalBroadcastManager.getInstance(this@WallpaperListActivity).registerReceiver(mRefreshReceiver, filter)
+                            LocalBroadcastManager.getInstance(this@WallpaperListActivity)
+                                .registerReceiver(mRefreshReceiver, filter)
 
 
                         }
@@ -141,20 +144,22 @@ class WallpaperListActivity : AppCompatActivity() {
                             adapter = myAdapter
                             filter = IntentFilter()
                             filter.addAction("localBroadCastForData")
-                            mRefreshReceiver = object :BroadcastReceiver(){
+                            mRefreshReceiver = object : BroadcastReceiver() {
                                 override fun onReceive(context: Context?, intent: Intent?) {
                                     if (intent != null) {
-                                        if(intent.action.equals("localBroadCastForData")){
-                                            posChange = intent.getIntExtra("pos_change",-1)
-                                            (myAdapter as ListTrendingAdapter).updateDataItem(posChange)
+                                        if (intent.action.equals("localBroadCastForData")) {
+                                            posChange = intent.getIntExtra("pos_change", -1)
+                                            (myAdapter as ListTrendingAdapter).updateDataItem(
+                                                posChange
+                                            )
                                         }
                                     }
                                 }
 
 
                             }
-                            LocalBroadcastManager.getInstance(this@WallpaperListActivity).registerReceiver(mRefreshReceiver, filter)
-
+                            LocalBroadcastManager.getInstance(this@WallpaperListActivity)
+                                .registerReceiver(mRefreshReceiver, filter)
 
 
                         }
@@ -186,22 +191,22 @@ class WallpaperListActivity : AppCompatActivity() {
 
                             filter = IntentFilter()
                             filter.addAction("localBroadCastForData")
-                            mRefreshReceiver = object :BroadcastReceiver(){
+                            mRefreshReceiver = object : BroadcastReceiver() {
                                 override fun onReceive(context: Context?, intent: Intent?) {
                                     if (intent != null) {
-                                        if(intent.action.equals("localBroadCastForData")){
-                                            posChange = intent.getIntExtra("pos_change",-1)
-                                            (myAdapter as ListTrendingAdapter).updateDataItem(posChange)
+                                        if (intent.action.equals("localBroadCastForData")) {
+                                            posChange = intent.getIntExtra("pos_change", -1)
+                                            (myAdapter as ListTrendingAdapter).updateDataItem(
+                                                posChange
+                                            )
                                         }
                                     }
                                 }
 
 
                             }
-                            LocalBroadcastManager.getInstance(this@WallpaperListActivity).registerReceiver(mRefreshReceiver, filter)
-
-
-
+                            LocalBroadcastManager.getInstance(this@WallpaperListActivity)
+                                .registerReceiver(mRefreshReceiver, filter)
 
 
                         }
@@ -230,21 +235,22 @@ class WallpaperListActivity : AppCompatActivity() {
 
                             filter = IntentFilter()
                             filter.addAction("localBroadCastForData")
-                            mRefreshReceiver = object :BroadcastReceiver(){
+                            mRefreshReceiver = object : BroadcastReceiver() {
                                 override fun onReceive(context: Context?, intent: Intent?) {
                                     if (intent != null) {
-                                        if(intent.action.equals("localBroadCastForData")){
-                                            posChange = intent.getIntExtra("pos_change",-1)
-                                            (myAdapter as ListTrendingAdapter).updateDataItem(posChange)
+                                        if (intent.action.equals("localBroadCastForData")) {
+                                            posChange = intent.getIntExtra("pos_change", -1)
+                                            (myAdapter as ListTrendingAdapter).updateDataItem(
+                                                posChange
+                                            )
                                         }
                                     }
                                 }
 
 
                             }
-                            LocalBroadcastManager.getInstance(this@WallpaperListActivity).registerReceiver(mRefreshReceiver, filter)
-
-
+                            LocalBroadcastManager.getInstance(this@WallpaperListActivity)
+                                .registerReceiver(mRefreshReceiver, filter)
 
 
                         }
@@ -273,21 +279,22 @@ class WallpaperListActivity : AppCompatActivity() {
 
                             filter = IntentFilter()
                             filter.addAction("localBroadCastForData")
-                            mRefreshReceiver = object :BroadcastReceiver(){
+                            mRefreshReceiver = object : BroadcastReceiver() {
                                 override fun onReceive(context: Context?, intent: Intent?) {
                                     if (intent != null) {
-                                        if(intent.action.equals("localBroadCastForData")){
-                                            posChange = intent.getIntExtra("pos_change",-1)
-                                            (myAdapter as ListWallpaperCategoriesAdapter).updateDataItem(posChange)
+                                        if (intent.action.equals("localBroadCastForData")) {
+                                            posChange = intent.getIntExtra("pos_change", -1)
+                                            (myAdapter as ListWallpaperCategoriesAdapter).updateDataItem(
+                                                posChange
+                                            )
                                         }
                                     }
                                 }
 
 
                             }
-                            LocalBroadcastManager.getInstance(this@WallpaperListActivity).registerReceiver(mRefreshReceiver, filter)
-
-
+                            LocalBroadcastManager.getInstance(this@WallpaperListActivity)
+                                .registerReceiver(mRefreshReceiver, filter)
 
 
                         }

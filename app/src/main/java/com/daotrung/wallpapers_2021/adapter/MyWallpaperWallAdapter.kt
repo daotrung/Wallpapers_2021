@@ -1,5 +1,6 @@
 package com.daotrung.wallpapers_2021.adapter
 
+import android.annotation.SuppressLint
 import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
@@ -15,16 +16,16 @@ import com.daotrung.wallpapers_2021.room.IDao
 import com.daotrung.wallpapers_2021.room.MyFavoritePicture
 import com.daotrung.wallpapers_2021.room.MyWallPaperDatabase
 
-const val ID_MY_WALL_LIST : String = "id_picture"
-class MyWallpaperWallAdapter() :
+const val ID_MY_WALL_LIST: String = "id_picture"
+
+class MyWallpaperWallAdapter :
     RecyclerView.Adapter<MyWallpaperWallAdapter.MyViewHolder>() {
 
     private var myPicList = mutableListOf<MyFavoritePicture>()
-    private lateinit var dao : IDao
+    private lateinit var dao: IDao
     private lateinit var database: MyWallPaperDatabase
-    inner class MyViewHolder( itemView: View) : RecyclerView.ViewHolder(itemView) {
 
-    }
+    inner class MyViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView)
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
         val v =
@@ -34,20 +35,25 @@ class MyWallpaperWallAdapter() :
 
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
 
-         val currenItem = myPicList[position]
-         Glide.with(holder.itemView.context).load(currenItem.myUrlHeart).centerCrop()
-             .into(holder.itemView.findViewById(R.id.img_list_trending))
+        val currentItem = myPicList[position]
+        Glide.with(holder.itemView.context).load(currentItem.myUrlHeart).centerCrop()
+            .into(holder.itemView.findViewById(R.id.img_list_trending))
 
         val imgView = holder.itemView.findViewById<ImageView>(R.id.img_list_trending)
         val imgIcoN = holder.itemView.findViewById<ImageView>(R.id.icon_heart)
         imgView.setOnClickListener {
-            val intent = Intent(holder.itemView.context,MyWallSliderActivity::class.java)
+            val intent = Intent(holder.itemView.context, MyWallSliderActivity::class.java)
 
-            intent.putExtra(ID_MY_WALL_LIST,position)
+            intent.putExtra(ID_MY_WALL_LIST, position)
 
             holder.itemView.context.startActivity(intent)
         }
-        imgIcoN.setImageDrawable(ContextCompat.getDrawable(holder.itemView.context,R.drawable.heart_select_max))
+        imgIcoN.setImageDrawable(
+            ContextCompat.getDrawable(
+                holder.itemView.context,
+                R.drawable.heart_select_max
+            )
+        )
 
         database = Room.databaseBuilder(
             holder.itemView.context,
@@ -62,20 +68,22 @@ class MyWallpaperWallAdapter() :
         return myPicList.size
 
     }
-    fun setData(mywall: List<MyFavoritePicture>){
+
+    @SuppressLint("NotifyDataSetChanged")
+    fun setData(mywall: List<MyFavoritePicture>) {
 
         this.myPicList = mywall as MutableList<MyFavoritePicture>
         notifyDataSetChanged()
 
 
     }
-    fun updatePos(pos : Int){
+
+    fun updatePos(pos: Int) {
         myPicList.remove(myPicList[pos])
         notifyItemRemoved(pos)
-        notifyItemRangeChanged(pos,myPicList.size)
+        notifyItemRangeChanged(pos, myPicList.size)
 
     }
-
 
 
 }
